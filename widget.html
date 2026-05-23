@@ -1,0 +1,187 @@
+<style type="text/css">
+/* --- KHUNG BAO NGOÀI --- */
+.lang-inline-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent !important;
+    box-shadow: none !important;
+    border: 1px solid #2E6C68;
+    border-radius: 30px;
+    
+    /* 1. Xóa padding hoàn toàn theo ý bạn */
+    padding: 0; 
+    
+    /* 2. Xóa các margin cứng cũ và dùng auto để tự động canh giữa */
+    margin: 0 auto; 
+    
+    /* 3. Ép khung ôm sát nội dung (vừa đúng kích thước) */
+    width: fit-content; 
+    
+    font-family: 'Open Sans', sans-serif;
+    white-space: nowrap;
+    flex-wrap: nowrap;
+}
+.lang-inline-icon {
+    font-size: 14px;
+    margin-right: 5px;
+}
+.lang-inline-text {
+    color: #2E6C68;
+    font-weight: 600;
+    font-size: 12px;
+    margin-right: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+.lang-inline-card .lang-switcher {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.lang-inline-card .lang-switcher button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px 4px;
+    font-size: 12px;
+    color: #2E6C68;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: inherit;
+    opacity: 0.6;
+    transition: opacity 0.15s;
+}
+.lang-inline-card .lang-switcher button:hover { opacity: 1; }
+.lang-inline-card .lang-switcher button.active {
+    opacity: 1;
+    text-decoration: underline;
+}
+.lang-inline-card .lang-switcher button img {
+    width: 18px;
+    height: auto;
+    vertical-align: middle;
+    border-radius: 2px;
+}
+</style>
+
+<div class="lang-inline-card">
+  <span class="lang-inline-icon">🌍</span>
+  <span class="lang-inline-text" data-no-translate>Language</span>
+  <div class="lang-switcher">
+    <button type="button" data-lang="en" data-no-translate><img src="https://flagcdn.com/w40/gb.png" alt=""> EN</button>
+    <button type="button" data-lang="vi" data-no-translate><img src="https://flagcdn.com/w40/vn.png" alt=""> VI</button>
+    <button type="button" data-lang="no" data-no-translate><img src="https://flagcdn.com/w40/no.png" alt=""> NO</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  var TRANSLATIONS = {"About Us":{"vi":"Về chúng tôi","no":"Om oss"},"Activities":{"vi":"Hoạt động","no":"Aktiviteter"},"Administrator":{"vi":"Quản trị viên","no":"Administrator"},"CHURCHES":{"vi":"NHÀ THỜ","no":"KIRKER"},"Camps":{"vi":"Trại","no":"Leirer"},"Cell Groups":{"vi":"Nhóm tế bào","no":"Cellegrupper"},"Churches":{"vi":"Nhà thờ","no":"Kirker"},"Courses":{"vi":"Khóa học","no":"Kurs"},"English":{"vi":"Tiếng Anh","no":"Engelsk"},"Jobs":{"vi":"Việc làm","no":"Jobber"},"Languages":{"vi":"Ngôn ngữ","no":"Språk"},"Lectures":{"vi":"Bài giảng","no":"Forelesninger"},"Mission":{"vi":"Sứ mệnh","no":"Misjon"},"News":{"vi":"Tin tức","no":"Nyheter"},"Newsfeed":{"vi":"Bảng tin","no":"Nyhetsstrøm"},"SMS":{"vi":"SMS","no":"SMS"},"Study Abroad":{"vi":"Du học","no":"Studere i utlandet"},"Topics":{"vi":"Chủ đề","no":"Emner"},"Training":{"vi":"Đào tạo","no":"Trening"},"Video":{"vi":"Video","no":"Video"},"Vision":{"vi":"Tầm nhìn","no":"Visjon"}};
+  var STORAGE_KEY = 'site_lang_deepl';
+  var DEFAULT_LANG = 'en';
+
+  var originals = new Map(); // node -> nguyên bản tiếng Anh
+
+  function shouldSkipNode(node) {
+    var p = node.parentElement;
+    if (!p) return true;
+    if (p.closest('[data-no-translate]')) return true;
+    if (p.closest('.lang-inline-card')) return true;
+    var tag = p.tagName;
+    if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'NOSCRIPT' || tag === 'TEMPLATE') return true;
+    return false;
+  }
+
+  function collectTextNodes(root) {
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (n) {
+        if (!n.nodeValue || !n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        if (shouldSkipNode(n)) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      },
+    });
+    var node;
+    while ((node = walker.nextNode())) {
+      if (!originals.has(node)) originals.set(node, node.nodeValue);
+    }
+  }
+
+  function applyLang(lang) {
+    collectTextNodes(document.body);
+    originals.forEach(function (origText, node) {
+      if (!node.isConnected) return;
+      if (lang === 'en') {
+        if (node.nodeValue !== origText) node.nodeValue = origText;
+        return;
+      }
+      var key = origText.trim();
+      var entry = TRANSLATIONS[key];
+      if (entry && entry[lang]) {
+        var leading = origText.match(/^\s*/)[0];
+        var trailing = origText.match(/\s*$/)[0];
+        node.nodeValue = leading + entry[lang] + trailing;
+      } else if (key) {
+        if (!window._missDeepL) window._missDeepL = new Set();
+        if (!window._missDeepL.has(key)) {
+          window._missDeepL.add(key);
+          if (window.console) console.warn('[DeepL] Thiếu bản dịch:', JSON.stringify(key));
+        }
+      }
+    });
+
+    var buttons = document.querySelectorAll('.lang-inline-card .lang-switcher button');
+    for (var i = 0; i < buttons.length; i++) {
+      if (buttons[i].getAttribute('data-lang') === lang) buttons[i].classList.add('active');
+      else buttons[i].classList.remove('active');
+    }
+    document.documentElement.lang = lang === 'no' ? 'nb' : (lang === 'vi' ? 'vi' : 'en');
+    try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) {}
+  }
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest && e.target.closest('.lang-inline-card .lang-switcher button');
+    if (!btn) return;
+    applyLang(btn.getAttribute('data-lang'));
+  });
+
+  function getSavedLang() {
+    try { return localStorage.getItem(STORAGE_KEY) || DEFAULT_LANG; }
+    catch (e) { return DEFAULT_LANG; }
+  }
+
+  function init() {
+    applyLang(getSavedLang());
+
+    if (window.MutationObserver) {
+      var debounce;
+      var observer = new MutationObserver(function (mutations) {
+        var hasNew = false;
+        for (var i = 0; i < mutations.length; i++) {
+          if (mutations[i].type === 'childList' && mutations[i].addedNodes.length > 0) {
+            for (var j = 0; j < mutations[i].addedNodes.length; j++) {
+              var n = mutations[i].addedNodes[j];
+              if (n.nodeType === 1 || n.nodeType === 3) { hasNew = true; break; }
+            }
+            if (hasNew) break;
+          }
+        }
+        if (hasNew) {
+          clearTimeout(debounce);
+          debounce = setTimeout(function () { applyLang(getSavedLang()); }, 150);
+        }
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
