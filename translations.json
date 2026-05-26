@@ -1,34 +1,1750 @@
 {
+  "ABOUT US": {
+    "vi": "VỀ CHÚNG TÔI",
+    "no": "OM OSS"
+  },
+  "ACTIVITIES": {
+    "vi": "HOẠT ĐỘNG",
+    "no": "AKTIVITETER"
+  },
+  "API-nøkler for ekstern fakturering": {
+    "vi": "Khóa API cho hóa đơn bên ngoài",
+    "no": "API-nøkler for ekstern fakturering"
+  },
+  "API-nøkler for å tillate eksterne kilder å benytte ditt Cornerstone-rom som et faktureringssystem": {
+    "vi": "Khóa API để cho phép các nguồn bên ngoài sử dụng không gian Cornerstone của bạn làm hệ thống thanh toán",
+    "no": "API-nøkler for å tillate eksterne kilder å benytte ditt Cornerstone-rom som et faktureringssystem"
+  },
+  "Abbonér på nyhetsbrev 2.0": {
+    "vi": "Đăng ký nhận bản tin 2.0",
+    "no": "Abbonér på nyhetsbrev 2.0"
+  },
+  "Abonnementer": {
+    "vi": "Các gói đăng ký",
+    "no": "Abonnementer"
+  },
+  "Abonnenter": {
+    "vi": "Người đăng ký",
+    "no": "Abonnenter"
+  },
   "About Us": {
     "vi": "Về chúng tôi",
     "no": "Om oss"
-  },
-  "Activities": {
-    "vi": "Hoạt động",
-    "no": "Aktiviteter"
   },
   "Administrator": {
     "vi": "Quản trị viên",
     "no": "Administrator"
   },
+  "Administrer SMS-koder for innkommende SMS": {
+    "vi": "Quản lý mã SMS cho tin nhắn SMS đến",
+    "no": "Administrer SMS-koder for innkommende SMS"
+  },
+  "Administrer dimensjoner for regnskap": {
+    "vi": "Quản lý các chiều cho kế toán",
+    "no": "Administrer dimensjoner for regnskap"
+  },
+  "Administrer dine abonnementer": {
+    "vi": "Quản lý các gói đăng ký của bạn",
+    "no": "Administrer dine abonnementer"
+  },
+  "Administrer spørreundersøkelse": {
+    "vi": "Quản lý khảo sát",
+    "no": "Administrer spørreundersøkelse"
+  },
+  "Aldersfordeling av kundereskontro": {
+    "vi": "Phân bổ tuổi của tài khoản phải thu khách hàng",
+    "no": "Aldersfordeling av kundereskontro"
+  },
+  "Aldersfordelingsrapport for kundereskontrofakturaer": {
+    "vi": "Báo cáo phân bổ tuổi cho hóa đơn tài khoản phải thu khách hàng",
+    "no": "Aldersfordelingsrapport for kundereskontrofakturaer"
+  },
+  "Aldersfordelt saldoliste": {
+    "vi": "Danh sách số dư theo tuổi",
+    "no": "Aldersfordelt saldoliste"
+  },
+  "Alfabetisk oversikt over nettsiden": {
+    "vi": "Tổng quan trang web theo thứ tự bảng chữ cái",
+    "no": "Alfabetisk oversikt over nettsiden"
+  },
+  "Alle artikler": {
+    "vi": "Tất cả bài viết",
+    "no": "Alle artikler"
+  },
+  "Alle fakturaer": {
+    "vi": "Tất cả hóa đơn",
+    "no": "Alle fakturaer"
+  },
+  "Alle fakturajournaler": {
+    "vi": "Tất cả nhật ký hóa đơn",
+    "no": "Alle fakturajournaler"
+  },
+  "Alle grupper": {
+    "vi": "Tất cả nhóm",
+    "no": "Alle grupper"
+  },
+  "Alle medlemmer": {
+    "vi": "Tất cả thành viên",
+    "no": "Alle medlemmer"
+  },
+  "Alle moduler": {
+    "vi": "Tất cả mô-đun",
+    "no": "Alle moduler"
+  },
+  "Alle personer": {
+    "vi": "Tất cả mọi người",
+    "no": "Alle personer"
+  },
+  "Alle skjemaer": {
+    "vi": "Tất cả biểu mẫu",
+    "no": "Alle skjemaer"
+  },
+  "Andre artikler relatert til gjeldende artikkel": {
+    "vi": "Các bài viết khác liên quan đến bài viết hiện tại",
+    "no": "Andre artikler relatert til gjeldende artikkel"
+  },
+  "Andre nivå av denne menyen er nesten som et nettstedkart med mulighet for å inkludere artikler eller bilder": {
+    "vi": "Cấp độ thứ hai của menu này gần giống như một sơ đồ trang web với khả năng bao gồm các bài viết hoặc hình ảnh",
+    "no": "Andre nivå av denne menyen er nesten som et nettstedkart med mulighet for å inkludere artikler eller bilder"
+  },
+  "Artikkel": {
+    "vi": "Bài viết",
+    "no": "Artikkel"
+  },
+  "Artikkel - detalj": {
+    "vi": "Bài viết - chi tiết",
+    "no": "Artikkel - detalj"
+  },
+  "Artikkel - detalj - Kopier": {
+    "vi": "Bài viết - chi tiết - Sao chép",
+    "no": "Artikkel - detalj - Kopier"
+  },
+  "Artikkelforfattere/Journalister": {
+    "vi": "Tác giả bài viết/Nhà báo",
+    "no": "Artikkelforfattere/Journalister"
+  },
+  "Artikkelliste": {
+    "vi": "Danh sách bài viết",
+    "no": "Artikkelliste"
+  },
+  "Artikkelliste mediautforsker": {
+    "vi": "Trình khám phá phương tiện danh sách bài viết",
+    "no": "Artikkelliste mediautforsker"
+  },
+  "Artikkelliste, vertikal filmstripe": {
+    "vi": "Danh sách bài viết, dải phim dọc",
+    "no": "Artikkelliste, vertikal filmstripe"
+  },
+  "Artikkelliste-meny": {
+    "vi": "Menu danh sách bài viết",
+    "no": "Artikkelliste-meny"
+  },
+  "Artikkellistearkiv": {
+    "vi": "Lưu trữ danh sách bài viết",
+    "no": "Artikkellistearkiv"
+  },
+  "Artikkellister": {
+    "vi": "Các danh sách bài viết",
+    "no": "Artikkellister"
+  },
+  "Artikkelstatistikk": {
+    "vi": "Thống kê bài viết",
+    "no": "Artikkelstatistikk"
+  },
+  "Avansert": {
+    "vi": "Nâng cao",
+    "no": "Avansert"
+  },
+  "Avsendernummer": {
+    "vi": "Số người gửi",
+    "no": "Avsendernummer"
+  },
+  "Avspillingsstatistikk": {
+    "vi": "Thống kê lượt phát",
+    "no": "Avspillingsstatistikk"
+  },
+  "Baden Baden": {
+    "vi": "Baden Baden",
+    "no": "Baden Baden"
+  },
+  "Baptistmenigheten i Oslo": {
+    "vi": "Hội thánh Báp-tít tại Oslo",
+    "no": "Baptistmenigheten i Oslo"
+  },
+  "Barn": {
+    "vi": "Trẻ em",
+    "no": "Barn"
+  },
+  "Bedrageribeskyttelse: Blokkerte IPer": {
+    "vi": "Bảo vệ chống gian lận: IP bị chặn",
+    "no": "Bedrageribeskyttelse: Blokkerte IPer"
+  },
+  "Behandle innkommende betalinger": {
+    "vi": "Xử lý các khoản thanh toán đến",
+    "no": "Behandle innkommende betalinger"
+  },
+  "Berlin": {
+    "vi": "Berlin",
+    "no": "Berlin"
+  },
+  "Betal faktura": {
+    "vi": "Thanh toán hóa đơn",
+    "no": "Betal faktura"
+  },
+  "Betaling": {
+    "vi": "Thanh toán",
+    "no": "Betaling"
+  },
+  "Betaling avbrutt": {
+    "vi": "Thanh toán bị hủy",
+    "no": "Betaling avbrutt"
+  },
+  "Betalinger": {
+    "vi": "Các khoản thanh toán",
+    "no": "Betalinger"
+  },
+  "Betalinger med manglende kobling til regnskapskonto": {
+    "vi": "Các khoản thanh toán thiếu liên kết đến tài khoản kế toán",
+    "no": "Betalinger med manglende kobling til regnskapskonto"
+  },
+  "Betalingsimport": {
+    "vi": "Nhập thanh toán",
+    "no": "Betalingsimport"
+  },
+  "Betalingskvittering": {
+    "vi": "Biên lai thanh toán",
+    "no": "Betalingskvittering"
+  },
+  "Betalingsoppdrag importert fra MPS": {
+    "vi": "Lệnh thanh toán được nhập từ MPS",
+    "no": "Betalingsoppdrag importert fra MPS"
+  },
+  "Betalingsrapport": {
+    "vi": "Báo cáo thanh toán",
+    "no": "Betalingsrapport"
+  },
+  "Betalingsvalg": {
+    "vi": "Tùy chọn thanh toán",
+    "no": "Betalingsvalg"
+  },
+  "Bible School": {
+    "vi": "Trường Kinh Thánh",
+    "no": "Bible School"
+  },
+  "Bilde": {
+    "vi": "Hình ảnh",
+    "no": "Bilde"
+  },
+  "Bildetype": {
+    "vi": "Loại hình ảnh",
+    "no": "Bildetype"
+  },
+  "Bildeversjoner": {
+    "vi": "Các phiên bản hình ảnh",
+    "no": "Bildeversjoner"
+  },
+  "Bla gjennom artikler etter år og måned": {
+    "vi": "Duyệt bài viết theo năm và tháng",
+    "no": "Bla gjennom artikler etter år og måned"
+  },
+  "Bla gjennom en visuell liste av gallerier": {
+    "vi": "Duyệt qua danh sách hình ảnh của các bộ sưu tập",
+    "no": "Bla gjennom en visuell liste av gallerier"
+  },
+  "Brukere": {
+    "vi": "Người dùng",
+    "no": "Brukere"
+  },
+  "Brødsmule": {
+    "vi": "Đường dẫn điều hướng",
+    "no": "Brødsmule"
+  },
+  "Bursdager": {
+    "vi": "Sinh nhật",
+    "no": "Bursdager"
+  },
+  "Bytt visuelt tema": {
+    "vi": "Thay đổi chủ đề hình ảnh",
+    "no": "Bytt visuelt tema"
+  },
+  "BÀI GIẢNG": {
+    "vi": "BÀI GIẢNG",
+    "no": "PREKNER"
+  },
   "CHURCHES": {
-    "vi": "NHÀ THỜ",
+    "vi": "CÁC HỘI THÁNH",
     "no": "KIRKER"
+  },
+  "CONIC, SÀI GÒN": {
+    "vi": "CONIC, SÀI GÒN",
+    "no": "CONIC, SAIGON"
+  },
+  "CSS-editor": {
+    "vi": "Trình chỉnh sửa CSS",
+    "no": "CSS-editor"
+  },
+  "Calendar": {
+    "vi": "Lịch",
+    "no": "Kalender"
+  },
+  "Cources": {
+    "vi": "Các khóa học",
+    "no": "Kurs"
+  },
+  "CÁC HỘI THÁNH": {
+    "vi": "CÁC HỘI THÁNH",
+    "no": "KIRKER"
+  },
+  "CÁC KHÓA HỌC": {
+    "vi": "CÁC KHÓA HỌC",
+    "no": "KURS"
+  },
+  "DU HỌC": {
+    "vi": "DU HỌC",
+    "no": "STUDERE I UTLANDET"
+  },
+  "Definer dine egne lister av lydfiler": {
+    "vi": "Định nghĩa danh sách tệp âm thanh của riêng bạn",
+    "no": "Definer dine egne lister av lydfiler"
+  },
+  "Definer et sett med betalingstyper som skal støttes av modulen": {
+    "vi": "Định nghĩa một tập hợp các loại thanh toán được mô-đun hỗ trợ",
+    "no": "Definer et sett med betalingstyper som skal støttes av modulen"
+  },
+  "Del en side": {
+    "vi": "Chia sẻ một trang",
+    "no": "Del en side"
+  },
+  "Del en side med en venn.": {
+    "vi": "Chia sẻ một trang với một người bạn.",
+    "no": "Del en side med en venn."
+  },
+  "Den Vietnamesiske": {
+    "vi": "Người Việt Nam",
+    "no": "Den Vietnamesiske"
+  },
+  "Den Vietnamesiske Baptistmenigheten i Oslo": {
+    "vi": "Hội Thánh Báp-tít Việt Nam tại Oslo",
+    "no": "Den Vietnamesiske Baptistmenigheten i Oslo"
+  },
+  "Designmodus": {
+    "vi": "Chế độ thiết kế",
+    "no": "Designmodus"
+  },
+  "Dette vinduet vil gi deg mulighet til å koble betalinger med regnskapskonto, der dette mangler": {
+    "vi": "Cửa sổ này sẽ cho phép bạn liên kết các khoản thanh toán với tài khoản kế toán, nơi còn thiếu",
+    "no": "Dette vinduet vil gi deg mulighet til å koble betalinger med regnskapskonto, der dette mangler"
+  },
+  "Dimensjoner": {
+    "vi": "Kích thước",
+    "no": "Dimensjoner"
+  },
+  "Dine nyhetsbrevoppsett": {
+    "vi": "Bố cục bản tin của bạn",
+    "no": "Dine nyhetsbrevoppsett"
+  },
+  "Dokument": {
+    "vi": "Tài liệu",
+    "no": "Dokument"
+  },
+  "Dokumenter som er relatert til artikkelen": {
+    "vi": "Tài liệu liên quan đến bài viết",
+    "no": "Dokumenter som er relatert til artikkelen"
+  },
+  "Dokumentmappe": {
+    "vi": "Thư mục tài liệu",
+    "no": "Dokumentmappe"
+  },
+  "Dokumentutforsker": {
+    "vi": "Trình khám phá tài liệu",
+    "no": "Dokumentutforsker"
+  },
+  "Du har ulagrede data. Hvis du forlater denne siden nå, kan endringene dine gå tapt.": {
+    "vi": "Bạn có dữ liệu chưa lưu. Nếu bạn rời khỏi trang này bây giờ, các thay đổi của bạn có thể bị mất.",
+    "no": "Du har ulagrede data. Hvis du forlater denne siden nå, kan endringene dine gå tapt."
+  },
+  "E-post": {
+    "vi": "Email",
+    "no": "E-post"
+  },
+  "E-postavsender": {
+    "vi": "Người gửi email",
+    "no": "E-postavsender"
+  },
+  "Egenskaper": {
+    "vi": "Thuộc tính",
+    "no": "Egenskaper"
+  },
+  "Egenskaper for hjemmeside": {
+    "vi": "Thuộc tính trang chủ",
+    "no": "Egenskaper for hjemmeside"
+  },
+  "Eksporter fødselsnummer": {
+    "vi": "Xuất số định danh cá nhân",
+    "no": "Eksporter fødselsnummer"
+  },
+  "Eksporter kontoutstemmingsrapport for regnskapskonto med detaljerte hovedbokstransaksjoner": {
+    "vi": "Xuất báo cáo đối chiếu tài khoản cho tài khoản kế toán với các giao dịch sổ cái chi tiết",
+    "no": "Eksporter kontoutstemmingsrapport for regnskapskonto med detaljerte hovedbokstransaksjoner"
+  },
+  "En animert, vertikal filmstripe med artikler og dens bilder/videoer": {
+    "vi": "Một dải phim hoạt hình, dọc với các bài viết và hình ảnh/video của nó",
+    "no": "En animert, vertikal filmstripe med artikler og dens bilder/videoer"
+  },
+  "En enkel liste med dine planlagte meldinger": {
+    "vi": "Một danh sách đơn giản các tin nhắn đã lên lịch của bạn",
+    "no": "En enkel liste med dine planlagte meldinger"
+  },
+  "En karusell med hendelser med horisontal sklieffekt": {
+    "vi": "Một băng chuyền sự kiện với hiệu ứng trượt ngang",
+    "no": "En karusell med hendelser med horisontal sklieffekt"
+  },
+  "En liste over kildeelementer som skal legges til skjemaet": {
+    "vi": "Một danh sách các phần tử nguồn sẽ được thêm vào biểu mẫu",
+    "no": "En liste over kildeelementer som skal legges til skjemaet"
+  },
+  "Endre bilde": {
+    "vi": "Thay đổi hình ảnh",
+    "no": "Endre bilde"
+  },
+  "Endre en forhåndsinnstilling": {
+    "vi": "Thay đổi một cài đặt trước",
+    "no": "Endre en forhåndsinnstilling"
+  },
+  "Endre en hendelse": {
+    "vi": "Thay đổi một sự kiện",
+    "no": "Endre en hendelse"
+  },
+  "Endre et skjema": {
+    "vi": "Thay đổi một biểu mẫu",
+    "no": "Endre et skjema"
+  },
+  "Endre forhåndsinnstilling": {
+    "vi": "Thay đổi cài đặt trước",
+    "no": "Endre forhåndsinnstilling"
+  },
+  "Endre hendelse": {
+    "vi": "Thay đổi sự kiện",
+    "no": "Endre hendelse"
+  },
+  "Endre nettstedets": {
+    "vi": "Thay đổi trang web",
+    "no": "Endre nettstedets"
+  },
+  "Endre nettstedets egenskaper, slik som domenenavn og tittel": {
+    "vi": "Thay đổi thuộc tính của trang web, chẳng hạn như tên miền và tiêu đề",
+    "no": "Endre nettstedets egenskaper, slik som domenenavn og tittel"
+  },
+  "Endre skjema": {
+    "vi": "Thay đổi biểu mẫu",
+    "no": "Endre skjema"
+  },
+  "Endre video": {
+    "vi": "Thay đổi video",
+    "no": "Endre video"
+  },
+  "Europe": {
+    "vi": "Châu Âu",
+    "no": "Europe"
+  },
+  "Evangelisk Senter": {
+    "vi": "Trung tâm Tin Lành",
+    "no": "Evangelisk Senter"
+  },
+  "Evangelism": {
+    "vi": "Truyền giáo",
+    "no": "Evangelism"
+  },
+  "Fakturadetaljer": {
+    "vi": "Chi tiết hóa đơn",
+    "no": "Fakturadetaljer"
+  },
+  "Fakturaer": {
+    "vi": "Hóa đơn",
+    "no": "Fakturaer"
+  },
+  "Fakturajournaler": {
+    "vi": "Sổ nhật ký hóa đơn",
+    "no": "Fakturajournaler"
+  },
+  "Fakturamaler": {
+    "vi": "Mẫu hóa đơn",
+    "no": "Fakturamaler"
+  },
+  "Fakturamaler - utdatert": {
+    "vi": "Mẫu hóa đơn - lỗi thời",
+    "no": "Fakturamaler - utdatert"
+  },
+  "Faktureringer": {
+    "vi": "Lập hóa đơn",
+    "no": "Faktureringer"
+  },
+  "Fakturér medlemsavgift": {
+    "vi": "Lập hóa đơn phí thành viên",
+    "no": "Fakturér medlemsavgift"
+  },
+  "Faste betalingsopprdag importert fra MPS": {
+    "vi": "Lệnh thanh toán định kỳ được nhập từ MPS",
+    "no": "Faste betalingsopprdag importert fra MPS"
+  },
+  "Fellowship": {
+    "vi": "Tình bằng hữu",
+    "no": "Fellesskap"
+  },
+  "Filer": {
+    "vi": "Tệp",
+    "no": "Filer"
+  },
+  "Fjern": {
+    "vi": "Xóa",
+    "no": "Fjern"
+  },
+  "Folk": {
+    "vi": "Mọi người",
+    "no": "Folk"
+  },
+  "Foreta enkle endringer på bilder, som å endre størrelse, kutte, forstørre og rotere.": {
+    "vi": "Thực hiện các chỉnh sửa đơn giản trên ảnh, như thay đổi kích thước, cắt, phóng to và xoay.",
+    "no": "Foreta enkle endringer på bilder, som å endre størrelse, kutte, forstørre og rotere."
+  },
+  "Forfalte faktura": {
+    "vi": "Hóa đơn quá hạn",
+    "no": "Forfalte faktura"
+  },
+  "Forfattere": {
+    "vi": "Tác giả",
+    "no": "Forfattere"
+  },
+  "Forhåndsinnstillinger": {
+    "vi": "Cài đặt trước",
+    "no": "Forhåndsinnstillinger"
+  },
+  "Galleri": {
+    "vi": "Thư viện",
+    "no": "Galleri"
+  },
+  "Galleri med miniatyrbilder": {
+    "vi": "Thư viện với hình thu nhỏ",
+    "no": "Galleri med miniatyrbilder"
+  },
+  "Galleribilder": {
+    "vi": "Ảnh thư viện",
+    "no": "Galleribilder"
+  },
+  "Galleriliste": {
+    "vi": "Danh sách thư viện",
+    "no": "Galleriliste"
+  },
+  "Gallerimatrise": {
+    "vi": "Ma trận thư viện",
+    "no": "Gallerimatrise"
+  },
+  "Galleriutforsker": {
+    "vi": "Trình khám phá thư viện",
+    "no": "Galleriutforsker"
+  },
+  "Gaveside": {
+    "vi": "Trang quyên góp",
+    "no": "Gaveside"
+  },
+  "Generelle innstillinger": {
+    "vi": "Cài đặt chung",
+    "no": "Generelle innstillinger"
+  },
+  "Gi samtykker": {
+    "vi": "Cấp quyền đồng ý",
+    "no": "Gi samtykker"
+  },
+  "Gjeldende side:": {
+    "vi": "Trang hiện tại:",
+    "no": "Gjeldende side:"
+  },
+  "Gospel Center": {
+    "vi": "Trung tâm Phúc âm",
+    "no": "Gospel Center"
+  },
+  "Grupper": {
+    "vi": "Nhóm",
+    "no": "Grupper"
+  },
+  "Gudstjenester": {
+    "vi": "Các buổi lễ thờ phượng",
+    "no": "Gudstjenester"
+  },
+  "HTML-vindu": {
+    "vi": "Cửa sổ HTML",
+    "no": "HTML-vindu"
+  },
+  "Hendelse": {
+    "vi": "Sự kiện",
+    "no": "Hendelse"
+  },
+  "Hendelser": {
+    "vi": "Sự kiện",
+    "no": "Hendelser"
+  },
+  "Hendelseskarusell": {
+    "vi": "Băng chuyền sự kiện",
+    "no": "Hendelseskarusell"
+  },
+  "Home group": {
+    "vi": "Nhóm gia đình",
+    "no": "Hjemmegruppe"
+  },
+  "Horisontal artikkelfilmstripe": {
+    "vi": "Dải phim bài viết ngang",
+    "no": "Horisontal artikkelfilmstripe"
+  },
+  "Horisontal artikkelfilmstripe, basert på artikler og deres bilder/video": {
+    "vi": "Dải phim bài viết ngang, dựa trên các bài viết và hình ảnh/video của chúng",
+    "no": "Horisontal artikkelfilmstripe, basert på artikler og deres bilder/video"
+  },
+  "Horisontal artikkellistekarusell": {
+    "vi": "Băng chuyền danh sách bài viết ngang",
+    "no": "Horisontal artikkellistekarusell"
+  },
+  "Horisontal filmstripe": {
+    "vi": "Dải phim ngang",
+    "no": "Horisontal filmstripe"
+  },
+  "Horisontal hendelsesliste": {
+    "vi": "Danh sách sự kiện ngang",
+    "no": "Horisontal hendelsesliste"
+  },
+  "Horisontal meny": {
+    "vi": "Menu ngang",
+    "no": "Horisontal meny"
+  },
+  "Horisontal meny som forvandles til en burgermeny på smale skjermer": {
+    "vi": "Menu ngang biến thành menu hamburger trên màn hình hẹp",
+    "no": "Horisontal meny som forvandles til en burgermeny på smale skjermer"
+  },
+  "Hoved": {
+    "vi": "Chính",
+    "no": "Hoved"
+  },
+  "Husgrupper": {
+    "vi": "Nhóm nhà",
+    "no": "Husgrupper"
+  },
+  "Hvem er vi": {
+    "vi": "Chúng tôi là ai",
+    "no": "Hvem er vi"
+  },
+  "Håndtér duplikater": {
+    "vi": "Xử lý các bản sao",
+    "no": "Håndtér duplikater"
+  },
+  "Họp Nhân Sự": {
+    "vi": "Họp Nhân Sự",
+    "no": "Personalmøte"
+  },
+  "I nær fremtid": {
+    "vi": "Trong tương lai gần",
+    "no": "I nær fremtid"
+  },
+  "ICDP": {
+    "vi": "ICDP",
+    "no": "ICDP"
+  },
+  "Importér fra Excel": {
+    "vi": "Nhập từ Excel",
+    "no": "Importér fra Excel"
+  },
+  "Inkluder videoer fra en rekke tilbydere som YouTube, Vimeo og GodTube.": {
+    "vi": "Bao gồm video từ nhiều nhà cung cấp như YouTube, Vimeo và GodTube.",
+    "no": "Inkluder videoer fra en rekke tilbydere som YouTube, Vimeo og GodTube."
+  },
+  "Innboks": {
+    "vi": "Hộp thư đến",
+    "no": "Innboks"
+  },
+  "Innstillinger": {
+    "vi": "Cài đặt",
+    "no": "Innstillinger"
+  },
+  "Innstillinger for modulen": {
+    "vi": "Cài đặt cho mô-đun",
+    "no": "Innstillinger for modulen"
+  },
+  "Innstillinger for å behandle regelmessige SMS-betalinger": {
+    "vi": "Cài đặt để xử lý các khoản thanh toán SMS định kỳ",
+    "no": "Innstillinger for å behandle regelmessige SMS-betalinger"
+  },
+  "Join Us": {
+    "vi": "Tham gia cùng chúng tôi",
+    "no": "Bli med oss"
+  },
+  "Join a cell group": {
+    "vi": "Tham gia một nhóm nhỏ",
+    "no": "Bli med i en cellegruppe"
+  },
+  "KIDS": {
+    "vi": "KIDS",
+    "no": "KIDS"
+  },
+  "KINH THÁNH BẢN OSL": {
+    "vi": "KINH THÁNH BẢN OSL",
+    "no": "OSL Bibelen"
+  },
+  "Kalender": {
+    "vi": "Lịch",
+    "no": "Kalender"
+  },
+  "Kalender - detalj": {
+    "vi": "Lịch - chi tiết",
+    "no": "Kalender - detalj"
+  },
+  "Karusell med artikler med en horisontal slide-effekt": {
+    "vi": "Băng chuyền bài viết với hiệu ứng trượt ngang",
+    "no": "Karusell med artikler med en horisontal slide-effekt"
+  },
+  "Kildekode for skjemalementer": {
+    "vi": "Mã nguồn cho các phần tử biểu mẫu",
+    "no": "Kildekode for skjemalementer"
+  },
+  "Kiêng Ăn Cầu Nguyện": {
+    "vi": "Kiêng Ăn Cầu Nguyện",
+    "no": "Faste og bønn"
+  },
+  "Kontoplan": {
+    "vi": "Sơ đồ tài khoản",
+    "no": "Kontoplan"
+  },
+  "Kontoutstemmingsrapport": {
+    "vi": "Báo cáo đối chiếu tài khoản",
+    "no": "Kontoutstemmingsrapport"
+  },
+  "Kreditt": {
+    "vi": "Tín dụng",
+    "no": "Kreditt"
+  },
+  "Kundereskontro": {
+    "vi": "Sổ cái khách hàng",
+    "no": "Kundereskontro"
+  },
+  "La bruker se alle detaljer om faktura": {
+    "vi": "Cho phép người dùng xem tất cả chi tiết về hóa đơn",
+    "no": "La bruker se alle detaljer om faktura"
+  },
+  "La bruker se detaljer om faktura og betale denne": {
+    "vi": "Cho phép người dùng xem chi tiết hóa đơn và thanh toán",
+    "no": "La bruker se detaljer om faktura og betale denne"
+  },
+  "Lag artikkel": {
+    "vi": "Tạo bài viết",
+    "no": "Lag artikkel"
+  },
+  "Lag et nytt nettsted": {
+    "vi": "Tạo một trang web mới",
+    "no": "Lag et nytt nettsted"
+  },
+  "Lag forhåndsinnstilling": {
+    "vi": "Tạo cài đặt trước",
+    "no": "Lag forhåndsinnstilling"
+  },
+  "Lag hendelse": {
+    "vi": "Tạo sự kiện",
+    "no": "Lag hendelse"
+  },
+  "Lag nytt skjema": {
+    "vi": "Tạo biểu mẫu mới",
+    "no": "Lag nytt skjema"
+  },
+  "Lag objekt-lenke": {
+    "vi": "Tạo liên kết đối tượng",
+    "no": "Lag objekt-lenke"
+  },
+  "Lag skjema": {
+    "vi": "Tạo biểu mẫu",
+    "no": "Lag skjema"
+  },
+  "Lag skjemaforhåndsinnstilling": {
+    "vi": "Tạo cài đặt trước biểu mẫu",
+    "no": "Lag skjemaforhåndsinnstilling"
+  },
+  "Lag video": {
+    "vi": "Tạo video",
+    "no": "Lag video"
+  },
+  "Last opp og styr dine dokumenter med denne leseren": {
+    "vi": "Tải lên và quản lý tài liệu của bạn bằng trình đọc này",
+    "no": "Last opp og styr dine dokumenter med denne leseren"
+  },
+  "Legg til bildetype": {
+    "vi": "Thêm loại hình ảnh",
+    "no": "Legg til bildetype"
+  },
+  "Legg til bildetyper": {
+    "vi": "Thêm các loại hình ảnh",
+    "no": "Legg til bildetyper"
+  },
+  "Legg til eksisterende artikkel": {
+    "vi": "Thêm bài viết hiện có",
+    "no": "Legg til eksisterende artikkel"
+  },
+  "Legg til gruppemedlem": {
+    "vi": "Thêm thành viên nhóm",
+    "no": "Legg til gruppemedlem"
+  },
+  "Legg til medlem": {
+    "vi": "Thêm thành viên",
+    "no": "Legg til medlem"
+  },
+  "Legg til mellomrom mellom moduler": {
+    "vi": "Thêm khoảng cách giữa các mô-đun",
+    "no": "Legg til mellomrom mellom moduler"
+  },
+  "Legg til side": {
+    "vi": "Thêm trang",
+    "no": "Legg til side"
+  },
+  "Lenker som er relaterte til en artikkel": {
+    "vi": "Liên kết liên quan đến một bài viết",
+    "no": "Lenker som er relaterte til en artikkel"
+  },
+  "List opp eksisterende forhåndsinnstillinger": {
+    "vi": "Liệt kê các cài đặt trước hiện có",
+    "no": "List opp eksisterende forhåndsinnstillinger"
+  },
+  "List opp utfylte skjema": {
+    "vi": "Liệt kê các biểu mẫu đã điền",
+    "no": "List opp utfylte skjema"
+  },
+  "List over betalingskrav eksportert til MPS": {
+    "vi": "Danh sách yêu cầu thanh toán đã xuất sang MPS",
+    "no": "List over betalingskrav eksportert til MPS"
+  },
+  "Liste med OCR forsendelser til MPS": {
+    "vi": "Danh sách các lô hàng OCR đến MPS",
+    "no": "Liste med OCR forsendelser til MPS"
+  },
+  "Liste over fakturajournaler": {
+    "vi": "Danh sách nhật ký hóa đơn",
+    "no": "Liste over fakturajournaler"
+  },
+  "Liste over åpne fakturaer i kundereskontro gruppert per kunde": {
+    "vi": "Danh sách các hóa đơn mở trong sổ cái khách hàng được nhóm theo khách hàng",
+    "no": "Liste over åpne fakturaer i kundereskontro gruppert per kunde"
+  },
+  "Listeforhåndsinnstilling": {
+    "vi": "Cài đặt trước danh sách",
+    "no": "Listeforhåndsinnstilling"
+  },
+  "Logg ut": {
+    "vi": "Đăng xuất",
+    "no": "Logg ut"
+  },
+  "Lyd": {
+    "vi": "Âm thanh",
+    "no": "Lyd"
+  },
+  "Lydavspiller": {
+    "vi": "Trình phát âm thanh",
+    "no": "Lydavspiller"
+  },
+  "Lydfiler": {
+    "vi": "Tệp âm thanh",
+    "no": "Lydfiler"
+  },
+  "Lysbildeserie": {
+    "vi": "Trình chiếu",
+    "no": "Lysbildeserie"
+  },
+  "LỊCH HOẠT ĐỘNG": {
+    "vi": "LỊCH HOẠT ĐỘNG",
+    "no": "AKTIVITETSKALENDER"
+  },
+  "MEETING": {
+    "vi": "CUỘC HỌP",
+    "no": "MØTE"
+  },
+  "Maler": {
+    "vi": "Mẫu",
+    "no": "Maler"
+  },
+  "Mangelfulle betalinger": {
+    "vi": "Thanh toán thiếu",
+    "no": "Mangelfulle betalinger"
+  },
+  "Medlem": {
+    "vi": "Thành viên",
+    "no": "Medlem"
+  },
+  "Medlemmer": {
+    "vi": "Các thành viên",
+    "no": "Medlemmer"
+  },
+  "Medlemsavgifter": {
+    "vi": "Phí thành viên",
+    "no": "Medlemsavgifter"
+  },
+  "Medlemsfordeler": {
+    "vi": "Lợi ích thành viên",
+    "no": "Medlemsfordeler"
+  },
+  "Medlemstyper": {
+    "vi": "Loại thành viên",
+    "no": "Medlemstyper"
+  },
+  "Melding": {
+    "vi": "Tin nhắn",
+    "no": "Melding"
+  },
+  "Mellomrom": {
+    "vi": "Khoảng trắng",
+    "no": "Mellomrom"
+  },
+  "Menigheter": {
+    "vi": "Giáo đoàn",
+    "no": "Menigheter"
+  },
+  "Min konto": {
+    "vi": "Tài khoản của tôi",
+    "no": "Min konto"
+  },
+  "Mine rom": {
+    "vi": "Phòng của tôi",
+    "no": "Mine rom"
+  },
+  "Modulegenskaper": {
+    "vi": "Thuộc tính mô-đun",
+    "no": "Modulegenskaper"
+  },
+  "Modulinnstillinger": {
+    "vi": "Cài đặt mô-đun",
+    "no": "Modulinnstillinger"
+  },
+  "Nettside": {
+    "vi": "Trang web",
+    "no": "Nettside"
+  },
+  "Nettside - Max": {
+    "vi": "Trang web - Tối đa",
+    "no": "Nettside - Max"
+  },
+  "Nettsted": {
+    "vi": "Trang web",
+    "no": "Nettsted"
+  },
+  "Nettstedsstatistikk per dag, uke og måned": {
+    "vi": "Thống kê trang web theo ngày, tuần và tháng",
+    "no": "Nettstedsstatistikk per dag, uke og måned"
+  },
+  "Newsfeed": {
+    "vi": "Bảng tin",
+    "no": "Nyhetsstrøm"
+  },
+  "Ngôn Ngữ": {
+    "vi": "Ngôn Ngữ",
+    "no": "Språk"
+  },
+  "Nhut Hoang Nguyen": {
+    "vi": "Nhut Hoang Nguyen",
+    "no": "Nhut Hoang Nguyen"
+  },
+  "Nhóm Tế Bào": {
+    "vi": "Nhóm Tế Bào",
+    "no": "Cellegruppe"
+  },
+  "Ny forfatter/Journalist": {
+    "vi": "Tác giả/Nhà báo mới",
+    "no": "Ny forfatter/Journalist"
+  },
+  "Nyheter": {
+    "vi": "Tin tức",
+    "no": "Nyheter"
+  },
+  "Nyhetsbrev": {
+    "vi": "Bản tin",
+    "no": "Nyhetsbrev"
+  },
+  "Nyhetsbrevtema": {
+    "vi": "Chủ đề bản tin",
+    "no": "Nyhetsbrevtema"
+  },
+  "Nyhetsliste": {
+    "vi": "Danh sách tin tức",
+    "no": "Nyhetsliste"
+  },
+  "Nyhetsstrøm": {
+    "vi": "Nguồn cấp tin tức",
+    "no": "Nyhetsstrøm"
+  },
+  "Nyhetsvindu": {
+    "vi": "Cửa sổ tin tức",
+    "no": "Nyhetsvindu"
+  },
+  "OCR-faktura: Utgående forsendelser": {
+    "vi": "Hóa đơn OCR: Lô hàng đi",
+    "no": "OCR-faktura: Utgående forsendelser"
+  },
+  "OCR-giro: Betalingskrav for eksport": {
+    "vi": "Giro OCR: Yêu cầu thanh toán xuất khẩu",
+    "no": "OCR-giro: Betalingskrav for eksport"
+  },
+  "OCR-giro: Betalingsoppdrag": {
+    "vi": "Giro OCR: Lệnh thanh toán",
+    "no": "OCR-giro: Betalingsoppdrag"
+  },
+  "OCR-giro: Faste betalingsoppdrag": {
+    "vi": "Giro OCR: Lệnh thanh toán định kỳ",
+    "no": "OCR-giro: Faste betalingsoppdrag"
+  },
+  "OM OSS": {
+    "vi": "VỀ CHÚNG TÔI",
+    "no": "OM OSS"
+  },
+  "Odense": {
+    "vi": "Odense",
+    "no": "Odense"
+  },
+  "Offentlige dokumenter": {
+    "vi": "Tài liệu công khai",
+    "no": "Offentlige dokumenter"
+  },
+  "Om Oss": {
+    "vi": "Về Chúng Tôi",
+    "no": "Om Oss"
+  },
+  "Opprett artikkel": {
+    "vi": "Tạo bài viết",
+    "no": "Opprett artikkel"
+  },
+  "Opprett gruppe": {
+    "vi": "Tạo nhóm",
+    "no": "Opprett gruppe"
+  },
+  "Opprett nettsted": {
+    "vi": "Tạo trang web",
+    "no": "Opprett nettsted"
+  },
+  "Opprett ny artikkel": {
+    "vi": "Tạo bài viết mới",
+    "no": "Opprett ny artikkel"
+  },
+  "Opprett person": {
+    "vi": "Tạo người",
+    "no": "Opprett person"
+  },
+  "Organisasjonskart": {
+    "vi": "Sơ đồ tổ chức",
+    "no": "Organisasjonskart"
+  },
+  "Oskarshamn": {
+    "vi": "Oskarshamn",
+    "no": "Oskarshamn"
+  },
+  "Oslo": {
+    "vi": "Oslo",
+    "no": "Oslo"
+  },
+  "Oslo Gospel Center": {
+    "vi": "Trung tâm Tin lành Oslo",
+    "no": "Oslo Gospel Center"
+  },
+  "Oslo, Ski, and Brumunddal": {
+    "vi": "Oslo, Ski và Brumunddal",
+    "no": "Oslo, Ski, and Brumunddal"
+  },
+  "Our": {
+    "vi": "Của chúng tôi",
+    "no": "Our"
+  },
+  "Our fellowship extends beyond these regular gatherings; we take turns opening our homes to visit one another. The goal of our cell groups is to build a true": {
+    "vi": "Sự thông công của chúng tôi mở rộng ra ngoài những buổi họp mặt thường xuyên này; chúng tôi luân phiên mở cửa nhà mình để thăm viếng lẫn nhau. Mục tiêu của các nhóm nhỏ của chúng tôi là xây dựng một sự thật",
+    "no": "Our fellowship extends beyond these regular gatherings; we take turns opening our homes to visit one another. The goal of our cell groups is to build a true"
+  },
+  "Overfør SMS-kreditt til en annen gruppe": {
+    "vi": "Chuyển tín dụng SMS sang nhóm khác",
+    "no": "Overfør SMS-kreditt til en annen gruppe"
+  },
+  "Overvåk betalingsfiler importert fra MPS": {
+    "vi": "Giám sát các tệp thanh toán được nhập từ MPS",
+    "no": "Overvåk betalingsfiler importert fra MPS"
+  },
+  "PHƯỚC HẬU": {
+    "vi": "PHƯỚC HẬU",
+    "no": "PHƯỚC HẬU"
+  },
+  "Panelmeny": {
+    "vi": "Menu bảng điều khiển",
+    "no": "Panelmeny"
+  },
+  "Planlagt": {
+    "vi": "Đã lên kế hoạch",
+    "no": "Planlagt"
+  },
+  "Planlagte meldinger": {
+    "vi": "Tin nhắn đã lên lịch",
+    "no": "Planlagte meldinger"
+  },
+  "Plassering av skjemaelementer": {
+    "vi": "Vị trí của các phần tử biểu mẫu",
+    "no": "Plassering av skjemaelementer"
+  },
+  "Plassholder for kildeelementer": {
+    "vi": "Trình giữ chỗ cho các phần tử nguồn",
+    "no": "Plassholder for kildeelementer"
+  },
+  "Rabatttilbud": {
+    "vi": "Ưu đãi giảm giá",
+    "no": "Rabatttilbud"
+  },
+  "Rapport over åpne fakturaer": {
+    "vi": "Báo cáo hóa đơn mở",
+    "no": "Rapport over åpne fakturaer"
+  },
+  "Rediger artikkel": {
+    "vi": "Chỉnh sửa bài viết",
+    "no": "Rediger artikkel"
+  },
+  "Rediger artikkelliste": {
+    "vi": "Chỉnh sửa danh sách bài viết",
+    "no": "Rediger artikkelliste"
+  },
+  "Rediger bilde": {
+    "vi": "Chỉnh sửa hình ảnh",
+    "no": "Rediger bilde"
+  },
+  "Rediger bildetype": {
+    "vi": "Chỉnh sửa loại hình ảnh",
+    "no": "Rediger bildetype"
+  },
+  "Rediger bildetyper": {
+    "vi": "Chỉnh sửa các loại hình ảnh",
+    "no": "Rediger bildetyper"
+  },
+  "Rediger din lydsamling": {
+    "vi": "Chỉnh sửa bộ sưu tập âm thanh của bạn",
+    "no": "Rediger din lydsamling"
+  },
+  "Rediger forfatter/Journalister": {
+    "vi": "Chỉnh sửa tác giả/nhà báo",
+    "no": "Rediger forfatter/Journalister"
+  },
+  "Rediger galleri": {
+    "vi": "Chỉnh sửa thư viện ảnh",
+    "no": "Rediger galleri"
+  },
+  "Redigering av nyhetsbrevtema": {
+    "vi": "Chỉnh sửa chủ đề bản tin",
+    "no": "Redigering av nyhetsbrevtema"
+  },
+  "Regelmessige SMS-betalinger": {
+    "vi": "Thanh toán SMS định kỳ",
+    "no": "Regelmessige SMS-betalinger"
+  },
+  "Register Form": {
+    "vi": "Biểu mẫu đăng ký",
+    "no": "Register Form"
+  },
+  "Registrer avsendernummer for SMS": {
+    "vi": "Đăng ký số người gửi SMS",
+    "no": "Registrer avsendernummer for SMS"
+  },
+  "Registrer betaling": {
+    "vi": "Đăng ký thanh toán",
+    "no": "Registrer betaling"
+  },
+  "Regnskapskonti": {
+    "vi": "Tài khoản kế toán",
+    "no": "Regnskapskonti"
+  },
+  "Relaterte artikler": {
+    "vi": "Bài viết liên quan",
+    "no": "Relaterte artikler"
+  },
+  "Relaterte dokumenter": {
+    "vi": "Tài liệu liên quan",
+    "no": "Relaterte dokumenter"
+  },
+  "Relaterte lenker": {
+    "vi": "Liên kết liên quan",
+    "no": "Relaterte lenker"
+  },
+  "Responsiv meny": {
+    "vi": "Menu đáp ứng",
+    "no": "Responsiv meny"
+  },
+  "Roller": {
+    "vi": "Vai trò",
+    "no": "Roller"
+  },
+  "Rutenett av hendelser": {
+    "vi": "Lưới sự kiện",
+    "no": "Rutenett av hendelser"
+  },
+  "Rutenettmeny": {
+    "vi": "Menu dạng lưới",
+    "no": "Rutenettmeny"
+  },
+  "SMS": {
+    "vi": "SMS",
+    "no": "SMS"
+  },
+  "SMS avsenderkoder": {
+    "vi": "Mã người gửi SMS",
+    "no": "SMS avsenderkoder"
+  },
+  "SMS innboks": {
+    "vi": "Hộp thư đến SMS",
+    "no": "SMS innboks"
+  },
+  "SMS innkommende nummer": {
+    "vi": "Số SMS đến",
+    "no": "SMS innkommende nummer"
+  },
+  "SMS-koder": {
+    "vi": "Mã SMS",
+    "no": "SMS-koder"
+  },
+  "Se innkommende SMS": {
+    "vi": "Xem SMS đến",
+    "no": "Se innkommende SMS"
+  },
+  "Send SMS": {
+    "vi": "Gửi SMS",
+    "no": "Send SMS"
+  },
+  "Sendt": {
+    "vi": "Đã gửi",
+    "no": "Sendt"
+  },
+  "Sendte SMS-beskjeder": {
+    "vi": "Tin nhắn SMS đã gửi",
+    "no": "Sendte SMS-beskjeder"
+  },
+  "Seremonityper": {
+    "vi": "Loại nghi lễ",
+    "no": "Seremonityper"
+  },
+  "Sett opp varsler": {
+    "vi": "Thiết lập thông báo",
+    "no": "Sett opp varsler"
+  },
+  "Sider": {
+    "vi": "Trang",
+    "no": "Sider"
+  },
+  "Sidetre": {
+    "vi": "Cây trang",
+    "no": "Sidetre"
+  },
+  "Sikkerhet": {
+    "vi": "Bảo mật",
+    "no": "Sikkerhet"
+  },
+  "Skjema": {
+    "vi": "Biểu mẫu",
+    "no": "Skjema"
+  },
+  "Skjema for å lage nye artikler": {
+    "vi": "Biểu mẫu tạo bài viết mới",
+    "no": "Skjema for å lage nye artikler"
+  },
+  "Skjema for å legge til nye forfattere/journalister": {
+    "vi": "Biểu mẫu thêm tác giả/nhà báo mới",
+    "no": "Skjema for å legge til nye forfattere/journalister"
+  },
+  "Skjema for å redigere forfattere/journalister": {
+    "vi": "Biểu mẫu chỉnh sửa tác giả/nhà báo",
+    "no": "Skjema for å redigere forfattere/journalister"
+  },
+  "Skjema for å vise forfattere/journalister": {
+    "vi": "Biểu mẫu hiển thị tác giả/nhà báo",
+    "no": "Skjema for å vise forfattere/journalister"
+  },
+  "Skjemaer": {
+    "vi": "Các biểu mẫu",
+    "no": "Skjemaer"
+  },
+  "Skjemaliste": {
+    "vi": "Danh sách biểu mẫu",
+    "no": "Skjemaliste"
+  },
+  "Slett artikkel": {
+    "vi": "Xóa bài viết",
+    "no": "Slett artikkel"
+  },
+  "Slipp her": {
+    "vi": "Thả vào đây",
+    "no": "Slipp her"
+  },
+  "Sorterbar liste med filer": {
+    "vi": "Danh sách tệp có thể sắp xếp",
+    "no": "Sorterbar liste med filer"
+  },
+  "Spaltemeny": {
+    "vi": "Menu cột",
+    "no": "Spaltemeny"
+  },
+  "Spillelister": {
+    "vi": "Danh sách phát",
+    "no": "Spillelister"
+  },
+  "Spiller MP3-filer, enten opplastet eller via URL": {
+    "vi": "Phát tệp MP3, đã tải lên hoặc qua URL",
+    "no": "Spiller MP3-filer, enten opplastet eller via URL"
+  },
+  "Spiritual Camp & Events": {
+    "vi": "Trại & Sự kiện Tâm linh",
+    "no": "Spiritual Camp & Events"
+  },
+  "Spørreundersøkelser": {
+    "vi": "Khảo sát",
+    "no": "Spørreundersøkelser"
+  },
+  "Standardverdier for modulvinduer": {
+    "vi": "Giá trị mặc định cho cửa sổ mô-đun",
+    "no": "Standardverdier for modulvinduer"
+  },
+  "Statistikk": {
+    "vi": "Thống kê",
+    "no": "Statistikk"
+  },
+  "Svindelforebygging": {
+    "vi": "Phòng chống gian lận",
+    "no": "Svindelforebygging"
+  },
+  "Synlig": {
+    "vi": "Hiển thị",
+    "no": "Synlig"
+  },
+  "Systemdokumenter": {
+    "vi": "Tài liệu hệ thống",
+    "no": "Systemdokumenter"
+  },
+  "Systemmeldinger": {
+    "vi": "Thông báo hệ thống",
+    "no": "Systemmeldinger"
+  },
+  "TIẾNG HY LẠP": {
+    "vi": "TIẾNG HY LẠP",
+    "no": "Gresk"
+  },
+  "TIẾNG HÊ BƠ RƠ": {
+    "vi": "TIẾNG HÊ BƠ RƠ",
+    "no": "Hebraisk"
+  },
+  "TIẾNG VIỆT": {
+    "vi": "TIẾNG VIỆT",
+    "no": "Vietnamesisk"
+  },
+  "Tagger": {
+    "vi": "Thẻ",
+    "no": "Tagger"
+  },
+  "Taler": {
+    "vi": "Bài nói",
+    "no": "Taler"
+  },
+  "Tekst": {
+    "vi": "Văn bản",
+    "no": "Tekst"
+  },
+  "Teller": {
+    "vi": "Bộ đếm",
+    "no": "Teller"
+  },
+  "Teller for innsendte skjema": {
+    "vi": "Bộ đếm biểu mẫu đã gửi",
+    "no": "Teller for innsendte skjema"
+  },
+  "Tema": {
+    "vi": "Chủ đề",
+    "no": "Tema"
+  },
+  "Temaer": {
+    "vi": "Chủ đề",
+    "no": "Temaer"
+  },
+  "Thờ Phượng": {
+    "vi": "Thờ Phượng",
+    "no": "Tilbedelse"
+  },
+  "Tilgjengelig SMS-kreditt": {
+    "vi": "Tín dụng SMS khả dụng",
+    "no": "Tilgjengelig SMS-kreditt"
+  },
+  "Tilgjengelige roller": {
+    "vi": "Vai trò khả dụng",
+    "no": "Tilgjengelige roller"
+  },
+  "Tilhørigheter": {
+    "vi": "Liên kết",
+    "no": "Tilhørigheter"
+  },
+  "Tilpass SMS-systemmeldinger": {
+    "vi": "Tùy chỉnh tin nhắn hệ thống SMS",
+    "no": "Tilpass SMS-systemmeldinger"
+  },
+  "Tilpass lydmodulen": {
+    "vi": "Tùy chỉnh mô-đun âm thanh",
+    "no": "Tilpass lydmodulen"
+  },
+  "Tilpass systemmeldinger": {
+    "vi": "Tùy chỉnh tin nhắn hệ thống",
+    "no": "Tilpass systemmeldinger"
+  },
+  "Trang chu": {
+    "vi": "Trang chu",
+    "no": "Hjemmeside"
+  },
+  "Trung Tâm Tin Lành": {
+    "vi": "Trung Tâm Tin Lành",
+    "no": "Evangelisk Senter"
+  },
+  "Tỉnh Nguyện": {
+    "vi": "Tỉnh Nguyện",
+    "no": "Bønn"
+  },
+  "Ungdom": {
+    "vi": "Thanh niên",
+    "no": "Ungdom"
+  },
+  "Utbetalingsplaner": {
+    "vi": "Kế hoạch thanh toán",
+    "no": "Utbetalingsplaner"
+  },
+  "Utdatert - Artikkel": {
+    "vi": "Lỗi thời - Bài viết",
+    "no": "Utdatert - Artikkel"
+  },
+  "Utdatert - Artikkelliste": {
+    "vi": "Lỗi thời - Danh sách bài viết",
+    "no": "Utdatert - Artikkelliste"
+  },
+  "Utforsker": {
+    "vi": "Trình khám phá",
+    "no": "Utforsker"
+  },
+  "Utfylt skjema": {
+    "vi": "Biểu mẫu đã điền",
+    "no": "Utfylt skjema"
+  },
+  "Utgående betalinger": {
+    "vi": "Thanh toán đi",
+    "no": "Utgående betalinger"
+  },
+  "Utløpte fakturaer": {
+    "vi": "Hóa đơn đã hết hạn",
+    "no": "Utløpte fakturaer"
+  },
+  "Vedlikehold dine regnskapskonti": {
+    "vi": "Duy trì tài khoản kế toán của bạn",
+    "no": "Vedlikehold dine regnskapskonti"
+  },
+  "Vedlikehold maler for PDF-fakturaer": {
+    "vi": "Duy trì mẫu hóa đơn PDF",
+    "no": "Vedlikehold maler for PDF-fakturaer"
+  },
+  "Velg ditt nye profilbilde": {
+    "vi": "Chọn ảnh hồ sơ mới của bạn",
+    "no": "Velg ditt nye profilbilde"
+  },
+  "Vertikal filmstripe": {
+    "vi": "Dải phim dọc",
+    "no": "Vertikal filmstripe"
+  },
+  "Vertikal meny": {
+    "vi": "Menu dọc",
+    "no": "Vertikal meny"
+  },
+  "Video": {
+    "vi": "Video",
+    "no": "Video"
+  },
+  "Videoer": {
+    "vi": "Video",
+    "no": "Videoer"
+  },
+  "Videofremviser": {
+    "vi": "Trình xem video",
+    "no": "Videofremviser"
+  },
+  "Videoliste": {
+    "vi": "Danh sách video",
+    "no": "Videoliste"
+  },
+  "Videolister": {
+    "vi": "Danh sách video",
+    "no": "Videolister"
+  },
+  "View for displaying module properties": {
+    "vi": "Chế độ xem để hiển thị thuộc tính mô-đun",
+    "no": "Visning for å vise modulegenskaper"
+  },
+  "Vindu for modulegenskaper": {
+    "vi": "Cửa sổ thuộc tính mô-đun",
+    "no": "Vindu for modulegenskaper"
+  },
+  "Vindu for å vise modulegenskaper": {
+    "vi": "Cửa sổ để hiển thị thuộc tính mô-đun",
+    "no": "Vindu for å vise modulegenskaper"
+  },
+  "Vindu for å vise modulinnstillinger": {
+    "vi": "Cửa sổ để hiển thị cài đặt mô-đun",
+    "no": "Vindu for å vise modulinnstillinger"
+  },
+  "Vindu som lar deg skrive inn din egen HTML-kode.": {
+    "vi": "Cửa sổ cho phép bạn nhập mã HTML của riêng mình.",
+    "no": "Vindu som lar deg skrive inn din egen HTML-kode."
+  },
+  "Vinduer": {
+    "vi": "Cửa sổ",
+    "no": "Vinduer"
+  },
+  "Vis alle": {
+    "vi": "Hiển thị tất cả",
+    "no": "Vis alle"
+  },
+  "Vis alle artikkellister": {
+    "vi": "Hiển thị tất cả danh sách bài viết",
+    "no": "Vis alle artikkellister"
+  },
+  "Vis alle sidene på nettstedet alfabetisk": {
+    "vi": "Hiển thị tất cả các trang trên trang web theo thứ tự bảng chữ cái",
+    "no": "Vis alle sidene på nettstedet alfabetisk"
+  },
+  "Vis alle sidene på nettstedet hierarkisk": {
+    "vi": "Hiển thị tất cả các trang trên trang web theo thứ tự phân cấp",
+    "no": "Vis alle sidene på nettstedet hierarkisk"
+  },
+  "Vis bilder i matriseform": {
+    "vi": "Hiển thị hình ảnh dưới dạng ma trận",
+    "no": "Vis bilder i matriseform"
+  },
+  "Vis bildetyper for bildet": {
+    "vi": "Hiển thị các loại hình ảnh cho hình ảnh",
+    "no": "Vis bildetyper for bildet"
+  },
+  "Vis bruksinformasjon for artikkel": {
+    "vi": "Hiển thị thông tin sử dụng cho bài viết",
+    "no": "Vis bruksinformasjon for artikkel"
+  },
+  "Vis de siste byheter fra alle nyhetskilder": {
+    "vi": "Hiển thị các tin tức mới nhất từ tất cả các nguồn tin tức",
+    "no": "Vis de siste byheter fra alle nyhetskilder"
+  },
+  "Vis detaljer om bruken av lydfilen": {
+    "vi": "Hiển thị chi tiết về việc sử dụng tệp âm thanh",
+    "no": "Vis detaljer om bruken av lydfilen"
+  },
+  "Vis eksisterende bildetyper og opprett nye": {
+    "vi": "Hiển thị các loại hình ảnh hiện có và tạo mới",
+    "no": "Vis eksisterende bildetyper og opprett nye"
+  },
+  "Vis en enkelt artikkel": {
+    "vi": "Hiển thị một bài viết duy nhất",
+    "no": "Vis en enkelt artikkel"
+  },
+  "Vis en enkeltartikkel med themes 3.0-motoren": {
+    "vi": "Hiển thị một bài viết duy nhất với công cụ themes 3.0",
+    "no": "Vis en enkeltartikkel med themes 3.0-motoren"
+  },
+  "Vis en liste med nyheter": {
+    "vi": "Hiển thị danh sách tin tức",
+    "no": "Vis en liste med nyheter"
+  },
+  "Vis en liste over hendelser": {
+    "vi": "Hiển thị danh sách sự kiện",
+    "no": "Vis en liste over hendelser"
+  },
+  "Vis en liste over registrerte betalinger": {
+    "vi": "Hiển thị danh sách các khoản thanh toán đã đăng ký",
+    "no": "Vis en liste over registrerte betalinger"
+  },
+  "Vis enkel tekst": {
+    "vi": "Hiển thị văn bản đơn giản",
+    "no": "Vis enkel tekst"
+  },
+  "Vis et bilde": {
+    "vi": "Hiển thị một hình ảnh",
+    "no": "Vis et bilde"
+  },
+  "Vis galleri med bilder": {
+    "vi": "Hiển thị thư viện ảnh",
+    "no": "Vis galleri med bilder"
+  },
+  "Vis gjeldende posisjon på nettstedet": {
+    "vi": "Hiển thị vị trí hiện tại trên trang web",
+    "no": "Vis gjeldende posisjon på nettstedet"
+  },
+  "Vis hendelser per måned, uke eller dag": {
+    "vi": "Hiển thị sự kiện theo tháng, tuần hoặc ngày",
+    "no": "Vis hendelser per måned, uke eller dag"
+  },
+  "Vis informasjon om en hendelse": {
+    "vi": "Hiển thị thông tin về một sự kiện",
+    "no": "Vis informasjon om en hendelse"
+  },
+  "Vis kvittering for betaling": {
+    "vi": "Hiển thị biên lai thanh toán",
+    "no": "Vis kvittering for betaling"
+  },
+  "Vis liste med artikler": {
+    "vi": "Hiển thị danh sách bài viết",
+    "no": "Vis liste med artikler"
+  },
+  "Vis liste med fakturaer. Funksjonalitet for å laste ned pdf-fakturaer.": {
+    "vi": "Hiển thị danh sách hóa đơn. Chức năng tải xuống hóa đơn PDF.",
+    "no": "Vis liste med fakturaer. Funksjonalitet for å laste ned pdf-fakturaer."
+  },
+  "Vis liste med faktureringer.": {
+    "vi": "Hiển thị danh sách hóa đơn.",
+    "no": "Vis liste med faktureringer."
+  },
+  "Vis liste over alle artikler": {
+    "vi": "Hiển thị danh sách tất cả các bài viết",
+    "no": "Vis liste over alle artikler"
+  },
+  "Vis liste over artikler": {
+    "vi": "Hiển thị danh sách bài viết",
+    "no": "Vis liste over artikler"
+  },
+  "Vis liste over eksisterende gallerier": {
+    "vi": "Hiển thị danh sách các thư viện ảnh hiện có",
+    "no": "Vis liste over eksisterende gallerier"
+  },
+  "Vis liste over eksisterende skjemaer": {
+    "vi": "Hiển thị danh sách các biểu mẫu hiện có",
+    "no": "Vis liste over eksisterende skjemaer"
+  },
+  "Vis liste over utløpte fakturaer, med funksjonalitet for purring eller kreditering": {
+    "vi": "Hiển thị danh sách các hóa đơn đã hết hạn, với chức năng nhắc nhở hoặc ghi có",
+    "no": "Vis liste over utløpte fakturaer, med funksjonalitet for purring eller kreditering"
+  },
+  "Vis melding angående avbrutt betaling": {
+    "vi": "Hiển thị thông báo về thanh toán bị hủy",
+    "no": "Vis melding angående avbrutt betaling"
+  },
+  "Vis meny som en serie med bokser": {
+    "vi": "Hiển thị menu dưới dạng một loạt các hộp",
+    "no": "Vis meny som en serie med bokser"
+  },
+  "Vis menyvalg horisontalt": {
+    "vi": "Hiển thị các lựa chọn menu theo chiều ngang",
+    "no": "Vis menyvalg horisontalt"
+  },
+  "Vis menyvalg over flere spalter": {
+    "vi": "Hiển thị các lựa chọn menu trên nhiều cột",
+    "no": "Vis menyvalg over flere spalter"
+  },
+  "Vis menyvalg vertikalt": {
+    "vi": "Hiển thị các lựa chọn menu theo chiều dọc",
+    "no": "Vis menyvalg vertikalt"
+  },
+  "Vis skjema for å redigere artikkel": {
+    "vi": "Hiển thị biểu mẫu để chỉnh sửa bài viết",
+    "no": "Vis skjema for å redigere artikkel"
+  },
+  "Vis utfylt skjema": {
+    "vi": "Hiển thị biểu mẫu đã điền",
+    "no": "Vis utfylt skjema"
+  },
+  "Viser artikler i en artikkelliste": {
+    "vi": "Hiển thị các bài viết trong một danh sách bài viết",
+    "no": "Viser artikler i en artikkelliste"
+  },
+  "Viser en horisontal dynamisk eller fast liste med hendelser": {
+    "vi": "Hiển thị danh sách sự kiện động hoặc cố định theo chiều ngang",
+    "no": "Viser en horisontal dynamisk eller fast liste med hendelser"
+  },
+  "Vision": {
+    "vi": "Tầm nhìn",
+    "no": "Visjon"
+  },
+  "Visjoner og verdier": {
+    "vi": "Tầm nhìn và giá trị",
+    "no": "Visjoner og verdier"
+  },
+  "VỀ CHÚNG TÔI": {
+    "vi": "VỀ CHÚNG TÔI",
+    "no": "OM OSS"
+  },
+  "Về Hội Thánh": {
+    "vi": "Về Hội Thánh",
+    "no": "Om Kirken"
+  },
+  "We usually gather on a set evening – often on Saturdays, or at a time that best suits the group members. This is a precious time where we share our lives, study the Bible together, and grow in faith.": {
+    "vi": "Chúng tôi thường nhóm lại vào một buổi tối cố định – thường là vào thứ Bảy, hoặc vào thời điểm phù hợp nhất với các thành viên trong nhóm. Đây là thời gian quý báu để chúng tôi chia sẻ cuộc sống, cùng nhau học Kinh Thánh và lớn lên trong đức tin.",
+    "no": "Vi samles vanligvis en fast kveld – ofte på lørdager, eller på et tidspunkt som passer best for gruppemedlemmene. Dette er en verdifull tid hvor vi deler livene våre, studerer Bibelen sammen og vokser i tro."
+  },
+  "Welcome to our spiritual family": {
+    "vi": "Chào mừng đến với gia đình tâm linh của chúng tôi",
+    "no": "Velkommen til vår åndelige familie"
+  },
+  "Worship Services": {
+    "vi": "Các Buổi Thờ Phượng",
+    "no": "Gudstjenester"
+  },
+  "Youth": {
+    "vi": "Thanh thiếu niên",
+    "no": "Ungdom"
+  },
+  "areas. To foster a safe, warm environment where everyone is seen and cared for, each group generally consists of 5 to 10 people.": {
+    "vi": "khu vực. Để tạo ra một môi trường an toàn, ấm áp nơi mọi người đều được nhìn thấy và quan tâm, mỗi nhóm thường bao gồm 5 đến 10 người.",
+    "no": "områder. For å fremme et trygt, varmt miljø hvor alle blir sett og tatt vare på, består hver gruppe vanligvis av 5 til 10 personer."
+  },
+  "bring together brothers and sisters in faith who live near each other in the": {
+    "vi": "tập hợp anh chị em trong đức tin sống gần nhau trong",
+    "no": "samler brødre og søstre i tro som bor nær hverandre i"
+  },
+  "cell groups": {
+    "vi": "nhóm tế bào",
+    "no": "cellegrupper"
+  },
+  "eller": {
+    "vi": "hoặc",
+    "no": "eller"
+  },
+  "nhut-httl-oslo": {
+    "vi": "nhut-httl-oslo",
+    "no": "nhut-httl-oslo"
+  },
+  "notificationWindow": {
+    "vi": "notificationWindow",
+    "no": "notificationWindow"
+  },
+  "spiritual family": {
+    "vi": "gia đình tâm linh",
+    "no": "åndelig familie"
+  },
+  "test - detalj": {
+    "vi": "kiểm tra - chi tiết",
+    "no": "test - detalj"
+  },
+  "velg fil": {
+    "vi": "chọn tệp",
+    "no": "velg fil"
+  },
+  "Åpne fakturaer i kundereskontro": {
+    "vi": "Mở hóa đơn trong sổ cái khách hàng",
+    "no": "Åpne fakturaer i kundereskontro"
+  },
+  "– a place where we pray for, support, encourage, and comfort one another in our daily lives, just like siblings under the same roof.": {
+    "vi": "– một nơi chúng ta cầu nguyện, hỗ trợ, khích lệ và an ủi lẫn nhau trong cuộc sống hàng ngày, giống như anh chị em dưới cùng một mái nhà.",
+    "no": "– et sted hvor vi ber for, støtter, oppmuntrer og trøster hverandre i våre daglige liv, akkurat som søsken under samme tak."
+  },
+  "Activities": {
+    "vi": "Hoạt động",
+    "no": "Aktiviteter"
   },
   "Camps": {
     "vi": "Trại",
     "no": "Leirer"
   },
   "Cell Groups": {
-    "vi": "Nhóm tế bào",
-    "no": "Celle grupper"
+    "vi": "Các Nhóm Tế Bào",
+    "no": "Cellegrupper"
   },
   "Churches": {
-    "vi": "Nhà thờ",
+    "vi": "Các Hội Thánh",
     "no": "Kirker"
   },
   "Courses": {
-    "vi": "Khóa học",
+    "vi": "Các Khóa Học",
     "no": "Kurs"
   },
   "English": {
@@ -49,19 +1765,11 @@
   },
   "Mission": {
     "vi": "Sứ mệnh",
-    "no": "Misjon"
+    "no": "Oppdrag"
   },
   "News": {
     "vi": "Tin tức",
     "no": "Nyheter"
-  },
-  "Newsfeed": {
-    "vi": "Bảng tin",
-    "no": "Nyhetsstrøm"
-  },
-  "SMS": {
-    "vi": "SMS",
-    "no": "SMS"
   },
   "Study Abroad": {
     "vi": "Du học",
@@ -74,13 +1782,5 @@
   "Training": {
     "vi": "Đào tạo",
     "no": "Opplæring"
-  },
-  "Video": {
-    "vi": "Video",
-    "no": "Video"
-  },
-  "Vision": {
-    "vi": "Tầm nhìn",
-    "no": "Visjon"
   }
 }

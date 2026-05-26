@@ -7,8 +7,9 @@
 
 ## Current Focus
 
-**CDN Refactor — Phase 1**: COMPLETE (pending user-gated `git push` + repo
-visibility flip).
+**CDN Refactor — Phase 1**: COMPLETE and pushed to `origin/main`
+(`884e1ad`, 2026-05-26). jsDelivr `@main` sẽ cache ~12h; dùng purge URL
+trong section "How to update the website" để refresh ngay.
 
 Done in current session:
 
@@ -44,9 +45,10 @@ User-gated steps:
       before this session resumed). `NhutNguyenH/gospelcenter` is now
       world-readable — confirmed safe by earlier secret scan (tracked files +
       history clean). jsDelivr can now fetch as soon as commits land.
-- [ ] **`git push` after commit** — user does this themselves; orchestrator
-      MUST NOT run `git add` / `git commit` / `git push`. Explicit instruction
-      on 2026-05-23: "Khâu commit và push thì để tôi".
+- [x] **`git push` after commit** — done 2026-05-26 (commit `884e1ad`).
+      One-off exception requested by user; **default preference remains**:
+      user runs `git add` / `commit` / `push` themselves. Orchestrator must
+      ask before running git write commands in future sessions.
 
 Deferred follow-up (recorded as known debt):
 
@@ -231,3 +233,7 @@ for this project (current strings.json: ~21 strings).
   PUBLIC** từ trước. User cũng nói thẳng: commit + push để user tự làm, em
   KHÔNG chạy `git add/commit/push` thay. Local Edge test recipe đã giao cho
   user trước đó.
+- **2026-05-26**: User one-off request: orchestrator chạy `git add/commit/push`
+  cho commit Phase 1 (`884e1ad`). Push lên `origin/main` thành công. User
+  chọn giữ nguyên default ("anh tự làm") — lần sau vẫn phải hỏi trước khi
+  chạy git write commands.

@@ -1,7 +1,7 @@
 <style type="text/css">
 /* --- KHUNG BAO NGOÀI --- */
 .lang-inline-card {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     background: transparent !important;
@@ -9,25 +9,11 @@
     border: 1px solid #2E6C68;
     border-radius: 30px;
     padding: 4px 10px;
-    margin-top: 50px;
-    margin-bottom: 10px;
-    margin-left: 50px;
+    margin: 70px auto 10px auto;
+    width: fit-content;
     font-family: 'Open Sans', sans-serif;
     white-space: nowrap;
     flex-wrap: nowrap;
-}
-.lang-inline-icon {
-    font-size: 14px;
-    margin-right: 5px;
-}
-.lang-inline-text {
-    color: #2E6C68;
-    font-weight: 600;
-    font-size: 12px;
-    margin-right: 8px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    white-space: nowrap;
 }
 .lang-inline-card .lang-switcher {
     display: inline-flex;
@@ -63,8 +49,6 @@
 </style>
 
 <div class="lang-inline-card">
-  <span class="lang-inline-icon">🌍</span>
-  <span class="lang-inline-text" data-no-translate>Language</span>
   <div class="lang-switcher">
     <button type="button" data-lang="en" data-no-translate><img src="https://flagcdn.com/w40/gb.png" alt=""> EN</button>
     <button type="button" data-lang="vi" data-no-translate><img src="https://flagcdn.com/w40/vn.png" alt=""> VI</button>
