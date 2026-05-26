@@ -1,7 +1,10 @@
-// widget.js — Logic dịch text trong DOM. Đọc bản dịch từ window.WIDGET_TRANSLATIONS.
-// Được nạp qua jsDelivr; widget.html chỉ chứa CSS + UI + 2 thẻ <script src>.
+// widget.js — Logic dịch text trong DOM. Fetch translations.json runtime với cache-bust.
+// Được nạp qua jsDelivr; widget.html chỉ chứa CSS + UI + 1 thẻ <script src>.
 
 (function () {
+  // currentScript phải capture sync ngay khi script chạy — sau đó có thể null.
+  var SCRIPT_SRC = (document.currentScript && document.currentScript.src) || '';
+
   var TRANSLATIONS = (typeof window !== 'undefined' && window.WIDGET_TRANSLATIONS) || {};
   var STORAGE_KEY = 'site_lang_deepl';
   var DEFAULT_LANG = 'en';
@@ -103,9 +106,47 @@
     }
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
+  function translationsUrl() {
+    if (!SCRIPT_SRC) return null;
+    var base = SCRIPT_SRC.replace(/widget\.js(\?.*)?$/, '');
+    if (base === SCRIPT_SRC) return null;
+    return base + 'translations.json?v=' + Date.now();
   }
+
+  function loadTranslations() {
+    var url = translationsUrl();
+    if (!url || typeof fetch !== 'function') {
+      return Promise.resolve();
+    }
+    // AbortController timeout 8s — fail-soft nếu mạng yếu.
+    var ctrl = (typeof AbortController === 'function') ? new AbortController() : null;
+    var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, 8000) : null;
+    return fetch(url, { cache: 'no-store', signal: ctrl ? ctrl.signal : undefined })
+      .then(function (res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+      })
+      .then(function (data) {
+        if (data && typeof data === 'object' && !Array.isArray(data)) {
+          TRANSLATIONS = data;
+          try { window.WIDGET_TRANSLATIONS = data; } catch (e) {}
+        }
+      })
+      .catch(function (err) {
+        if (window.console) console.warn('[widget] Không tải được translations.json:', err && err.message);
+      })
+      .then(function () { if (timer) clearTimeout(timer); });
+  }
+
+  function whenReady(cb) {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', cb);
+    } else {
+      cb();
+    }
+  }
+
+  // Chạy fetch và DOMContentLoaded song song; init sau khi cả hai xong.
+  var loaded = loadTranslations();
+  whenReady(function () { loaded.then(init); });
 })();

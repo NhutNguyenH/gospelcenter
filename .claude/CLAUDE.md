@@ -32,9 +32,10 @@ SPA-like content. **No translation API is ever called from the browser.**
 | `extract-strings.js` | DevTools snippet. Run once per page, paste output into `strings/<page>.json`. RESET `localStorage` between pages. |
 | `translate-gemini.js` | Node CLI, reads all `strings/*.json`, merges + dedupes, calls Gemini 2.5 Flash, writes `translations.json` + `translations.js` (atomic). Does NOT touch `widget.html`. |
 | `translate.js` | DeepL alternative (kept as fallback) |
-| `widget.html` | Static shell with CSS + UI + 2 `<script src>` from jsDelivr. Pasted ONCE into the website's HTML embed widget; never re-pasted. |
-| `widget.js` | IIFE that reads `window.WIDGET_TRANSLATIONS`. Served via jsDelivr `@main`. |
-| `translations.js` | Generated. `window.WIDGET_TRANSLATIONS = {...}`. Served via jsDelivr `@main`. |
+| `widget.html` | Static shell with CSS + UI (EN/VI/NO buttons) + 1 `<script src>` from jsDelivr. Pasted into HOME page only — user picks language here. |
+| `widget-subpage.html` | Same 1 `<script src>` but NO UI. Pasted into sub-pages — auto-applies language saved in `localStorage` from home page. |
+| `widget.js` | IIFE that derives base URL from `document.currentScript.src`, then fetches `translations.json?v=<timestamp>` runtime (cache-bust). Served via jsDelivr `@main`. |
+| `translations.js` | Generated. `window.WIDGET_TRANSLATIONS = {...}`. Kept as back-compat fallback; HTML no longer references it after cache-bust refactor. |
 | `strings/*.json` | Per-page input arrays of English strings (e.g. `strings/home.json`). Duplicates across files are deduped at build time. |
 | `translations.json` | Editable mid-step `{ "EN": { vi, no } }` |
 | `test-local.html` | Local-only fixture for sanity-testing in Edge before pushing (loads `./translations.js` + `./widget.js`, NOT jsDelivr). |

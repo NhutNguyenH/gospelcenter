@@ -107,7 +107,9 @@ shell mới cần re-paste.
 - **STRICTLY NO runtime translation API calls in the browser.** The widget's
   data is baked in at build time. Any code that adds `fetch()` to DeepL /
   Gemini / OpenAI / any translation service in browser code is a hard reject
-  during review.
+  during review. (Note: `widget.js` DOES `fetch()` our OWN `translations.json`
+  from jsDelivr at runtime for cache-busting purposes — this is static data,
+  not a translation API call, and is allowed.)
 - **Browser code is vanilla JS, ES6+.** No framework runtime. No bundler. No
   transpilation. Must execute as-is when pasted into a website builder's HTML
   embed widget.
@@ -237,3 +239,13 @@ for this project (current strings.json: ~21 strings).
   cho commit Phase 1 (`884e1ad`). Push lên `origin/main` thành công. User
   chọn giữ nguyên default ("anh tự làm") — lần sau vẫn phải hỏi trước khi
   chạy git write commands.
+- **2026-05-26**: **Cache-bust refactor** — `widget.js` không còn đọc inline
+  `window.WIDGET_TRANSLATIONS`; nó derive base URL từ `document.currentScript.src`,
+  rồi `fetch('translations.json?v=' + Date.now(), { cache: 'no-store' })` với
+  AbortController timeout 8s. Init chạy sau khi cả fetch xong + DOMContentLoaded.
+  Lý do: browser cache 7 ngày của jsDelivr khiến khách thấy bản dịch cũ —
+  giờ chỉ còn jsDelivr edge cache 12h (purge URL vẫn dùng được). HTML files
+  (`widget.html`, `widget-subpage.html`, `test-local.html`) bỏ thẻ
+  `<script src=".../translations.js">`. `translate-gemini.js` vẫn emit
+  `translations.js` làm back-compat fallback. Anh phải **re-paste**
+  `widget.html` + `widget-subpage.html` vào website builder vì shell đổi.

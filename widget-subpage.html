@@ -1,0 +1,11 @@
+<!-- Dán nội dung này (thay vì widget.html) vào các trang SUB.
+     Trang chủ vẫn dùng widget.html (có nút EN/VI/NO).
+     Các trang sub chỉ cần 1 thẻ script dưới đây — widget sẽ tự fetch
+     translations.json runtime và dịch theo ngôn ngữ user đã chọn ở trang chủ
+     (lưu trong localStorage).
+
+     QUAN TRỌNG: KHÔNG thêm `async` hoặc `defer` vào thẻ script — widget cần
+     đọc `document.currentScript.src` ngay khi load để biết fetch translations
+     từ đâu. async/defer làm currentScript=null → widget không tải được bản dịch. -->
+
+<script src="https://cdn.jsdelivr.net/gh/NhutNguyenH/gospelcenter@main/widget.js"></script>
