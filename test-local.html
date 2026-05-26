@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Local widget test</title>
+</head>
+<body>
+
+  <!-- Sample content the widget should translate -->
+  <header>
+    <h1>About Us</h1>
+    <nav>
+      <a href="#">Activities</a> · <a href="#">Cell Groups</a> · <a href="#">Mission</a> · <a href="#">News</a>
+    </nav>
+  </header>
+  <main>
+    <h2>Vision</h2>
+    <p>Activities &middot; Camps &middot; Courses &middot; Training &middot; Topics</p>
+    <p>SMS · Video · Newsfeed · Study Abroad · Jobs · Lectures · Churches · Administrator</p>
+  </main>
+
+  <!-- Language switcher widget (copy of the structure in widget.html) -->
+  <style type="text/css">
+    .lang-inline-card { display: inline-flex; align-items: center; border: 1px solid #2E6C68; border-radius: 30px; padding: 4px 10px; font-family: 'Open Sans', sans-serif; }
+    .lang-inline-text { color: #2E6C68; font-weight: 600; font-size: 12px; margin-right: 8px; text-transform: uppercase; }
+    .lang-inline-card .lang-switcher button { background: none; border: none; cursor: pointer; padding: 2px 4px; font-size: 12px; color: #2E6C68; font-weight: 600; opacity: 0.6; }
+    .lang-inline-card .lang-switcher button.active { opacity: 1; text-decoration: underline; }
+  </style>
+  <div class="lang-inline-card">
+    <span class="lang-inline-text" data-no-translate>Language</span>
+    <div class="lang-switcher">
+      <button type="button" data-lang="en" data-no-translate>EN</button>
+      <button type="button" data-lang="vi" data-no-translate>VI</button>
+      <button type="button" data-lang="no" data-no-translate>NO</button>
+    </div>
+  </div>
+
+  <!-- LOCAL paths (NOT jsDelivr) — only for testing before pushing to GitHub. -->
+  <script src="./translations.js"></script>
+  <script src="./widget.js"></script>
+</body>
+</html>

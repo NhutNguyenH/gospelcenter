@@ -1,84 +1,12 @@
-<style type="text/css">
-/* --- KHUNG BAO NGOÀI --- */
-.lang-inline-card {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent !important;
-    box-shadow: none !important;
-    border: 1px solid #2E6C68;
-    border-radius: 30px;
-    padding: 4px 10px;
-    margin-top: 50px;
-    margin-bottom: 10px;
-    margin-left: 50px;
-    font-family: 'Open Sans', sans-serif;
-    white-space: nowrap;
-    flex-wrap: nowrap;
-}
-.lang-inline-icon {
-    font-size: 14px;
-    margin-right: 5px;
-}
-.lang-inline-text {
-    color: #2E6C68;
-    font-weight: 600;
-    font-size: 12px;
-    margin-right: 8px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    white-space: nowrap;
-}
-.lang-inline-card .lang-switcher {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-}
-.lang-inline-card .lang-switcher button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 2px 4px;
-    font-size: 12px;
-    color: #2E6C68;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-family: inherit;
-    opacity: 0.6;
-    transition: opacity 0.15s;
-}
-.lang-inline-card .lang-switcher button:hover { opacity: 1; }
-.lang-inline-card .lang-switcher button.active {
-    opacity: 1;
-    text-decoration: underline;
-}
-.lang-inline-card .lang-switcher button img {
-    width: 18px;
-    height: auto;
-    vertical-align: middle;
-    border-radius: 2px;
-}
-</style>
+// widget.js — Logic dịch text trong DOM. Đọc bản dịch từ window.WIDGET_TRANSLATIONS.
+// Được nạp qua jsDelivr; widget.html chỉ chứa CSS + UI + 2 thẻ <script src>.
 
-<div class="lang-inline-card">
-  <span class="lang-inline-icon">🌍</span>
-  <span class="lang-inline-text" data-no-translate>Language</span>
-  <div class="lang-switcher">
-    <button type="button" data-lang="en" data-no-translate><img src="https://flagcdn.com/w40/gb.png" alt=""> EN</button>
-    <button type="button" data-lang="vi" data-no-translate><img src="https://flagcdn.com/w40/vn.png" alt=""> VI</button>
-    <button type="button" data-lang="no" data-no-translate><img src="https://flagcdn.com/w40/no.png" alt=""> NO</button>
-  </div>
-</div>
-
-<script>
 (function () {
-  var TRANSLATIONS = /*__TRANSLATIONS_PLACEHOLDER__*/;
+  var TRANSLATIONS = (typeof window !== 'undefined' && window.WIDGET_TRANSLATIONS) || {};
   var STORAGE_KEY = 'site_lang_deepl';
   var DEFAULT_LANG = 'en';
 
-  var originals = new Map(); // node -> nguyên bản tiếng Anh
+  var originals = new Map();
 
   function shouldSkipNode(node) {
     var p = node.parentElement;
@@ -122,7 +50,7 @@
         if (!window._missDeepL) window._missDeepL = new Set();
         if (!window._missDeepL.has(key)) {
           window._missDeepL.add(key);
-          if (window.console) console.warn('[DeepL] Thiếu bản dịch:', JSON.stringify(key));
+          if (window.console) console.warn('[widget] Thiếu bản dịch:', JSON.stringify(key));
         }
       }
     });
@@ -148,6 +76,9 @@
   }
 
   function init() {
+    if (!TRANSLATIONS || Object.keys(TRANSLATIONS).length === 0) {
+      if (window.console) console.warn('[widget] WIDGET_TRANSLATIONS rỗng — widget chỉ hiển thị tiếng Anh.');
+    }
     applyLang(getSavedLang());
 
     if (window.MutationObserver) {
@@ -178,4 +109,3 @@
     init();
   }
 })();
-</script>

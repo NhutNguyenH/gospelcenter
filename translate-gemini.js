@@ -5,11 +5,19 @@
 // Free tier (gemini-2.5-flash): 15 request/phút, 1500 request/ngày — quá đủ cho website.
 //
 // Cách dùng:
-//   1. Sửa API_KEY ở dưới (hoặc set biến môi trường GEMINI_API_KEY)
-//   2. Liệt kê các chuỗi tiếng Anh cần dịch vào file strings.json
-//   3. Chạy:  node translate-gemini.js
-//   4. Mở file widget.html vừa được sinh ra, copy toàn bộ nội dung,
-//      dán vào hộp HTML/Custom Code trên website của bạn.
+//   1. Đặt GEMINI_API_KEY vào file .env (file đã được gitignore).
+//   2. Tạo thư mục strings/ và thêm một file .json cho mỗi trang
+//      (mỗi file là một MẢNG JSON các chuỗi tiếng Anh).
+//      Ví dụ: strings/home.json, strings/about-us.json, ...
+//      Chuỗi trùng giữa các file sẽ được gộp tự động khi dịch.
+//   3. Chạy:  node --env-file=.env translate-gemini.js
+//   4. Output:
+//        - translations.json  (bản dịch dạng JSON, có thể chỉnh tay)
+//        - translations.js    (window.WIDGET_TRANSLATIONS = {...}, để jsDelivr phục vụ)
+//      widget.html + widget.js KHÔNG còn sinh tự động — chúng được anh duy trì
+//      thủ công và phục vụ qua jsDelivr (xem widget.html để biết URL).
+//   5. Commit + push translations.js. Nếu cần xoá cache jsDelivr ngay:
+//        https://purge.jsdelivr.net/gh/NhutNguyenH/gospelcenter@main/translations.js
 
 const fs = require('fs');
 const path = require('path');
@@ -51,18 +59,32 @@ async function geminiTranslateBatch(texts) {
     `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent` +
     `?key=${encodeURIComponent(API_KEY)}`;
 
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      contents: [{ role: 'user', parts: [{ text: prompt }] }],
-      generationConfig: {
-        responseMimeType: 'application/json',
-        responseSchema: TRANSLATION_SCHEMA,
-        temperature: 0.2,
-      },
-    }),
-  });
+  // Abort fetch after 30s — bắt buộc theo rule, tránh treo nếu API không trả lời.
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 30000);
+  let res;
+  try {
+    res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ role: 'user', parts: [{ text: prompt }] }],
+        generationConfig: {
+          responseMimeType: 'application/json',
+          responseSchema: TRANSLATION_SCHEMA,
+          temperature: 0.2,
+        },
+      }),
+      signal: controller.signal,
+    });
+  } catch (err) {
+    if (err.name === 'AbortError') {
+      throw new Error('Gemini timeout sau 30 giây — kiểm tra mạng hoặc thử lại.');
+    }
+    throw err;
+  } finally {
+    clearTimeout(timeoutId);
+  }
 
   if (!res.ok) {
     const errText = await res.text();
@@ -97,27 +119,52 @@ async function geminiTranslateBatch(texts) {
 
 async function main() {
   if (!API_KEY || API_KEY === 'YOUR_GEMINI_API_KEY_HERE') {
-    console.error('⚠  Bạn chưa thiết lập Gemini API key.');
-    console.error('   Lấy key miễn phí tại: https://aistudio.google.com/apikey');
-    console.error('   Sau đó mở translate-gemini.js và sửa biến API_KEY,');
-    console.error('   hoặc chạy:  GEMINI_API_KEY=xxx node translate-gemini.js');
+    console.error('⚠  Chưa thiết lập GEMINI_API_KEY.');
+    console.error('   1. Lấy key miễn phí tại: https://aistudio.google.com/apikey');
+    console.error('   2. Tạo file .env trong thư mục dự án với nội dung:');
+    console.error('        GEMINI_API_KEY=AIzaSy...');
+    console.error('   3. Chạy:  node --env-file=.env translate-gemini.js');
     process.exit(1);
   }
 
-  const stringsPath = path.join(__dirname, 'strings.json');
-  if (!fs.existsSync(stringsPath)) {
-    console.error('⚠  Không tìm thấy strings.json.');
+  const stringsDir = path.join(__dirname, 'strings');
+  if (!fs.existsSync(stringsDir) || !fs.statSync(stringsDir).isDirectory()) {
+    console.error('⚠  Không tìm thấy thư mục strings/.');
+    console.error('   Tạo strings/ rồi thêm các file .json (mỗi file là một mảng chuỗi tiếng Anh).');
+    console.error('   Ví dụ: strings/home.json, strings/about-us.json, ...');
     process.exit(1);
   }
 
-  const sourceStrings = JSON.parse(fs.readFileSync(stringsPath, 'utf8'));
-  if (!Array.isArray(sourceStrings)) {
-    console.error('strings.json phải là MỘT MẢNG (array) JSON các chuỗi tiếng Anh.');
+  const files = fs.readdirSync(stringsDir)
+    .filter((f) => f.toLowerCase().endsWith('.json'))
+    .sort();
+  if (files.length === 0) {
+    console.error('⚠  Thư mục strings/ không có file .json nào.');
     process.exit(1);
   }
 
-  const unique = [...new Set(sourceStrings.map((s) => String(s).trim()).filter(Boolean))];
-  console.log(`Sẽ dịch ${unique.length} chuỗi tiếng Anh sang VI + NO (cùng lúc trong mỗi request)...`);
+  console.log(`Đọc ${files.length} file từ strings/:`);
+  const collected = [];
+  for (const file of files) {
+    const filePath = path.join(stringsDir, file);
+    let parsed;
+    try {
+      parsed = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    } catch (err) {
+      console.error(`✗ Không parse được ${file}: ${err.message}`);
+      process.exit(1);
+    }
+    if (!Array.isArray(parsed)) {
+      console.error(`✗ ${file} phải là MỘT MẢNG (array) JSON các chuỗi tiếng Anh.`);
+      process.exit(1);
+    }
+    console.log(`  • ${file}: ${parsed.length} chuỗi`);
+    collected.push(...parsed);
+  }
+
+  const unique = [...new Set(collected.map((s) => String(s).trim()).filter(Boolean))];
+  console.log(`\nTổng: ${collected.length} chuỗi đọc vào, ${unique.length} chuỗi duy nhất sau khi gộp + trim.`);
+  console.log(`Sẽ dịch ${unique.length} chuỗi sang VI + NO (cùng lúc trong mỗi request)...`);
 
   const translations = {};
   const totalBatches = Math.ceil(unique.length / BATCH_SIZE);
@@ -142,23 +189,24 @@ async function main() {
     }
   }
 
-  fs.writeFileSync(
-    path.join(__dirname, 'translations.json'),
-    JSON.stringify(translations, null, 2),
-    'utf8'
-  );
+  // Ghi atomic: viết .tmp rồi rename để readers không thấy file half-written.
+  const jsonPath = path.join(__dirname, 'translations.json');
+  const jsonTmp = jsonPath + '.tmp';
+  fs.writeFileSync(jsonTmp, JSON.stringify(translations, null, 2), 'utf8');
+  fs.renameSync(jsonTmp, jsonPath);
 
-  const tplPath = path.join(__dirname, 'widget-template.html');
-  if (fs.existsSync(tplPath)) {
-    const tpl = fs.readFileSync(tplPath, 'utf8');
-    const out = tpl.replace('/*__TRANSLATIONS_PLACEHOLDER__*/', JSON.stringify(translations));
-    fs.writeFileSync(path.join(__dirname, 'widget.html'), out, 'utf8');
-    console.log('\n✓ Đã tạo translations.json (bản dịch dạng JSON, có thể chỉnh tay)');
-    console.log('✓ Đã tạo widget.html (đoạn HTML+JS để nhúng vào website)');
-    console.log('\n→ Mở widget.html, copy TOÀN BỘ nội dung, dán vào hộp HTML embed trên website.');
-  } else {
-    console.log('\n✓ Đã tạo translations.json. (Không tìm thấy widget-template.html nên không sinh widget.html)');
-  }
+  const jsPath = path.join(__dirname, 'translations.js');
+  const jsTmp = jsPath + '.tmp';
+  const jsBody =
+    '// Auto-generated by translate-gemini.js. KHÔNG sửa tay — chỉnh strings/*.json rồi chạy lại.\n' +
+    'window.WIDGET_TRANSLATIONS = ' + JSON.stringify(translations, null, 2) + ';\n';
+  fs.writeFileSync(jsTmp, jsBody, 'utf8');
+  fs.renameSync(jsTmp, jsPath);
+
+  console.log('\n✓ Đã tạo translations.json (bản dịch dạng JSON, có thể chỉnh tay).');
+  console.log('✓ Đã tạo translations.js (file để phục vụ qua jsDelivr).');
+  console.log('\n→ Bước tiếp theo: git commit + push translations.js. Cache jsDelivr tự refresh sau 12h;');
+  console.log('  để refresh ngay, mở: https://purge.jsdelivr.net/gh/NhutNguyenH/gospelcenter@main/translations.js');
 }
 
 main().catch((err) => {

@@ -7,9 +7,10 @@ platform. The user is non-technical and uses Microsoft Edge.
 
 **Pipeline (build time):**
 ```
-extract-strings.js (DevTools)  →  strings.json
+extract-strings.js (DevTools, mỗi trang)  →  strings/<page>.json  (per-page)
         ↓
 node --env-file=.env translate-gemini.js
+   (đọc tất cả strings/*.json → gộp + dedupe → dịch)
         ↓
 translations.json  +  widget.html
         ↓
@@ -28,13 +29,15 @@ SPA-like content. **No translation API is ever called from the browser.**
 
 | File | Role |
 |---|---|
-| `extract-strings.js` | DevTools snippet, gathers EN text from live pages, merges across pages via `localStorage` |
-| `translate-gemini.js` | Node CLI, calls Gemini 2.5 Flash, writes `translations.json` + `widget.html` |
+| `extract-strings.js` | DevTools snippet. Run once per page, paste output into `strings/<page>.json`. RESET `localStorage` between pages. |
+| `translate-gemini.js` | Node CLI, reads all `strings/*.json`, merges + dedupes, calls Gemini 2.5 Flash, writes `translations.json` + `translations.js` (atomic). Does NOT touch `widget.html`. |
 | `translate.js` | DeepL alternative (kept as fallback) |
-| `widget-template.html` | Shell HTML/CSS/JS with `__TRANSLATIONS_PLACEHOLDER__` |
-| `widget.html` | Final output to paste into platform |
-| `strings.json` | Input array of English strings |
+| `widget.html` | Static shell with CSS + UI + 2 `<script src>` from jsDelivr. Pasted ONCE into the website's HTML embed widget; never re-pasted. |
+| `widget.js` | IIFE that reads `window.WIDGET_TRANSLATIONS`. Served via jsDelivr `@main`. |
+| `translations.js` | Generated. `window.WIDGET_TRANSLATIONS = {...}`. Served via jsDelivr `@main`. |
+| `strings/*.json` | Per-page input arrays of English strings (e.g. `strings/home.json`). Duplicates across files are deduped at build time. |
 | `translations.json` | Editable mid-step `{ "EN": { vi, no } }` |
+| `test-local.html` | Local-only fixture for sanity-testing in Edge before pushing (loads `./translations.js` + `./widget.js`, NOT jsDelivr). |
 | `.env` | `GEMINI_API_KEY=...` (gitignored, never committed) |
 
 ## Delegation guide
@@ -56,7 +59,7 @@ yourself. Don't over-delegate — agents are for focused multi-step work.
 
 | Skill | Use when |
 |---|---|
-| `run-translation-pipeline` | User wants to regenerate translations / `widget.html` |
+| `run-translation-pipeline` | User wants to regenerate `translations.js` / `translations.json` |
 | `run-tests` | User wants to execute the test suite |
 
 Invoke skills via the Skill tool with the exact name.
@@ -78,6 +81,21 @@ Invoke skills via the Skill tool with the exact name.
    and similar patterns.
 4. **Non-technical user.** Give Windows-friendly instructions, use Edge for any
    browser steps, use Notepad-friendly file paths (`C:\...`).
+
+## Test it locally before pushing
+
+`test-local.html` loads `./translations.js` + `./widget.js` via RELATIVE paths
+(not jsDelivr), so anh có thể xem widget chạy thật trước khi push công khai.
+
+Trong PowerShell (Windows), từ thư mục dự án:
+
+```powershell
+python -m http.server 8000
+```
+
+Sau đó mở Edge tới `http://localhost:8000/test-local.html`. Bấm các nút
+EN/VI/NO — text phải đổi ngôn ngữ. Nhấn `Ctrl+C` trong PowerShell để dừng
+server khi xong.
 
 ## When in doubt
 

@@ -7,29 +7,96 @@
 
 ## Current Focus
 
-**CDN Refactor — Phase 1**: migrate `gospelcenter` from private+inline to
-public-repo + jsDelivr-served `translations.js`/`widget.js`.
+**CDN Refactor — Phase 1**: COMPLETE (pending user-gated `git push` + repo
+visibility flip).
 
-Open punch list:
+Done in current session:
 
-- [ ] **Security pre-scan** of all tracked files + git history for leaked secrets
-      (the original `translate-gemini.js` had a hard-coded Gemini key — already
-      scrubbed in code, but check git history before going public).
-- [ ] **Confirm with user**: switch `NhutNguyenH/gospelcenter` to PUBLIC.
-- [ ] **Refactor `translate-gemini.js`** to emit `translations.js`
-      (`window.WIDGET_TRANSLATIONS = {...}`) instead of inlining into
-      `widget.html`.
-- [ ] **Extract `widget.js`** from `widget-template.html`. The HTML shell stays
-      tiny; logic moves to a hostable file.
-- [ ] **Update `widget.html`** to reference both files via
-      `<script src="https://cdn.jsdelivr.net/gh/NhutNguyenH/gospelcenter@main/...">`.
-- [ ] **Document the update workflow**: edit local → push → purge URL
-      (`https://purge.jsdelivr.net/gh/NhutNguyenH/gospelcenter/...`).
-- [ ] **Decide branch strategy**: `@main` (always-fresh, 12h cache TTL) vs
-      version-pinned tags (rollback-safe). Default recommend `@main`.
+- [x] **Per-page input split** (Option B from migration-architect). `strings.json`
+      replaced with `strings/<page>.json`. `translate-gemini.js` now reads ALL
+      `.json` files in `strings/`, gộp + dedupe, then translates. Starter file:
+      `strings/home.json` (21 chuỗi gốc). `extract-strings.js` workflow updated
+      to require `localStorage` reset between pages.
+- [x] **Security pre-scan**: grep `git ls-files` + `git log --all -p` for
+      `AIzaSy[A-Za-z0-9_-]{30,}`, `sk-[A-Za-z0-9]{20,}`, `DeepL-Auth-Key`. All
+      hits in tracked files and history are doc regex patterns or template
+      literals (`${API_KEY}` in `translate.js:29`). No literal secrets.
+- [x] **Refactor `translate-gemini.js`** — emits `translations.js`
+      (`window.WIDGET_TRANSLATIONS = {...}`) + `translations.json` atomically
+      (`.tmp` → `renameSync`). No longer touches `widget.html`. Adds
+      `AbortController` 30s timeout per project rule.
+- [x] **Extract `widget.js`** from the old `widget-template.html`. Reads
+      `window.WIDGET_TRANSLATIONS`, fail-soft if missing.
+- [x] **Update `widget.html`** to a static shell referencing
+      `https://cdn.jsdelivr.net/gh/NhutNguyenH/gospelcenter@main/translations.js`
+      and `.../widget.js` (in that order — translations must load first).
+- [x] **`widget-template.html` deleted** (no more template substitution).
+- [x] **`test-local.html`** added for pre-push browser sanity check (relative
+      paths, NOT jsDelivr).
+- [x] **Branch strategy decided**: `@main` (always-fresh, 12h jsDelivr cache,
+      manual purge URL when faster refresh is needed).
+- [x] **PR review by `pr-reviewer-agent`**: PASS, no blockers; 4 suggestions
+      (3 fixed in-session; 1 deferred — see below).
+
+User-gated steps:
+
+- [x] **Repo flipped to PUBLIC** by user on 2026-05-23 (done manually in Edge,
+      before this session resumed). `NhutNguyenH/gospelcenter` is now
+      world-readable — confirmed safe by earlier secret scan (tracked files +
+      history clean). jsDelivr can now fetch as soon as commits land.
+- [ ] **`git push` after commit** — user does this themselves; orchestrator
+      MUST NOT run `git add` / `git commit` / `git push`. Explicit instruction
+      on 2026-05-23: "Khâu commit và push thì để tôi".
+
+Deferred follow-up (recorded as known debt):
+
+- [ ] **Batch retry/backoff in `translate-gemini.js`**. Project rule
+      (`vanilla-js-widget.md`) requires exponential backoff (3 retries, 1s base,
+      doubling) on 429/5xx, then skip the batch (do not crash). Current code
+      `process.exit(1)`s on first batch failure. At current scale (21 strings =
+      1 batch) the partial-progress loss is moot; raise priority when the
+      project crosses ~80 strings (≥ 2 batches).
+
+Phase 2 (deferred): Node crawler that reads `sitemap.xml` and emits
+`strings/<page>.json` automatically. Only relevant for site >30 pages.
 
 Phase 2 (deferred): Node crawler that reads `sitemap.xml` and emits `strings.json`
 without manual DevTools paste per page. Only relevant for site >30 pages.
+
+---
+
+## How to update the website (workflow reference)
+
+After Phase 1 CDN refactor, the website's `widget.html` is pasted ONCE. To
+change translations or add strings:
+
+1. (Optional) Quét chuỗi mới từ trang website: chạy `extract-strings.js`
+   trong DevTools console của Edge, dán clipboard vào
+   `strings/<page>.json` tương ứng. Reset `localStorage` giữa các trang.
+2. Edit `strings/*.json` directly nếu chỉ muốn thêm/xoá chuỗi thủ công.
+3. Run `/translate` (or `node --env-file=.env translate-gemini.js`) →
+   regenerates `translations.js` + `translations.json`.
+4. (Optional) Test locally: trong PowerShell từ thư mục dự án,
+   `python -m http.server 8000`, mở Edge tới
+   `http://localhost:8000/test-local.html`, bấm EN/VI/NO để kiểm tra.
+5. Commit + push:
+   ```
+   git add strings/ translations.json translations.js
+   git commit -m "Update translations"
+   git push
+   ```
+6. Cache jsDelivr refresh sau ~12h. Để refresh ngay, mở các URL sau
+   trong Edge (mỗi URL sẽ chạy trong 1-2s rồi xong):
+   - `https://purge.jsdelivr.net/gh/NhutNguyenH/gospelcenter@main/translations.js`
+   - `https://purge.jsdelivr.net/gh/NhutNguyenH/gospelcenter@main/widget.js`
+     (chỉ cần khi anh sửa `widget.js`)
+7. Verify: mở
+   `https://cdn.jsdelivr.net/gh/NhutNguyenH/gospelcenter@main/translations.js`
+   trong Edge — phải thấy bản dịch mới nhất.
+
+If `widget.html` itself changes (CSS/UI tweak), anh phải copy lại nội dung
+`widget.html` và dán lại vào website builder — chỉ những lần thay đổi
+shell mới cần re-paste.
 
 ---
 
@@ -148,3 +215,19 @@ for this project (current strings.json: ~21 strings).
   placeholder. User created local `.env` with new key. Pipeline verified
   loadable via `node --env-file=.env`.
 - **2026-05-23**: `.claude/` scaffolding created (this file).
+- **2026-05-23**: Per-page input split implemented (Phương án B từ migration-architect).
+  `strings.json` → `strings/home.json`. `translate-gemini.js` đọc tất cả file trong
+  `strings/`, gộp + dedupe trước khi gọi Gemini. Output (`translations.json` +
+  `widget.html`) giữ nguyên format inline. `extract-strings.js` comments updated
+  cho workflow per-page (reset `localStorage` giữa các trang).
+- **2026-05-23**: CDN refactor (Phase 1) complete in code. `widget.js` tách khỏi
+  `widget-template.html`; `translate-gemini.js` emit `translations.js` (atomic
+  ghi qua `.tmp` + rename) thay vì inline vào `widget.html`. `widget.html` thành
+  shell tĩnh với 2 thẻ `<script src>` từ jsDelivr `@main`. `widget-template.html`
+  xoá. Thêm `AbortController` timeout 30s. Verification: static checks pass,
+  `python3 -m http.server` phục vụ tất cả assets (200), `pr-reviewer-agent` pass
+  với 4 suggestion (3 đã fix, 1 batch-backoff defer).
+- **2026-05-23**: User confirmed repo `NhutNguyenH/gospelcenter` **đã flip
+  PUBLIC** từ trước. User cũng nói thẳng: commit + push để user tự làm, em
+  KHÔNG chạy `git add/commit/push` thay. Local Edge test recipe đã giao cho
+  user trước đó.

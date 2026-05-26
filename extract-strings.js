@@ -1,20 +1,21 @@
 // extract-strings.js  (v2 - tự gộp text qua nhiều trang)
 //
-// Mục đích: Thu thập TẤT CẢ text tiếng Anh trên website, kể cả khi website có nhiều trang.
-// Script này sẽ NHỚ những gì đã quét trước đó (lưu trong localStorage của trình duyệt),
-// nên bạn chỉ cần chạy lại trên từng trang khác — nó tự gộp.
+// Mục đích: Thu thập text tiếng Anh trên một trang của website.
 //
-// Cách dùng:
-//   1. Mở Edge, vào trang ĐẦU TIÊN của website
-//   2. F12 → tab Console → paste toàn bộ snippet này → Enter
+// Workflow MỚI (strings/ theo từng trang):
+//   1. Mở Edge, vào trang muốn quét (ví dụ: home).
+//   2. F12 → tab Console → paste toàn bộ snippet này → Enter.
 //      (lần đầu Edge có thể chặn dán code → gõ "allow pasting" Enter rồi dán lại)
 //   3. Console hiện: "Trang này: thêm N chuỗi mới. TỔNG: X chuỗi"
-//   4. Mở trang TIẾP THEO của website → F12 → Console → paste lại snippet → Enter
-//      → nó tự cộng dồn vào danh sách cũ
-//   5. Lặp lại cho mọi trang con (About, Products, Contact, Blog, ...)
-//   6. SAU CÙNG, ở bất kỳ trang nào, dán clipboard (Ctrl+V) vào file strings.json
-//   7. (Tuỳ chọn) Để reset và bắt đầu lại từ đầu:
+//      Clipboard tự động chứa MẢNG JSON các chuỗi vừa quét.
+//   4. Mở/tạo file strings/<tên-trang>.json (ví dụ: strings/home.json),
+//      dán toàn bộ nội dung clipboard vào, lưu lại.
+//   5. TRƯỚC khi sang trang khác, chạy lệnh sau ở Console để reset:
 //        localStorage.removeItem("__deepl_extract_strings__")
+//      Rồi mở trang kế tiếp và lặp lại từ bước 2 cho file strings/<trang-kế>.json.
+//
+// Lưu ý: localStorage tích luỹ giữa các lần chạy nếu KHÔNG reset — phù hợp khi
+// muốn dồn tất cả vào MỘT file, nhưng KHÔNG phù hợp với workflow per-page mới.
 
 (function () {
   var STORAGE_KEY = '__deepl_extract_strings__';
@@ -60,7 +61,7 @@
     '%c✓ Trang này: thêm ' + added + ' chuỗi mới. TỔNG cộng: ' + arr.length + ' chuỗi (đã copy vào clipboard).',
     'color:green;font-weight:bold;font-size:14px'
   );
-  console.log('%c→ Mở trang tiếp theo trên website của bạn rồi chạy lại snippet này.', 'color:#666');
-  console.log('%c→ Khi đã quét xong tất cả các trang, dán clipboard vào strings.json.', 'color:#666');
-  console.log('%c→ Reset (xoá danh sách đã quét, bắt đầu lại): localStorage.removeItem("' + STORAGE_KEY + '")', 'color:#999');
+  console.log('%c→ Dán clipboard vào strings/<tên-trang>.json (vd: strings/home.json).', 'color:#666');
+  console.log('%c→ Trước khi sang trang khác, RESET: localStorage.removeItem("' + STORAGE_KEY + '")', 'color:#666');
+  console.log('%c→ Sau khi reset, mở trang kế tiếp và chạy lại snippet này.', 'color:#999');
 })();
