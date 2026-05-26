@@ -249,3 +249,15 @@ for this project (current strings.json: ~21 strings).
   `<script src=".../translations.js">`. `translate-gemini.js` vẫn emit
   `translations.js` làm back-compat fallback. Anh phải **re-paste**
   `widget.html` + `widget-subpage.html` vào website builder vì shell đổi.
+- **2026-05-26**: **Bug fix — `document.currentScript = null` khi website
+  builder chèn script dynamically.** Sau cache-bust refactor user báo
+  "không dịch được"; `Object.keys(window.WIDGET_TRANSLATIONS).length` ra 0
+  trên trang public. Builder chèn `<script>` qua DOM (createElement +
+  appendChild) → script "async by default" theo HTML spec → bên trong IIFE
+  `document.currentScript = null` → `SCRIPT_SRC = ''` → `translationsUrl()`
+  return null → fetch không chạy → TRANSLATIONS rỗng. Fix trong `widget.js`:
+  `resolveScriptSrc()` ưu tiên `document.currentScript`, fallback
+  `document.getElementsByTagName('script')` reverse-scan tìm `src` match
+  `/\/widget\.js(\?.*)?$/`. Sau khi user push commit, cần purge jsDelivr
+  (`https://purge.jsdelivr.net/gh/NhutNguyenH/gospelcenter@main/widget.js`) +
+  hard refresh Edge để bypass browser cache 7 ngày của jsDelivr asset.

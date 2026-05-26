@@ -3,7 +3,20 @@
 
 (function () {
   // currentScript phải capture sync ngay khi script chạy — sau đó có thể null.
-  var SCRIPT_SRC = (document.currentScript && document.currentScript.src) || '';
+  // Khi website builder chèn <script> qua DOM, currentScript = null (async-by-default).
+  // Fallback: tìm <script src="...widget.js"> trong DOM.
+  function resolveScriptSrc() {
+    if (document.currentScript && document.currentScript.src) {
+      return document.currentScript.src;
+    }
+    var scripts = document.getElementsByTagName('script');
+    for (var i = scripts.length - 1; i >= 0; i--) {
+      var s = scripts[i].src || '';
+      if (/\/widget\.js(\?.*)?$/.test(s)) return s;
+    }
+    return '';
+  }
+  var SCRIPT_SRC = resolveScriptSrc();
 
   var TRANSLATIONS = (typeof window !== 'undefined' && window.WIDGET_TRANSLATIONS) || {};
   var STORAGE_KEY = 'site_lang_deepl';
