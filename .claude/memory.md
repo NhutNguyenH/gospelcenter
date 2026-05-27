@@ -360,6 +360,17 @@ for this project (current strings.json: ~21 strings).
     nguyên translations.json hiện tại (đừng /translate cho tới khi cần).
   + **Pending**: user `git add/commit/push` + purge jsDelivr 3 file
     (translations.json, translations.js, widget.js).
+- **2026-05-27 (lần 2 — sau push hasDirectText)**: **Walker bug round 2 —
+  hasTranslatableAncestor không check direct text.** User test sau hasDirectText
+  fix: chỉ còn 5 warning (down từ 50+), admin chrome gone, nhưng CHURCHES/ABOUT
+  US nav vẫn English **và không có warning**. Trace: `<li><a>CHURCHES</a><ul>...
+  </ul></li>` — `<li>` skip (no direct text), nhưng `<a>` cũng skip vì
+  `hasTranslatableAncestor` thấy `<li>` match TRANSLATABLE → CẢ HAI bị skip.
+  Fix: `hasTranslatableAncestor` chỉ block nếu ancestor `matches(TRANSLATABLE)`
+  AND `hasDirectText(ancestor)`. Trace lại: `<li>` không có direct text →
+  không count là walking ancestor → `<a>` walk → key="CHURCHES" match ✓
+  Pending: user push widget.js + extract-strings.js, purge widget.js jsDelivr,
+  test InPrivate.
 - **2026-05-27 (sau khi user push v3)**: **Walker bug — outermost rule captures
   wrappers.** User test trang public, console đầy "Thiếu bản dịch" cho:
   `<a role="menuitem">CHURCHES</a>...`, `<img class="image-element">...`,

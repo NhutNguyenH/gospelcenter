@@ -33,15 +33,6 @@
     return html.replace(/\s+/g, ' ').trim();
   }
 
-  function hasTranslatableAncestor(el) {
-    var p = el.parentElement;
-    while (p) {
-      if (p.matches && p.matches(TRANSLATABLE)) return true;
-      p = p.parentElement;
-    }
-    return false;
-  }
-
   // Element phải có ít nhất 1 text node child trực tiếp (không nested).
   // Loại trừ trường hợp như <li><a>X</a></li> hoặc <a><img></a> — wrapper
   // không có direct text → để con (a) được walk thay vì gói cả thẻ vào key.
@@ -49,6 +40,19 @@
     for (var i = 0; i < el.childNodes.length; i++) {
       var n = el.childNodes[i];
       if (n.nodeType === 3 && n.nodeValue && n.nodeValue.trim()) return true;
+    }
+    return false;
+  }
+
+  // Ancestor "walking" = matches TRANSLATABLE AND would actually be walked
+  // (has direct text). Nếu ancestor không có direct text, nó sẽ bị skip và
+  // không nên block walker đi xuống con. Ví dụ <li><a>X</a></li>: <li> sẽ
+  // bị skip → <a> KHÔNG có "walking ancestor" → walk <a> bình thường.
+  function hasTranslatableAncestor(el) {
+    var p = el.parentElement;
+    while (p) {
+      if (p.matches && p.matches(TRANSLATABLE) && hasDirectText(p)) return true;
+      p = p.parentElement;
     }
     return false;
   }
