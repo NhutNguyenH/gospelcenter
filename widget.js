@@ -42,11 +42,23 @@
     return false;
   }
 
+  // Element phải có ít nhất 1 text node child trực tiếp (không nested).
+  // Loại trừ trường hợp như <li><a>X</a></li> hoặc <a><img></a> — wrapper
+  // không có direct text → để con (a) được walk thay vì gói cả thẻ vào key.
+  function hasDirectText(el) {
+    for (var i = 0; i < el.childNodes.length; i++) {
+      var n = el.childNodes[i];
+      if (n.nodeType === 3 && n.nodeValue && n.nodeValue.trim()) return true;
+    }
+    return false;
+  }
+
   function shouldSkipElement(el) {
     if (!el || !el.parentElement) return true;
     if (el.closest('[data-no-translate]')) return true;
     if (el.closest('.lang-inline-card')) return true;
     if (hasTranslatableAncestor(el)) return true;
+    if (!hasDirectText(el)) return true;
     return false;
   }
 

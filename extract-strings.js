@@ -56,12 +56,24 @@
       .replace(/\s+/g, '').length;
   }
 
+  // Element phải có ít nhất 1 text node child trực tiếp (không nested).
+  // Loại trừ <li><a>X</a></li> hoặc <a><img></a> — để con được walk thay vì
+  // gói cả thẻ con vào key của parent.
+  function hasDirectText(el) {
+    for (var i = 0; i < el.childNodes.length; i++) {
+      var n = el.childNodes[i];
+      if (n.nodeType === 3 && n.nodeValue && n.nodeValue.trim()) return true;
+    }
+    return false;
+  }
+
   var elements = document.querySelectorAll(TRANSLATABLE);
   for (var i = 0; i < elements.length; i++) {
     var el = elements[i];
     if (el.closest('[data-no-translate]')) continue;
     if (el.closest('.lang-inline-card')) continue;
     if (hasTranslatableAncestor(el)) continue;
+    if (!hasDirectText(el)) continue;
     var html = el.innerHTML;
     if (!html) continue;
     var key = normalize(html);

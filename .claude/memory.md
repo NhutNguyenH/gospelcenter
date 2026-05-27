@@ -360,3 +360,25 @@ for this project (current strings.json: ~21 strings).
     nguyên translations.json hiện tại (đừng /translate cho tới khi cần).
   + **Pending**: user `git add/commit/push` + purge jsDelivr 3 file
     (translations.json, translations.js, widget.js).
+- **2026-05-27 (sau khi user push v3)**: **Walker bug — outermost rule captures
+  wrappers.** User test trang public, console đầy "Thiếu bản dịch" cho:
+  `<a role="menuitem">CHURCHES</a>...`, `<img class="image-element">...`,
+  `<div id="logoblock_home">...`. Nguyên nhân: nav cấu trúc
+  `<li><a role="menuitem" class="item1">CHURCHES</a></li>`. Rule v3 cũ
+  "walk outermost translatable" → walk `<li>` → key = innerHTML cả `<a>` với
+  toàn bộ attribute → không match key "CHURCHES" trong translations.json.
+  Tương tự `<a><img></a>` và `<a><div>logo</div></a>` cho logo block.
+  **Fix**: thêm filter `hasDirectText(el)` vào `shouldSkipElement` của
+  `widget.js` (và mirror trong `extract-strings.js`). Element được walk
+  CHỈ KHI có ít nhất 1 text node child trực tiếp (không nested). Logic:
+  + `<li><a>CHURCHES</a></li>` → `<li>` không direct text → skip → `<a>` walk
+    (có direct text "CHURCHES") → key = "CHURCHES" match translations ✓
+  + `<p>Our <strong>cell</strong> groups</p>` → `<p>` có direct text "Our "
+    → walk → key = innerHTML giữ `<strong>` ✓ (giữ behavior cũ)
+  + `<a><img></a>` → `<a>` không direct text → skip, không cảnh báo ✓
+  **Trade-off**: 5 entry footer admin trong strings/home.json (`<span>Bilde</span>`,
+  `<span><b>Adresse</b>...</span>`, ...) sẽ không match nữa vì new walker
+  capture inner `<span>` thay vì wrapping. Acceptable — toàn admin chrome
+  hoặc Norwegian footer (NO=source, vẫn hiển thị đúng cho NO mode).
+  **Pending**: user push widget.js + extract-strings.js + memory.md, purge
+  widget.js trên jsDelivr, hard refresh test public site.
