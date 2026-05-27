@@ -24,9 +24,10 @@
 (function () {
   var STORAGE_KEY = '__deepl_extract_strings__';
 
-  // Outermost translatable elements. Block-level wrappers (div, section, ul,
-  // table, ...) KHÔNG có trong list — chúng ta đi xuống trẻ con của chúng.
-  var TRANSLATABLE = 'p,h1,h2,h3,h4,h5,h6,li,button,a,blockquote,label,td,th,dd,dt,summary,figcaption,caption,span';
+  // Outermost translatable elements. div thêm vào để cover card title
+  // (<div>Lectures</div>); hasDirectText filter tự loại layout div không
+  // có direct text.
+  var TRANSLATABLE = 'p,h1,h2,h3,h4,h5,h6,li,button,a,blockquote,label,td,th,dd,dt,summary,figcaption,caption,span,div';
 
   var existing = new Set();
   try {

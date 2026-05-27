@@ -24,7 +24,9 @@
   var DEFAULT_LANG = 'en';
 
   // Outermost translatable elements — phải khớp extract-strings.js.
-  var TRANSLATABLE = 'p,h1,h2,h3,h4,h5,h6,li,button,a,blockquote,label,td,th,dd,dt,summary,figcaption,caption,span';
+  // div thêm vào để cover card title (vd <div>Lectures</div>); hasDirectText
+  // filter sẽ tự loại layout div không có direct text.
+  var TRANSLATABLE = 'p,h1,h2,h3,h4,h5,h6,li,button,a,blockquote,label,td,th,dd,dt,summary,figcaption,caption,span,div';
 
   var originalHTML = new Map();  // Element -> innerHTML ban đầu (English)
   var _widgetWriting = false;    // Guard cho MutationObserver: bỏ qua mutation do widget tự gây ra
