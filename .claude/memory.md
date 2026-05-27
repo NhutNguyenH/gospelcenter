@@ -368,6 +368,35 @@ for this project (current strings.json: ~21 strings).
     nguyên translations.json hiện tại (đừng /translate cho tới khi cần).
   + **Pending**: user `git add/commit/push` + purge jsDelivr 3 file
     (translations.json, translations.js, widget.js).
+- **2026-05-27 (lần 5)**: **Thêm `en` field + MERGE mode cho translate-gemini.js.**
+  User báo "Adresse" trong footer không dịch sang VI dù translations.json có
+  vi="Địa chỉ". Nguyên nhân: key cũ trong T là `<span><b>Adresse</b>...</span>`
+  (extract từ walker v2 outermost rule), nhưng walker mới (sau hasDirectText
+  fix) walk `<span>` trực tiếp → innerHTML là `<b>Adresse</b>...` (không có
+  wrapping `<span>`). Mismatch → no translation.
+  Cũng user yêu cầu thêm field `en` để click EN có thể dịch active sang tiếng
+  Anh cho các element có source Norwegian (Adresse, Kontakt, Husgrupper,
+  Organisasjonsnummer, Kontonummer, Vipps, phone).
+  Fix:
+  + `widget.js`: bỏ special case `if (lang==='en') restoreOrig`. Dùng unified
+    lookup `entry[lang]` cho all langs. Fallback restore origHTML nếu
+    `entry.en` không có (backward compat).
+  + `translations.json`: thêm key mới `<b>Adresse</b>...` (không có wrapping
+    span) với en/vi/no đầy đủ. Giữ luôn key cũ với en field add vào (back-
+    compat nếu browser cache cũ).
+  + Patch tay `en` field cho 7 Norwegian-source entry visible: Kontakt,
+    Husgrupper, Organisasjonsnummer, Kontonummer, Vipps, phone, Adresse.
+  + `translate-gemini.js`:
+    * Schema thêm `en` (required + description "verbatim nếu source đã English")
+    * Prompt thêm CRITICAL rule + Example A/B (English source → en=source,
+      Norwegian source → en=translated). Cảnh báo không copy source vào field
+      sai ngôn ngữ.
+    * MERGE mode: load existing translations.json, chỉ dịch key chưa đầy đủ
+      en+vi+no. Preserve manual edits + nav merge cũ. Refactor file write
+      vào helper `writeOutputs()` để có sort keys (stable git diff).
+  Total entries: 65 → 66 (thêm 1 Adresse no-span variant). 7/66 entries có
+  en field, còn 58 entries chưa có. User có thể chạy `/translate` để Gemini
+  fill nốt — merge mode đảm bảo không lose existing.
 - **2026-05-27 (lần 4 — DONE)**: **Card grid `<div>` selector + jsDelivr
   `@main` lag workaround.** Sau push walker bug round 2:
   + Card grid (LECTURES/COURSES/...) vẫn English vì DOM là `<div>Lectures</div>`,

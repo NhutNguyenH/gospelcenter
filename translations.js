@@ -2,7 +2,13 @@
 window.WIDGET_TRANSLATIONS = {
   "971 45 443<br> &nbsp;": {
     "vi": "971 45 443<br> &nbsp;",
-    "no": "971 45 443<br> &nbsp;"
+    "no": "971 45 443<br> &nbsp;",
+    "en": "971 45 443<br> &nbsp;"
+  },
+  "<b>Adresse</b><br> Ravnåsveien 3<br> 1254 Oslo": {
+    "vi": "<b>Địa chỉ</b><br> Ravnåsveien 3<br> 1254 Oslo",
+    "no": "<b>Adresse</b><br> Ravnåsveien 3<br> 1254 Oslo",
+    "en": "<b>Address</b><br> Ravnåsveien 3<br> 1254 Oslo"
   },
   "<span><a href=\"mailto:gospelcenter.oslo@gmail.com\">gospelcenter.oslo@gmail.com</a></span><br> &nbsp;": {
     "vi": "<span><a href=\"mailto:gospelcenter.oslo@gmail.com\">gospelcenter.oslo@gmail.com</a></span><br> &nbsp;",
@@ -10,7 +16,8 @@ window.WIDGET_TRANSLATIONS = {
   },
   "<span><b>Adresse</b><br> Ravnåsveien 3<br> 1254 Oslo</span>": {
     "vi": "<span><b>Địa chỉ</b><br> Ravnåsveien 3<br> 1254 Oslo</span>",
-    "no": "<span><b>Adresse</b><br> Ravnåsveien 3<br> 1254 Oslo</span>"
+    "no": "<span><b>Adresse</b><br> Ravnåsveien 3<br> 1254 Oslo</span>",
+    "en": "<span><b>Address</b><br> Ravnåsveien 3<br> 1254 Oslo</span>"
   },
   "<span>Artikkel</span><span>Artikkel</span>": {
     "vi": "<span>Bài viết</span><span>Bài viết</span>",
@@ -98,7 +105,8 @@ window.WIDGET_TRANSLATIONS = {
   },
   "Husgrupper": {
     "vi": "Nhóm tại gia",
-    "no": "Husgrupper"
+    "no": "Husgrupper",
+    "en": "Cell groups"
   },
   "Jobs": {
     "vi": "Việc làm",
@@ -114,11 +122,13 @@ window.WIDGET_TRANSLATIONS = {
   },
   "Kontakt": {
     "vi": "Liên hệ",
-    "no": "Kontakt"
+    "no": "Kontakt",
+    "en": "Contact"
   },
   "Kontonummer: 1503.02.07693": {
     "vi": "Số tài khoản: 1503.02.07693",
-    "no": "Kontonummer: 1503.02.07693"
+    "no": "Kontonummer: 1503.02.07693",
+    "en": "Account number: 1503.02.07693"
   },
   "Languages": {
     "vi": "Ngôn ngữ",
@@ -182,7 +192,8 @@ window.WIDGET_TRANSLATIONS = {
   },
   "Organisasjonsnummer: 987.10.4554": {
     "vi": "Số tổ chức: 987.10.4554",
-    "no": "Organisasjonsnummer: 987.10.4554"
+    "no": "Organisasjonsnummer: 987.10.4554",
+    "en": "Organization number: 987.10.4554"
   },
   "Our <strong>cell groups</strong> bring together brothers and sisters in faith who live near each other in the <strong>Oslo, Ski, and Brumunddal</strong> areas. To foster a safe, warm environment where everyone is seen and cared for, each group generally consists of 5 to 10 people.": {
     "vi": "<strong>Nhóm nhỏ</strong> của chúng tôi quy tụ anh chị em cùng đức tin sống gần nhau tại các khu vực <strong>Oslo, Ski và Brumunddal</strong>. Để nuôi dưỡng một môi trường an toàn, ấm áp nơi mọi người đều được nhìn nhận và quan tâm, mỗi nhóm thường bao gồm từ 5 đến 10 người.",
@@ -238,7 +249,8 @@ window.WIDGET_TRANSLATIONS = {
   },
   "Vipps: 113470<br> &nbsp;": {
     "vi": "Vipps: 113470<br> &nbsp;",
-    "no": "Vipps: 113470<br> &nbsp;"
+    "no": "Vipps: 113470<br> &nbsp;",
+    "en": "Vipps: 113470<br> &nbsp;"
   },
   "Vision": {
     "vi": "Tầm nhìn",

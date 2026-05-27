@@ -111,18 +111,20 @@
     try {
       originalHTML.forEach(function (origHTML, el) {
         if (!el.isConnected) return;
-        if (lang === 'en') {
-          if (el.innerHTML !== origHTML) el.innerHTML = origHTML;
-          return;
-        }
         var key = normalize(origHTML);
         var entry = TRANSLATIONS[key];
         if (entry && entry[lang]) {
+          // Có bản dịch active cho language này (bao gồm cả "en" nếu source là
+          // Norwegian/khác và đã có english translation). Apply.
           var safe = sanitizeTranslation(entry[lang]);
           var leading = origHTML.match(/^\s*/)[0];
           var trailing = origHTML.match(/\s*$/)[0];
           var newHTML = leading + safe + trailing;
           if (el.innerHTML !== newHTML) el.innerHTML = newHTML;
+        } else if (lang === 'en') {
+          // Không có entry.en → fallback: khôi phục origHTML (giả định source là
+          // English hoặc user không cần dịch sang EN cho element này).
+          if (el.innerHTML !== origHTML) el.innerHTML = origHTML;
         } else if (key) {
           if (!window._missDeepL) window._missDeepL = new Set();
           if (!window._missDeepL.has(key)) {

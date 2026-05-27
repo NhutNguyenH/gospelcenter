@@ -32,23 +32,26 @@ const TRANSLATION_SCHEMA = {
   items: {
     type: 'object',
     properties: {
+      en: { type: 'string', description: 'English translation (verbatim copy if source already English)' },
       vi: { type: 'string', description: 'Vietnamese translation' },
       no: { type: 'string', description: 'Norwegian Bokmål translation' },
     },
-    required: ['vi', 'no'],
+    required: ['en', 'vi', 'no'],
   },
 };
 
 async function geminiTranslateBatch(texts) {
   const prompt = [
     'You are a professional translator for a website.',
-    'For each English string in the input array, produce a Vietnamese (vi) translation AND a Norwegian Bokmål (no) translation.',
+    'For each input string, produce an English (en), Vietnamese (vi), and Norwegian Bokmål (no) translation.',
     '',
-    'CRITICAL — Both vi AND no MUST be actual translations:',
-    '- The "no" field MUST be Norwegian Bokmål, NOT a copy of the English input.',
-    '- The "vi" field MUST be Vietnamese, NOT a copy of the English input.',
-    '- If the source already happens to be Norwegian or Vietnamese (rare), translate the meaning into the correct target language; never just echo the source verbatim into both fields.',
-    '- Example: "Welcome" → {"vi":"Chào mừng","no":"Velkommen"}. NEVER {"vi":"Chào mừng","no":"Welcome"}.',
+    'CRITICAL — all three fields MUST be in their correct target language:',
+    '- "en" MUST be English. If the source is already English, copy it verbatim. If the source is Norwegian or another language (e.g., "Adresse", "Kontakt"), translate it to English ("Address", "Contact").',
+    '- "no" MUST be Norwegian Bokmål. If the source is already Norwegian, copy it verbatim. NEVER copy English source into the "no" field.',
+    '- "vi" MUST be Vietnamese.',
+    '- Example A (English source): "Welcome" → {"en":"Welcome","vi":"Chào mừng","no":"Velkommen"}.',
+    '- Example B (Norwegian source): "Kontakt" → {"en":"Contact","vi":"Liên hệ","no":"Kontakt"}.',
+    '- NEVER copy the source string verbatim into a field unless that field\'s target language matches the source language.',
     '',
     'Other rules:',
     `- Output an array of EXACTLY ${texts.length} objects, in the same order as the input.`,
@@ -174,11 +177,47 @@ async function main() {
     collected.push(...parsed);
   }
 
-  const unique = [...new Set(collected.map((s) => String(s).trim()).filter(Boolean))];
-  console.log(`\nTổng: ${collected.length} chuỗi đọc vào, ${unique.length} chuỗi duy nhất sau khi gộp + trim.`);
-  console.log(`Sẽ dịch ${unique.length} chuỗi sang VI + NO (cùng lúc trong mỗi request)...`);
+  const allKeys = [...new Set(collected.map((s) => String(s).trim()).filter(Boolean))];
+  console.log(`\nTổng: ${collected.length} chuỗi đọc vào, ${allKeys.length} chuỗi duy nhất sau khi gộp + trim.`);
 
+  // MERGE MODE: load existing translations.json để preserve manual edits + tránh
+  // re-dịch những key đã có đủ {en, vi, no}. Chỉ dịch các key MỚI hoặc thiếu field.
+  const jsonPath = path.join(__dirname, 'translations.json');
   const translations = {};
+  let preservedCount = 0;
+  if (fs.existsSync(jsonPath)) {
+    try {
+      const existing = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
+      for (const k of Object.keys(existing)) {
+        translations[k] = existing[k];
+      }
+      // Preserve entries có đủ en+vi+no, hoặc keys không nằm trong allKeys (manual entries).
+      for (const k of allKeys) {
+        const e = translations[k];
+        if (e && e.en && e.vi && e.no) preservedCount++;
+      }
+    } catch (e) {
+      console.warn('⚠  Không parse được translations.json hiện tại, sẽ tạo mới:', e.message);
+    }
+  }
+
+  // Chỉ translate những key chưa đầy đủ {en, vi, no}
+  const unique = allKeys.filter((k) => {
+    const e = translations[k];
+    return !(e && e.en && e.vi && e.no);
+  });
+
+  if (preservedCount > 0) {
+    console.log(`Preserved ${preservedCount} translation đã đầy đủ (en+vi+no) từ translations.json cũ.`);
+  }
+  if (unique.length === 0) {
+    console.log('✓ Tất cả chuỗi đã có translation đầy đủ. Không cần gọi Gemini.');
+    // Vẫn ghi file để regenerate translations.js (trong case file bị xóa)
+    writeOutputs(translations, jsonPath);
+    return;
+  }
+  console.log(`Sẽ dịch ${unique.length} chuỗi mới/thiếu sang EN + VI + NO...`);
+
   const totalBatches = Math.ceil(unique.length / BATCH_SIZE);
 
   for (let i = 0; i < unique.length; i += BATCH_SIZE) {
@@ -209,9 +248,13 @@ async function main() {
 
     if (results) {
       batch.forEach((src, idx) => {
-        translations[src] = { vi: results[idx].vi, no: results[idx].no };
+        translations[src] = {
+          en: results[idx].en,
+          vi: results[idx].vi,
+          no: results[idx].no,
+        };
       });
-      console.log(`  ✓ Xong (${Object.keys(translations).length}/${unique.length})`);
+      console.log(`  ✓ Xong (translated batch ${batchNum}/${totalBatches})`);
     } else {
       console.error(`  ✗ Batch ${batchNum} fail sau ${MAX_RETRIES} attempts. Skip ${batch.length} chuỗi.`);
       console.error(`  → Last error: ${lastErr && lastErr.message}`);
@@ -219,34 +262,43 @@ async function main() {
     }
   }
 
-  const expectedCount = unique.length;
-  const actualCount = Object.keys(translations).length;
-  if (actualCount === 0) {
-    console.error(`\n✗ KHÔNG có chuỗi nào được dịch (tất cả ${expectedCount} chuỗi đã skip). KHÔNG ghi file để bảo toàn translations.json hiện tại.`);
+  // Đếm key dịch thành công trong run này (chỉ trong unique, không tính preserved)
+  const translatedThisRun = unique.filter((k) => {
+    const e = translations[k];
+    return e && e.en && e.vi && e.no;
+  }).length;
+
+  if (translatedThisRun === 0 && unique.length > 0) {
+    console.error(`\n✗ KHÔNG có chuỗi nào được dịch trong run này (tất cả ${unique.length} chuỗi đã skip). KHÔNG ghi file để bảo toàn translations.json hiện tại.`);
     process.exit(1);
   }
-  if (actualCount < expectedCount) {
-    console.warn(`\n⚠  Chỉ dịch được ${actualCount}/${expectedCount} chuỗi. Một số batch đã skip. Cân nhắc chạy lại để bổ sung.`);
+  if (translatedThisRun < unique.length) {
+    console.warn(`\n⚠  Chỉ dịch được ${translatedThisRun}/${unique.length} chuỗi mới. Chạy lại để bổ sung.`);
   }
 
-  // Ghi atomic: viết .tmp rồi rename để readers không thấy file half-written.
-  const jsonPath = path.join(__dirname, 'translations.json');
+  writeOutputs(translations, jsonPath);
+  console.log('\n→ Bước tiếp theo: git commit + push translations.js. Cache jsDelivr tự refresh sau 12h;');
+  console.log('  để refresh ngay, mở: https://purge.jsdelivr.net/gh/NhutNguyenH/gospelcenter@latest/translations.js');
+}
+
+// Ghi atomic translations.json + translations.js. Sorted keys để diff git ổn định.
+function writeOutputs(translations, jsonPath) {
+  const sorted = Object.fromEntries(Object.keys(translations).sort().map((k) => [k, translations[k]]));
+
   const jsonTmp = jsonPath + '.tmp';
-  fs.writeFileSync(jsonTmp, JSON.stringify(translations, null, 2), 'utf8');
+  fs.writeFileSync(jsonTmp, JSON.stringify(sorted, null, 2), 'utf8');
   fs.renameSync(jsonTmp, jsonPath);
 
-  const jsPath = path.join(__dirname, 'translations.js');
+  const jsPath = path.join(path.dirname(jsonPath), 'translations.js');
   const jsTmp = jsPath + '.tmp';
   const jsBody =
     '// Auto-generated by translate-gemini.js. KHÔNG sửa tay — chỉnh strings/*.json rồi chạy lại.\n' +
-    'window.WIDGET_TRANSLATIONS = ' + JSON.stringify(translations, null, 2) + ';\n';
+    'window.WIDGET_TRANSLATIONS = ' + JSON.stringify(sorted, null, 2) + ';\n';
   fs.writeFileSync(jsTmp, jsBody, 'utf8');
   fs.renameSync(jsTmp, jsPath);
 
   console.log('\n✓ Đã tạo translations.json (bản dịch dạng JSON, có thể chỉnh tay).');
   console.log('✓ Đã tạo translations.js (file để phục vụ qua jsDelivr).');
-  console.log('\n→ Bước tiếp theo: git commit + push translations.js. Cache jsDelivr tự refresh sau 12h;');
-  console.log('  để refresh ngay, mở: https://purge.jsdelivr.net/gh/NhutNguyenH/gospelcenter@main/translations.js');
 }
 
 main().catch((err) => {
