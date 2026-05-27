@@ -1,24 +1,32 @@
-// extract-strings.js  (v2 - tự gộp text qua nhiều trang)
+// extract-strings.js  (v3 - element-level extraction)
 //
-// Mục đích: Thu thập text tiếng Anh trên một trang của website.
+// Mục đích: Thu thập chuỗi tiếng Anh trên website ở MỨC ELEMENT (cả paragraph,
+// heading, link, button), bao gồm inline HTML tags (<strong>, <em>, <a>) trong key.
+// Giúp Gemini dịch nguyên câu có ngữ pháp đúng — không còn vấn đề fragment vỡ vụn
+// như v2 (per-text-node).
 //
-// Workflow MỚI (strings/ theo từng trang):
-//   1. Mở Edge, vào trang muốn quét (ví dụ: home).
-//   2. F12 → tab Console → paste toàn bộ snippet này → Enter.
+// Workflow (theo từng trang):
+//   1. Mở Edge, vào trang muốn quét (PUBLIC site, KHÔNG phải design mode của builder).
+//   2. Bấm EN để trang về tiếng Anh gốc.
+//   3. F12 → Console → paste TOÀN BỘ snippet này → Enter.
 //      (lần đầu Edge có thể chặn dán code → gõ "allow pasting" Enter rồi dán lại)
-//   3. Console hiện: "Trang này: thêm N chuỗi mới. TỔNG: X chuỗi"
+//   4. Console hiện: "Trang này: thêm N chuỗi mới. TỔNG: X chuỗi"
 //      Clipboard tự động chứa MẢNG JSON các chuỗi vừa quét.
-//   4. Mở/tạo file strings/<tên-trang>.json (ví dụ: strings/home.json),
-//      dán toàn bộ nội dung clipboard vào, lưu lại.
-//   5. TRƯỚC khi sang trang khác, chạy lệnh sau ở Console để reset:
+//   5. Mở/tạo file strings/<tên-trang>.json (vd strings/home.json), dán lên,
+//      lưu lại.
+//   6. TRƯỚC khi sang trang khác, reset state:
 //        localStorage.removeItem("__deepl_extract_strings__")
-//      Rồi mở trang kế tiếp và lặp lại từ bước 2 cho file strings/<trang-kế>.json.
+//      Rồi mở trang kế tiếp và lặp lại từ bước 2.
 //
-// Lưu ý: localStorage tích luỹ giữa các lần chạy nếu KHÔNG reset — phù hợp khi
-// muốn dồn tất cả vào MỘT file, nhưng KHÔNG phù hợp với workflow per-page mới.
+// Lưu ý so với v2: keys có thể chứa tag inline như <strong>cell groups</strong>.
+// Đó là chủ đích — widget.js sẽ sanitize và đặt lại qua innerHTML.
 
 (function () {
   var STORAGE_KEY = '__deepl_extract_strings__';
+
+  // Outermost translatable elements. Block-level wrappers (div, section, ul,
+  // table, ...) KHÔNG có trong list — chúng ta đi xuống trẻ con của chúng.
+  var TRANSLATABLE = 'p,h1,h2,h3,h4,h5,h6,li,button,a,blockquote,label,td,th,dd,dt,summary,figcaption,caption,span';
 
   var existing = new Set();
   try {
@@ -27,23 +35,41 @@
   } catch (e) {}
   var before = existing.size;
 
-  var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
-    acceptNode: function (n) {
-      if (!n.nodeValue || !n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
-      var p = n.parentElement;
-      if (!p) return NodeFilter.FILTER_REJECT;
-      var tag = p.tagName;
-      if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'NOSCRIPT' || tag === 'TEMPLATE') {
-        return NodeFilter.FILTER_REJECT;
-      }
-      if (p.closest('.lang-inline-card')) return NodeFilter.FILTER_REJECT;
-      if (!/[A-Za-zÀ-ỹ]/.test(n.nodeValue)) return NodeFilter.FILTER_REJECT;
-      return NodeFilter.FILTER_ACCEPT;
-    },
-  });
-  var node;
-  while ((node = walker.nextNode())) {
-    existing.add(node.nodeValue.trim());
+  function normalize(html) {
+    return html.replace(/\s+/g, ' ').trim();
+  }
+
+  // Skip nếu có ancestor cũng translatable — chỉ walk OUTERMOST của mỗi cây.
+  function hasTranslatableAncestor(el) {
+    var p = el.parentElement;
+    while (p) {
+      if (p.matches && p.matches(TRANSLATABLE)) return true;
+      p = p.parentElement;
+    }
+    return false;
+  }
+
+  // True nếu innerHTML chỉ chứa structural tags (<img>, <br>, ...) không có text.
+  function isStructuralOnly(html) {
+    return !html
+      .replace(/<\/?(img|br|hr|input|meta|link|source|track|wbr)\b[^>]*>/gi, '')
+      .replace(/\s+/g, '').length;
+  }
+
+  var elements = document.querySelectorAll(TRANSLATABLE);
+  for (var i = 0; i < elements.length; i++) {
+    var el = elements[i];
+    if (el.closest('[data-no-translate]')) continue;
+    if (el.closest('.lang-inline-card')) continue;
+    if (hasTranslatableAncestor(el)) continue;
+    var html = el.innerHTML;
+    if (!html) continue;
+    var key = normalize(html);
+    if (!key) continue;
+    if (isStructuralOnly(key)) continue;
+    // Yêu cầu có ít nhất 1 ký tự chữ (loại trừ chuỗi chỉ là số/dấu)
+    if (!/[A-Za-zÀ-ỹ]/.test(key)) continue;
+    existing.add(key);
   }
 
   var added = existing.size - before;
@@ -52,16 +78,14 @@
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); } catch (e) {}
 
   var result = JSON.stringify(arr, null, 2);
-  if (typeof copy === 'function') {
-    copy(result);
-  }
+  if (typeof copy === 'function') copy(result);
 
   console.log(result);
   console.log(
     '%c✓ Trang này: thêm ' + added + ' chuỗi mới. TỔNG cộng: ' + arr.length + ' chuỗi (đã copy vào clipboard).',
     'color:green;font-weight:bold;font-size:14px'
   );
-  console.log('%c→ Dán clipboard vào strings/<tên-trang>.json (vd: strings/home.json).', 'color:#666');
+  console.log('%c→ Dán clipboard vào strings/<tên-trang>.json (vd strings/home.json).', 'color:#666');
   console.log('%c→ Trước khi sang trang khác, RESET: localStorage.removeItem("' + STORAGE_KEY + '")', 'color:#666');
   console.log('%c→ Sau khi reset, mở trang kế tiếp và chạy lại snippet này.', 'color:#999');
 })();

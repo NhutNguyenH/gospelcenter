@@ -23,8 +23,9 @@ const fs = require('fs');
 const path = require('path');
 
 const API_KEY = process.env.GEMINI_API_KEY || 'YOUR_GEMINI_API_KEY_HERE';
-const MODEL = 'gemini-2.5-flash'; // Nhanh + miễn phí. Đổi 'gemini-2.5-pro' nếu muốn chất lượng cao hơn.
-const BATCH_SIZE = 40; // Số chuỗi mỗi request. Giảm xuống nếu gặp lỗi.
+const MODEL = 'gemini-2.5-flash-lite'; // 2.5-flash quota chỉ 20/ngày, 2.0-flash bị Google chặn free tier. Flash-lite cần prompt cứng để dịch EN→NO.
+const BATCH_SIZE = 20; // Số chuỗi mỗi request. Giảm khi key có HTML dài (element-level).
+const MAX_RETRIES = 3; // Retry trên 429/503/5xx với exponential backoff 1s/2s/4s.
 
 const TRANSLATION_SCHEMA = {
   type: 'array',
@@ -41,13 +42,24 @@ const TRANSLATION_SCHEMA = {
 async function geminiTranslateBatch(texts) {
   const prompt = [
     'You are a professional translator for a website.',
-    'Translate each English string in the input array into Vietnamese (vi) and Norwegian Bokmål (no).',
+    'For each English string in the input array, produce a Vietnamese (vi) translation AND a Norwegian Bokmål (no) translation.',
     '',
-    'Rules:',
+    'CRITICAL — Both vi AND no MUST be actual translations:',
+    '- The "no" field MUST be Norwegian Bokmål, NOT a copy of the English input.',
+    '- The "vi" field MUST be Vietnamese, NOT a copy of the English input.',
+    '- If the source already happens to be Norwegian or Vietnamese (rare), translate the meaning into the correct target language; never just echo the source verbatim into both fields.',
+    '- Example: "Welcome" → {"vi":"Chào mừng","no":"Velkommen"}. NEVER {"vi":"Chào mừng","no":"Welcome"}.',
+    '',
+    'Other rules:',
     `- Output an array of EXACTLY ${texts.length} objects, in the same order as the input.`,
     '- Each object has the form {"vi": "...", "no": "..."}.',
+    '- Input may contain inline HTML tags: <strong>, <em>, <b>, <i>, <u>, <br>, <a>.',
+    '  PRESERVE these tags EXACTLY in their relative position around the translated text.',
+    '  Translate only the visible text content between/around tags. Do NOT add, remove,',
+    '  rename, rearrange, or escape tags. Keep `href` and other attributes byte-identical.',
+    '- Translate the WHOLE input as one natural sentence (the tags mark emphasis inside',
+    '  the sentence — do not translate fragments in isolation).',
     '- Preserve punctuation, casing style, and inline placeholders such as {name} or %s exactly.',
-    '- Do not add anything that was not present in the source.',
     '- Keep brand names, product names, and proper nouns unchanged.',
     '- Use natural, idiomatic translation — not literal word-for-word.',
     '',
@@ -173,20 +185,48 @@ async function main() {
     const batch = unique.slice(i, i + BATCH_SIZE);
     const batchNum = i / BATCH_SIZE + 1;
     console.log(`\n→ Batch ${batchNum}/${totalBatches}: ${batch.length} chuỗi (${i + 1}-${i + batch.length})`);
-    try {
-      const results = await geminiTranslateBatch(batch);
-      batch.forEach((src, idx) => {
-        translations[src] = {
-          vi: results[idx].vi,
-          no: results[idx].no,
-        };
-      });
-      console.log(`  ✓ Xong (${i + batch.length}/${unique.length})`);
-    } catch (err) {
-      console.error(`  ✗ Lỗi: ${err.message}`);
-      console.error(`  → Gợi ý: giảm BATCH_SIZE (đang là ${BATCH_SIZE}) và chạy lại.`);
-      process.exit(1);
+
+    let results = null;
+    let lastErr = null;
+    for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+      try {
+        results = await geminiTranslateBatch(batch);
+        break;
+      } catch (err) {
+        lastErr = err;
+        const msg = err.message || '';
+        // Retry trên 429/503/5xx + AbortError (timeout)
+        const isTransient = /HTTP (429|5\d\d)/.test(msg) || /timeout/i.test(msg) || /UNAVAILABLE/i.test(msg);
+        if (!isTransient || attempt === MAX_RETRIES) {
+          console.error(`  ✗ Lỗi (attempt ${attempt}/${MAX_RETRIES}): ${msg}`);
+          break;
+        }
+        const delayMs = 1000 * Math.pow(2, attempt - 1); // 1s, 2s, 4s
+        console.warn(`  ⚠  Attempt ${attempt}/${MAX_RETRIES} failed (${msg.split('\n')[0].slice(0, 100)}). Đợi ${delayMs}ms rồi retry...`);
+        await new Promise((r) => setTimeout(r, delayMs));
+      }
     }
+
+    if (results) {
+      batch.forEach((src, idx) => {
+        translations[src] = { vi: results[idx].vi, no: results[idx].no };
+      });
+      console.log(`  ✓ Xong (${Object.keys(translations).length}/${unique.length})`);
+    } else {
+      console.error(`  ✗ Batch ${batchNum} fail sau ${MAX_RETRIES} attempts. Skip ${batch.length} chuỗi.`);
+      console.error(`  → Last error: ${lastErr && lastErr.message}`);
+      console.error(`  → Gợi ý: chạy lại sau ít phút (Gemini có thể đang quá tải), hoặc giảm BATCH_SIZE (${BATCH_SIZE}).`);
+    }
+  }
+
+  const expectedCount = unique.length;
+  const actualCount = Object.keys(translations).length;
+  if (actualCount === 0) {
+    console.error(`\n✗ KHÔNG có chuỗi nào được dịch (tất cả ${expectedCount} chuỗi đã skip). KHÔNG ghi file để bảo toàn translations.json hiện tại.`);
+    process.exit(1);
+  }
+  if (actualCount < expectedCount) {
+    console.warn(`\n⚠  Chỉ dịch được ${actualCount}/${expectedCount} chuỗi. Một số batch đã skip. Cân nhắc chạy lại để bổ sung.`);
   }
 
   // Ghi atomic: viết .tmp rồi rename để readers không thấy file half-written.

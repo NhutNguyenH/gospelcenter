@@ -1,5 +1,6 @@
-// widget.js — Logic dịch text trong DOM. Fetch translations.json runtime với cache-bust.
-// Được nạp qua jsDelivr; widget.html chỉ chứa CSS + UI + 1 thẻ <script src>.
+// widget.js v3 — Element-level translation (giữ inline HTML tags trong key).
+// Fetch translations.json runtime với cache-bust. Được nạp qua jsDelivr;
+// widget.html chỉ chứa CSS + UI + 1 thẻ <script src>.
 
 (function () {
   // currentScript phải capture sync ngay khi script chạy — sau đó có thể null.
@@ -22,54 +23,102 @@
   var STORAGE_KEY = 'site_lang_deepl';
   var DEFAULT_LANG = 'en';
 
-  var originals = new Map();
+  // Outermost translatable elements — phải khớp extract-strings.js.
+  var TRANSLATABLE = 'p,h1,h2,h3,h4,h5,h6,li,button,a,blockquote,label,td,th,dd,dt,summary,figcaption,caption,span';
 
-  function shouldSkipNode(node) {
-    var p = node.parentElement;
-    if (!p) return true;
-    if (p.closest('[data-no-translate]')) return true;
-    if (p.closest('.lang-inline-card')) return true;
-    var tag = p.tagName;
-    if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'NOSCRIPT' || tag === 'TEMPLATE') return true;
+  var originalHTML = new Map();  // Element -> innerHTML ban đầu (English)
+  var _widgetWriting = false;    // Guard cho MutationObserver: bỏ qua mutation do widget tự gây ra
+
+  function normalize(html) {
+    return html.replace(/\s+/g, ' ').trim();
+  }
+
+  function hasTranslatableAncestor(el) {
+    var p = el.parentElement;
+    while (p) {
+      if (p.matches && p.matches(TRANSLATABLE)) return true;
+      p = p.parentElement;
+    }
     return false;
   }
 
-  function collectTextNodes(root) {
-    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
-      acceptNode: function (n) {
-        if (!n.nodeValue || !n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
-        if (shouldSkipNode(n)) return NodeFilter.FILTER_REJECT;
-        return NodeFilter.FILTER_ACCEPT;
-      },
+  function shouldSkipElement(el) {
+    if (!el || !el.parentElement) return true;
+    if (el.closest('[data-no-translate]')) return true;
+    if (el.closest('.lang-inline-card')) return true;
+    if (hasTranslatableAncestor(el)) return true;
+    return false;
+  }
+
+  // Strict allowlist sanitizer cho bản dịch (Gemini output).
+  // Cho phép: <strong>, <em>, <b>, <i>, <u>, <br>, <a href="...">
+  // - Strip mọi attribute trừ `href` trên `<a>` (href phải scheme an toàn).
+  // - Strip mọi tag khác (giữ text content phía trong).
+  var ALLOW = { strong: 1, em: 1, b: 1, i: 1, u: 1, br: 1, a: 1 };
+  var SAFE_HREF = /^(https?:\/\/|\/|#|mailto:)/i;
+  function sanitizeTranslation(html) {
+    if (!html) return '';
+    return String(html).replace(/<\/?([a-zA-Z][a-zA-Z0-9]*)\b([^>]*)>/g, function (m, tagRaw, attrs) {
+      var tag = tagRaw.toLowerCase();
+      if (!ALLOW[tag]) return '';
+      var isClose = m.charAt(1) === '/';
+      if (isClose) return '</' + tag + '>';
+      if (tag === 'br') return '<br>';
+      if (tag === 'a') {
+        var hrefMatch = attrs.match(/\bhref\s*=\s*("([^"]*)"|'([^']*)'|([^\s>]+))/i);
+        if (!hrefMatch) return '<a>';
+        var href = hrefMatch[2] != null ? hrefMatch[2]
+          : (hrefMatch[3] != null ? hrefMatch[3] : hrefMatch[4]);
+        if (!SAFE_HREF.test(href || '')) return '<a>';
+        return '<a href="' + String(href).replace(/"/g, '&quot;') + '">';
+      }
+      return '<' + tag + '>';
     });
-    var node;
-    while ((node = walker.nextNode())) {
-      if (!originals.has(node)) originals.set(node, node.nodeValue);
+  }
+
+  function collectElements(root) {
+    var elements = root.querySelectorAll(TRANSLATABLE);
+    for (var i = 0; i < elements.length; i++) {
+      var el = elements[i];
+      if (shouldSkipElement(el)) continue;
+      var html = el.innerHTML;
+      if (!html || !html.trim()) continue;
+      if (!originalHTML.has(el)) originalHTML.set(el, html);
     }
   }
 
   function applyLang(lang) {
-    collectTextNodes(document.body);
-    originals.forEach(function (origText, node) {
-      if (!node.isConnected) return;
-      if (lang === 'en') {
-        if (node.nodeValue !== origText) node.nodeValue = origText;
-        return;
-      }
-      var key = origText.trim();
-      var entry = TRANSLATIONS[key];
-      if (entry && entry[lang]) {
-        var leading = origText.match(/^\s*/)[0];
-        var trailing = origText.match(/\s*$/)[0];
-        node.nodeValue = leading + entry[lang] + trailing;
-      } else if (key) {
-        if (!window._missDeepL) window._missDeepL = new Set();
-        if (!window._missDeepL.has(key)) {
-          window._missDeepL.add(key);
-          if (window.console) console.warn('[widget] Thiếu bản dịch:', JSON.stringify(key));
+    collectElements(document.body);
+    _widgetWriting = true;
+    try {
+      originalHTML.forEach(function (origHTML, el) {
+        if (!el.isConnected) return;
+        if (lang === 'en') {
+          if (el.innerHTML !== origHTML) el.innerHTML = origHTML;
+          return;
         }
-      }
-    });
+        var key = normalize(origHTML);
+        var entry = TRANSLATIONS[key];
+        if (entry && entry[lang]) {
+          var safe = sanitizeTranslation(entry[lang]);
+          var leading = origHTML.match(/^\s*/)[0];
+          var trailing = origHTML.match(/\s*$/)[0];
+          var newHTML = leading + safe + trailing;
+          if (el.innerHTML !== newHTML) el.innerHTML = newHTML;
+        } else if (key) {
+          if (!window._missDeepL) window._missDeepL = new Set();
+          if (!window._missDeepL.has(key)) {
+            window._missDeepL.add(key);
+            if (window.console) {
+              var preview = key.length > 80 ? key.slice(0, 80) + '…' : key;
+              console.warn('[widget] Thiếu bản dịch:', JSON.stringify(preview));
+            }
+          }
+        }
+      });
+    } finally {
+      _widgetWriting = false;
+    }
 
     var buttons = document.querySelectorAll('.lang-inline-card .lang-switcher button');
     for (var i = 0; i < buttons.length; i++) {
@@ -100,6 +149,7 @@
     if (window.MutationObserver) {
       var debounce;
       var observer = new MutationObserver(function (mutations) {
+        if (_widgetWriting) return; // Skip self-triggered mutations
         var hasNew = false;
         for (var i = 0; i < mutations.length; i++) {
           if (mutations[i].type === 'childList' && mutations[i].addedNodes.length > 0) {

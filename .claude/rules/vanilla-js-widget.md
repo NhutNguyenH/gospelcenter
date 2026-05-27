@@ -41,8 +41,14 @@ deviation must be called out and justified in the PR description.
   `setTimeout(..., 0)`.
 - **No third-party CDNs for libraries**. Only jsDelivr serving *our own
   GitHub repo* is acceptable (per migration plan). No cdnjs/unpkg/etc.
-- **No `innerHTML` with translated strings**. Use `textContent` to avoid
-  XSS if a translation happens to contain HTML-like characters.
+- **`innerHTML` only via `sanitizeTranslation()`**. Element-level translation
+  (v3+) preserves inline formatting (`<strong>`, `<em>`, `<a>`) by setting
+  `el.innerHTML = sanitizeTranslation(translatedKey)`. The sanitizer enforces
+  a strict allowlist — `<strong>, <em>, <b>, <i>, <u>, <br>, <a>` only — strips
+  all attributes except `href` on `<a>`, and validates `href` schemes
+  (`http://`, `https://`, `/`, `#`, `mailto:`). All other tags are removed
+  (their text content preserved). Setting `innerHTML` with any other source
+  string (URL params, user input, untrusted JSON) remains banned.
 
 ## Node code (`translate-gemini.js`, helpers)
 

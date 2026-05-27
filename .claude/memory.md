@@ -7,8 +7,26 @@
 
 ## Current Focus
 
-**CDN Refactor — Phase 1**: COMPLETE and pushed to `origin/main`
-(`884e1ad`, 2026-05-26). jsDelivr `@main` sẽ cache ~12h; dùng purge URL
+**v3 element-level translation: READY TO PUSH** (2026-05-27).
+Toàn bộ code + data đã sẵn sàng commit. Detail xem session log dưới.
+
+State của working tree:
+- `widget.js`, `extract-strings.js`, `translate-gemini.js`: v3 element-level
+- `.claude/rules/vanilla-js-widget.md`: rule innerHTML đã update
+- `strings/home.json` (43 entries) + `strings/cellgroup.json` (33 entries):
+  đã filter admin chrome
+- `translations.json` + `translations.js`: 65 entries
+  (49 từ flash-lite run + 4 manual NO fix + 16 nav merge từ HEAD)
+- `test-local.html`: bỏ ref đến translations.js
+
+Cần làm: anh `git add/commit/push` + purge jsDelivr 3 file (translations.json,
+translations.js, widget.js). KHÔNG re-run `/translate` (sẽ overwrite nav merge).
+
+---
+
+## Previous: CDN Refactor — Phase 1 (DONE)
+
+Pushed `884e1ad`, 2026-05-26. jsDelivr `@main` sẽ cache ~12h; dùng purge URL
 trong section "How to update the website" để refresh ngay.
 
 Done in current session:
@@ -261,3 +279,84 @@ for this project (current strings.json: ~21 strings).
   `/\/widget\.js(\?.*)?$/`. Sau khi user push commit, cần purge jsDelivr
   (`https://purge.jsdelivr.net/gh/NhutNguyenH/gospelcenter@main/widget.js`) +
   hard refresh Edge để bypass browser cache 7 ngày của jsDelivr asset.
+- **2026-05-26**: **Element-level translation refactor (v3) — code DONE,
+  chưa push.** Lý do: bug ngữ pháp per-text-node với inline `<strong>` trên
+  trang cellgroup (chi tiết ở Current Focus). 3 file core đổi:
+  + `extract-strings.js` v3: walk `<p, h1-6, li, button, a, blockquote,
+    label, td, th, dd, dt, summary, figcaption, caption, span>`, key =
+    `innerHTML.trim()` normalize whitespace. Filter `hasTranslatableAncestor`
+    để chỉ giữ outermost. Bỏ qua `data-no-translate`, `.lang-inline-card`,
+    structural-only elements (chỉ chứa `<img>`/`<br>`/...).
+  + `translate-gemini.js`: prompt bổ sung instruction "Input may contain
+    inline HTML tags: `<strong>, <em>, <b>, <i>, <u>, <br>, <a>`. PRESERVE
+    these tags EXACTLY...". Còn lại không đổi (schema, batch, retry, timeout).
+  + `widget.js` v3: `originalHTML` Map (Element → innerHTML), `applyLang`
+    set `el.innerHTML = sanitizeTranslation(entry[lang])`. Sanitizer
+    regex-based với allowlist `{strong, em, b, i, u, br, a}`, strip mọi attr
+    trừ `href` trên `<a>` (validate scheme `http|https|/|#|mailto:`).
+    Observer guard bằng cờ `_widgetWriting` (KHÔNG disconnect/reconnect).
+    Idempotent qua `if (el.innerHTML !== newHTML)` short-circuit.
+  + `.claude/rules/vanilla-js-widget.md`: rule "No innerHTML" thay bằng
+    "innerHTML only via sanitizeTranslation()" với chi tiết allowlist.
+  Plan đã pass `migration-architect-agent` review (4 fix apply trước khi
+  code). Sanity: 15/15 regression test pass cho sanitizer (script, javascript:,
+  iframe, onclick, span/img strip, canonical `Our <strong>cell groups</strong>`).
+  **Pending**: user re-extract home + cellgroup trên public site, /translate
+  regenerate, push toàn bộ, purge 3 file trên jsDelivr (translations.json,
+  translations.js, widget.js).
+- **2026-05-26 (cuối ngày)**: User re-extract nhưng trong **website builder
+  admin mode** (đang login) → cả `strings/home.json` (125 entries) lẫn
+  `strings/cellgroup.json` (102 entries) chứa toàn `<a class="cs-menu-link">
+  ... <ul class="level-1">...</ul>` (admin chrome của "ChurchSoft" hoặc tương
+  tự). User chấp nhận "miễn dịch đúng là được" → em chạy /translate. Đụng
+  **quota daily**: Google đã siết Gemini free tier xuống `20 req/ngày` cho
+  `gemini-2.5-flash` (memory cũ ghi 1500 — đã outdated). Mỗi 503 retry cũng
+  count vào quota → cạn sau ~25 attempts.
+  + Thêm `MAX_RETRIES=3` + exponential backoff 1s/2s/4s trên 429/503/5xx +
+    AbortError trong `translate-gemini.js` (xử lý debt cũ trong vanilla-js-
+    widget.md, raise priority khi >80 strings).
+  + Giảm `BATCH_SIZE 40→20` (key dài hơn vì element-level innerHTML).
+  + Add guard: nếu 0 batch thành công, KHÔNG ghi file → translations.json cũ
+    được bảo toàn. Nếu partial (>0 nhưng <expected), warn.
+  + Plan: chờ quota reset (UTC midnight ≈ 07:00 VN), chạy /translate lại,
+    sau đó push toàn bộ (widget v3 + extract v3 + translate-gemini v3 + rule
+    + strings + translations). Production hiện tại vẫn chạy widget v2 +
+    translations cũ → không bị ảnh hưởng.
+  + **Cảnh báo chưa giải quyết cho lần chạy mai**: input có ~227 strings,
+    nhiều chuỗi là HTML admin menu 1000+ chars. Sanitizer của widget strip
+    toàn bộ class/attr → admin menu sẽ mất CSS khi bấm VI/NO (chỉ ảnh hưởng
+    user logged-in). Nếu user muốn input sạch, em có thể lọc admin chrome
+    bằng heuristic (`cs-menu-link`, `_module/`, ...) trước khi run.
+- **2026-05-27**: **Element-level v3 translations regenerated; v3 deployment
+  ready.** Tiếp tục từ memory hôm trước.
+  + **Filter admin chrome**: ghi đè `strings/home.json` (125→43) và
+    `strings/cellgroup.json` (102→33) bằng filter heuristic (drop `cs-*`
+    classes, `_module/` URLs, `onclick=`, `aria-haspopup`, long HTML với
+    >2 class attrs, `cs-context-close`, `cs-toolbar-icon`). Sau dedupe còn
+    49 chuỗi unique.
+  + **Model swap**: `gemini-2.5-flash` quota free tier giờ chỉ **20 req/ngày**
+    (memory cũ ghi 1500 — Google đã siết). `gemini-2.0-flash` bị Google chặn
+    hẳn free tier cho project này (`limit: 0`). Switch sang
+    `gemini-2.5-flash-lite` (free tier 1000/ngày).
+  + **Flash-lite quality issue**: lite "đoán" English ngắn đã sẵn Norwegian
+    → copy nguyên vào cột no. Paragraph dài (có context) dịch tốt. Sửa prompt
+    cứng hơn: thêm "CRITICAL — Both vi AND no MUST be actual translations",
+    "no field MUST be Norwegian Bokmål, NOT a copy of the English input",
+    với example. Sau khi rerun: 4 short entry vẫn lỗi (Activities, Newsfeed,
+    Topics, Join a cell group). Em **fix tay** 4 entry này trong
+    `translations.json` (regenerate `translations.js` atomic).
+  + **Legacy nav merge**: Filter làm mất 16 nav label (About Us, CHURCHES,
+    Cell Groups, Mission, ...) khỏi strings/home.json. Em merge từ HEAD
+    translations.json (vi/no đã có sẵn từ run trước) vào translations.json
+    mới. V3 widget walk `<a>CHURCHES</a>` cho key = "CHURCHES" plain text,
+    byte-identical với key cũ → match được. Skip 8 obsolete fragment keys
+    ("Our", "cell groups", "spiritual family", "Oslo, Ski, and Brumunddal",
+    paragraph fragments) — chúng không match v3 DOM walks. **Final state**:
+    65 entries trong translations.json (49 từ run + 16 merged).
+  + **Risk khi user re-run /translate sau này**: translate-gemini.js OVERWRITE
+    translations.json hoàn toàn. 16 nav key sẽ bị mất nếu strings/home.json
+    chưa có. **Workaround**: hoặc user re-extract home.json sạch (qua
+    InPrivate Edge, logged out) để nav strings vào lại home.json, hoặc giữ
+    nguyên translations.json hiện tại (đừng /translate cho tới khi cần).
+  + **Pending**: user `git add/commit/push` + purge jsDelivr 3 file
+    (translations.json, translations.js, widget.js).
