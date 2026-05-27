@@ -76,8 +76,8 @@ git push
 
 Mở 2 URL trong Edge để purge jsDelivr (chạy 1-2 giây rồi đóng tab):
 ```
-https://purge.jsdelivr.net/gh/NhutNguyenH/gospelcenter@latest/translations.json
-https://purge.jsdelivr.net/gh/NhutNguyenH/gospelcenter@latest/translations.js
+https://purge.jsdelivr.net/gh/NhutNguyenH/gospelcenter@HEAD/translations.json
+https://purge.jsdelivr.net/gh/NhutNguyenH/gospelcenter@HEAD/translations.js
 ```
 
 Nếu response báo `"throttled": true` → đợi đủ số giây ghi trong `throttlingReset` rồi purge lại.
@@ -124,14 +124,16 @@ Ví dụ: anh muốn đổi bản dịch tiếng Việt của "Cell Groups" từ
 
 ## Lưu ý quan trọng (đọc kỹ!)
 
-### A. KHÔNG đổi `@latest` về `@main`
+### A. KHÔNG đổi `@HEAD` về `@main`
 
-`widget.html` + `widget-subpage.html` đang dùng `@latest`:
+`widget.html` + `widget-subpage.html` đang dùng `@HEAD`:
 ```html
-<script src="https://cdn.jsdelivr.net/gh/NhutNguyenH/gospelcenter@latest/widget.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/NhutNguyenH/gospelcenter@HEAD/widget.js"></script>
 ```
 
-jsDelivr `@main` resolution lag rất tệ (đôi khi >1 giờ). `@latest` reliable hơn. Đừng đổi lại.
+jsDelivr CDN có nhiều symbolic ref (`@main`, `@latest`, `@HEAD`) với resolution cache riêng. `@main` thường lag rất tệ (đôi khi >1 giờ); `@latest` cũng có thể lag. `@HEAD` hiện đang fresh nhất.
+
+Nếu sau này `@HEAD` cũng lag (push xong + purge mà widget.js cũ vẫn được serve), fallback: tạm dùng commit SHA cụ thể trong URL, ví dụ `@89b8ed0` (lấy SHA từ `git log --oneline -1`). Re-paste widget.html. Mất công 1 lần nhưng instant fresh.
 
 ### B. translate-gemini.js đã có MERGE mode
 
@@ -199,9 +201,9 @@ git commit -m "Update translations"
 git push
 
 # Purge jsDelivr (mở trong Edge)
-https://purge.jsdelivr.net/gh/NhutNguyenH/gospelcenter@latest/widget.js
-https://purge.jsdelivr.net/gh/NhutNguyenH/gospelcenter@latest/translations.json
-https://purge.jsdelivr.net/gh/NhutNguyenH/gospelcenter@latest/translations.js
+https://purge.jsdelivr.net/gh/NhutNguyenH/gospelcenter@HEAD/widget.js
+https://purge.jsdelivr.net/gh/NhutNguyenH/gospelcenter@HEAD/translations.json
+https://purge.jsdelivr.net/gh/NhutNguyenH/gospelcenter@HEAD/translations.js
 
 # Test local trước khi push (PowerShell)
 python -m http.server 8000
