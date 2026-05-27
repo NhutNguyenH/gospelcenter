@@ -1,0 +1,96 @@
+<!-- ===========================================================================
+     widget-test.html — TEMPLATE để test widget trên feature branch
+     ===========================================================================
+
+     Mục đích: Khi anh muốn thử widget mới trên một trang riêng TRƯỚC khi
+     merge vào main / production.
+
+     Cách dùng:
+     1. Tạo feature branch: git checkout -b feature/<tên-tính-năng>
+     2. Push branch lên GitHub: git push -u origin feature/<tên-tính-năng>
+     3. Mở file này, đổi `feature/test` trong URL <script src=...> phía dưới
+        thành tên branch của anh.
+     4. Tạo trang TEST trong builder (vd /test-widget) — đừng link từ menu
+        chính, đừng publish lên SEO/sitemap.
+     5. Paste toàn bộ nội dung file này vào HTML widget của trang test.
+     6. Mở trang test trong InPrivate Edge → kiểm tra.
+     7. Khi OK, merge branch vào main → xóa/disable trang test → re-paste
+        widget.html (URL @HEAD) vào trang production.
+
+     URL pattern jsDelivr cho branch:
+       https://cdn.jsdelivr.net/gh/NhutNguyenH/gospelcenter@<BRANCH>/widget.js
+
+     Branch có dấu `/` (như feature/foo) vẫn OK.
+
+     Purge cache cho branch URL nếu cần:
+       https://purge.jsdelivr.net/gh/NhutNguyenH/gospelcenter@<BRANCH>/widget.js
+============================================================================ -->
+
+<style type="text/css">
+/* --- KHUNG BAO NGOÀI --- */
+.lang-inline-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent !important;
+    box-shadow: none !important;
+    border: 2px dashed #c0392b;  /* viền đỏ đứt — báo hiệu đang ở chế độ TEST */
+    border-radius: 30px;
+    padding: 4px 10px;
+    margin: 70px auto 10px auto;
+    width: fit-content;
+    font-family: 'Open Sans', sans-serif;
+    white-space: nowrap;
+    flex-wrap: nowrap;
+}
+.lang-inline-card::before {
+    content: 'TEST';
+    color: #c0392b;
+    font-weight: 700;
+    font-size: 10px;
+    margin-right: 8px;
+    letter-spacing: 1px;
+}
+.lang-inline-card .lang-switcher {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.lang-inline-card .lang-switcher button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px 4px;
+    font-size: 12px;
+    color: #2E6C68;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: inherit;
+    opacity: 0.6;
+    transition: opacity 0.15s;
+}
+.lang-inline-card .lang-switcher button:hover { opacity: 1; }
+.lang-inline-card .lang-switcher button.active {
+    opacity: 1;
+    text-decoration: underline;
+}
+.lang-inline-card .lang-switcher button img {
+    width: 18px;
+    height: auto;
+    vertical-align: middle;
+    border-radius: 2px;
+}
+</style>
+
+<div class="lang-inline-card">
+  <div class="lang-switcher">
+    <button type="button" data-lang="en" data-no-translate><img src="https://flagcdn.com/w40/gb.png" alt=""> EN</button>
+    <button type="button" data-lang="vi" data-no-translate><img src="https://flagcdn.com/w40/vn.png" alt=""> VI</button>
+    <button type="button" data-lang="no" data-no-translate><img src="https://flagcdn.com/w40/no.png" alt=""> NO</button>
+  </div>
+</div>
+
+<!-- ↓↓↓ ĐỔI `feature/test` thành tên branch của anh ↓↓↓ -->
+<script src="https://cdn.jsdelivr.net/gh/NhutNguyenH/gospelcenter@feature/test/widget.js"></script>

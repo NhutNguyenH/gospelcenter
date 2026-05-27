@@ -122,6 +122,111 @@ Ví dụ: anh muốn đổi bản dịch tiếng Việt của "Cell Groups" từ
 
 ---
 
+## Test workflow — local và feature branch
+
+Có 2 cách test trước khi đổi production.
+
+### Cách A — Test LOCAL (nhanh, không cần push)
+
+Phù hợp khi: sửa text trong `strings/*.json`, sửa bản dịch tay trong `translations.json`, hoặc sửa logic trong `widget.js`.
+
+1. Mở PowerShell tại thư mục dự án (Shift + chuột phải vào thư mục → "Open PowerShell window here").
+2. Chạy:
+   ```powershell
+   python -m http.server 8000
+   ```
+3. Mở Edge → `http://localhost:8000/test-local.html`
+4. Bấm EN/VI/NO → kiểm tra.
+5. Sửa file local → refresh trang → thấy ngay.
+6. `Ctrl+C` trong PowerShell khi xong.
+
+`test-local.html` load `./widget.js` + `./translations.json` từ filesystem, KHÔNG qua jsDelivr → thay đổi instant, không cần push/purge.
+
+### Cách B — Test trên CDN với FEATURE BRANCH
+
+Phù hợp khi: anh muốn người khác (vd member trong church) review trước khi go-live, hoặc thay đổi rủi ro cao cần test trên environment thật.
+
+#### Bước 1: Tạo feature branch
+
+```bash
+git checkout -b feature/<tên-tính-năng>
+# edit code/translations/strings
+git add .
+git commit -m "WIP: test something"
+git push -u origin feature/<tên-tính-năng>
+```
+
+Ví dụ: `git checkout -b feature/new-footer-translations`
+
+#### Bước 2: Sửa `widget-test.html` trỏ về branch
+
+Mở `widget-test.html` trong Notepad. Tìm dòng cuối:
+```html
+<script src="https://cdn.jsdelivr.net/gh/NhutNguyenH/gospelcenter@feature/test/widget.js"></script>
+```
+
+Đổi `feature/test` thành tên branch thật của anh, vd:
+```html
+<script src="https://cdn.jsdelivr.net/gh/NhutNguyenH/gospelcenter@feature/new-footer-translations/widget.js"></script>
+```
+
+#### Bước 3: Tạo trang TEST trong builder
+
+1. Vào website builder → tạo trang mới, ví dụ `/test-widget`.
+2. **QUAN TRỌNG**: KHÔNG link trang này vào menu chính, KHÔNG bật SEO/sitemap. Trang test chỉ cho anh + người được share link.
+3. Thêm HTML widget vào layout.
+4. Copy toàn bộ `widget-test.html` → paste vào HTML widget → save.
+5. Tạo trang chứa nội dung muốn test (text/headings/buttons giống bản production sẽ áp dụng).
+6. Publish.
+
+`widget-test.html` có viền **đỏ đứt** quanh language switcher và prefix **"TEST"** — để anh không nhầm với bản production.
+
+#### Bước 4: Test
+
+Mở `https://gospelcenter.net/test-widget` (hoặc URL tương ứng) trong InPrivate Edge. Bấm EN/VI/NO. Kiểm tra widget hoạt động đúng.
+
+Nếu jsDelivr cache cũ:
+```
+https://purge.jsdelivr.net/gh/NhutNguyenH/gospelcenter@<tên-branch>/widget.js
+https://purge.jsdelivr.net/gh/NhutNguyenH/gospelcenter@<tên-branch>/translations.json
+```
+
+#### Bước 5: Iterate
+
+Nếu cần sửa: edit local → commit + push lên CÙNG branch → purge URL của branch → reload trang test.
+
+#### Bước 6: Merge khi OK
+
+```bash
+git checkout main
+git merge feature/<tên-tính-năng>
+git push
+git branch -d feature/<tên-tính-năng>
+git push origin --delete feature/<tên-tính-năng>
+```
+
+Hoặc tạo Pull Request trên GitHub UI → review → merge → delete branch.
+
+#### Bước 7: Cleanup
+
+- Xóa hoặc unpublish trang `/test-widget` trong builder (giữ làm sandbox cũng được, nhưng đảm bảo không index trên Google).
+- Production tự pick up commit mới qua `@HEAD` của `widget.html` (sau cache lag bình thường).
+
+### Khi nào dùng cách nào
+
+| Tình huống | Cách |
+|---|---|
+| Sửa text translation 1-2 chuỗi | Cách A (local) → đủ |
+| Sửa logic widget.js | Cách A trước, rồi push + purge production |
+| Thêm/sửa nhiều translations | Cách A (local) |
+| Refactor lớn (vd đổi walker rule) | Cách B (feature branch) để chắc chắn |
+| Người khác review | Cách B (share link `/test-widget`) |
+| Anh không chắc tác động | Cách B |
+
+99% trường hợp anh chỉ cần Cách A.
+
+---
+
 ## Lưu ý quan trọng (đọc kỹ!)
 
 ### A. KHÔNG đổi `@HEAD` về `@main`
@@ -183,8 +288,10 @@ Sau push, browser người dùng có thể vẫn xem bản cũ vì cache 12h CDN
 | `translations.json` | Bản dịch dạng JSON. Có thể sửa tay. |
 | `translations.js` | Auto-gen từ translations.json. KHÔNG sửa tay. |
 | `widget.js` | Logic dịch chạy trong browser. KHÔNG sửa trừ khi có bug. |
-| `widget.html` | Đoạn HTML paste vào trang HOME (có nút EN/VI/NO). |
-| `widget-subpage.html` | Đoạn HTML paste vào trang SUB (chỉ 1 thẻ script). |
+| `widget.html` | Đoạn HTML paste vào trang HOME production (có nút EN/VI/NO). |
+| `widget-subpage.html` | Đoạn HTML paste vào trang SUB production (chỉ 1 thẻ script). |
+| `widget-test.html` | TEMPLATE để paste vào trang TEST trên feature branch. Có viền đỏ "TEST" để dễ phân biệt. Sửa tên branch trong `<script src>` trước khi dùng. |
+| `test-local.html` | Trang test local (load file tương đối, không qua jsDelivr). Dùng với `python -m http.server 8000`. |
 | `.env` | Chứa `GEMINI_API_KEY`. KHÔNG commit (đã gitignore). |
 
 ---
