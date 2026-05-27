@@ -7,28 +7,42 @@
 
 ## Current Focus
 
-**v3 element-level translation: LIVE và HOẠT ĐỘNG ĐÚNG** (2026-05-27).
+**v3 element-level translation + en field + feature-branch test workflow: LIVE**
+(cuối ngày 2026-05-27).
 
-Production hiện đang chạy:
-- Nav (CHURCHES → CÁC HỘI THÁNH/KIRKER, About Us → Về chúng tôi/Om oss)
-- Topic card grid (Lectures → Bài giảng, Cell Groups → Nhóm Tế Bào, ...)
-- Cellgroup heading + 3 paragraph (kể cả 2 có `<strong>` inline)
-- Button "Tham gia một nhóm nhỏ" / "Bli med i en cellegruppe"
-- HOẠT ĐỘNG (Activities) + footer items
+Production trên `https://gospelcenter.net/` đang chạy widget hoàn chỉnh. Dịch
+được mọi element visible: nav, card grid, paragraph với `<strong>` inline,
+footer (kể cả Norwegian-source như Adresse/Kontakt).
 
 Còn 2 warning vô hại (chỉ hiện khi user login admin):
 - `"Logg inn"` (admin login button)
 - `"Du har ulagrede data..."` (admin unsaved-changes warning)
 
-Cấu hình stable hiện tại:
-- `widget.html` + `widget-subpage.html` dùng `@latest` (KHÔNG dùng `@main` —
-  jsDelivr branch resolution lag với @main rất tệ, đôi khi >1h)
-- Walker rule: `hasDirectText(el) === true` AND ancestor không có (translatable
-  match AND direct text)
-- TRANSLATABLE selector bao gồm `<div>` (cho card title)
-- Translations.json: 65 entries (49 từ flash-lite + 4 manual NO patch +
-  16 nav merge từ HEAD trước)
-- Model: `gemini-2.5-flash-lite` (free tier 1000/ngày)
+### Cấu hình stable hiện tại
+
+- **URL jsDelivr trong widget.html / widget-subpage.html**: `@HEAD` (sau khi
+  `@main` rồi `@latest` đều bị stale tại các thời điểm trong ngày).
+- **Walker rule** (widget.js + extract-strings.js):
+  - `hasDirectText(el)` PHẢI return true mới walk
+  - `hasTranslatableAncestor(el)` chỉ block nếu ancestor cũng matches
+    TRANSLATABLE AND `hasDirectText(ancestor)` true
+  - TRANSLATABLE selector: `p, h1-h6, li, button, a, blockquote, label, td,
+    th, dd, dt, summary, figcaption, caption, span, div`
+- **Sanitizer**: regex-based allowlist `{strong, em, b, i, u, br, a}`, strip
+  attrs (trừ `href` trên `<a>` với scheme validation), strip mọi tag khác.
+- **translations.json**: 66 entries. 8/66 có field `en` (Norwegian-source
+  visible: Adresse [2 variant], Kontakt, Husgrupper, Organisasjonsnummer,
+  Kontonummer, Vipps, phone). Các entry còn lại không có `en` → widget fallback
+  về restore origHTML khi click EN (OK vì source đã là English).
+- **translate-gemini.js**:
+  - Model: `gemini-2.5-flash-lite` (free 1000/ngày)
+  - Schema: `{en, vi, no}` đều required
+  - MERGE mode: load translations.json cũ, chỉ dịch key chưa đủ en+vi+no
+  - BATCH_SIZE=20, MAX_RETRIES=3 với backoff 1s/2s/4s
+- **Test workflow** (HOW-TO.md):
+  - Local: `python -m http.server 8000` → `test-local.html`
+  - Feature branch: tạo branch → push → `widget-test.html` đổi URL
+    `@<branch-name>` → paste vào trang `/test-widget` trong builder
 
 ---
 
@@ -335,6 +349,82 @@ for this project (current strings.json: ~21 strings).
     toàn bộ class/attr → admin menu sẽ mất CSS khi bấm VI/NO (chỉ ảnh hưởng
     user logged-in). Nếu user muốn input sạch, em có thể lọc admin chrome
     bằng heuristic (`cs-menu-link`, `_module/`, ...) trước khi run.
+- **2026-05-27 (END OF DAY — tổng kết)**: Toàn bộ thay đổi trong ngày, theo
+  thứ tự đã làm:
+
+  **1. Walker bug round 1 — `hasDirectText` filter**
+  Per-element walker capture innerHTML cả wrapper (`<a><img>`, `<a><div>logo</div></a>`)
+  làm key sai. Fix: thêm `hasDirectText(el)` check — element chỉ được walk
+  nếu có text node child trực tiếp.
+
+  **2. Walker bug round 2 — `hasTranslatableAncestor` + direct text**
+  Nav `<li><a>CHURCHES</a><ul>...</ul></li>` không dịch vì `<li>` skip (no
+  direct text) NHƯNG `<a>` cũng skip (block bởi `<li>` ancestor matches
+  TRANSLATABLE). Fix: ancestor chỉ block nếu chính nó có direct text (= sẽ
+  thật sự được walk).
+
+  **3. Walker bug round 3 — thêm `<div>` vào TRANSLATABLE**
+  Card grid `<div>Lectures</div>` không được walk. `hasDirectText` filter
+  đảm bảo div layout không có text vẫn skip an toàn.
+
+  **4. Filter admin chrome trong strings/*.json**
+  User re-extract trong admin mode → `strings/home.json` lẫn `cellgroup.json`
+  bị nhiễm 100+ chuỗi admin (`cs-menu-link`, `_module/...`). Heuristic filter:
+  drop `cs-*`, `_module/`, `onclick=`, `aria-haspopup`, long HTML có nhiều
+  class. Kết quả: home 125→43, cellgroup 102→33.
+
+  **5. Model swap + retry logic**
+  Gemini `gemini-2.5-flash` quota free tier siết xuống 20/ngày. Switch sang
+  `gemini-2.5-flash-lite` (1000/ngày). Thêm `MAX_RETRIES=3` với exponential
+  backoff 1s/2s/4s. Giảm `BATCH_SIZE 40→20`. Guard: nếu 0 batch thành công
+  KHÔNG ghi file.
+
+  **6. Manual fix Norwegian + nav merge**
+  Flash-lite lazy → copy English source vào field `no` cho chuỗi ngắn (4 entry:
+  Activities, Newsfeed, Topics, Join a cell group). Fix tay trong
+  translations.json. Sau đó merge 16 nav key cũ (CHURCHES, About Us, etc.) từ
+  translations.json HEAD trước để không lose.
+
+  **7. jsDelivr @main → @latest → @HEAD migration**
+  `@main` resolution stale rất tệ (đôi khi >1h serve commit cũ). Đổi sang
+  `@latest`. Sau cũng stale. Cuối ngày đổi tiếp sang `@HEAD` (đang fresh nhất).
+  HOW-TO ghi rõ nếu `@HEAD` lag thì fallback dùng `@<sha>` cụ thể.
+
+  **8. `en` field + MERGE mode**
+  User báo footer Norwegian-source (Adresse) không dịch sang VI (key cũ có
+  outer `<span>` nhưng walker mới capture không có), và click EN không restore
+  thật sự English. Fix:
+  - widget.js: bỏ special-case `lang==='en' → restoreOrig`, dùng unified
+    `entry[lang]` lookup; fallback restore origHTML nếu `entry.en` không có.
+  - translations.json: thêm key `<b>Adresse</b>...` mới (no outer span) +
+    patch tay `en` field cho 7 Norwegian-source entry visible.
+  - translate-gemini.js: schema thêm `en` required; prompt cứng hơn với
+    Example A/B (English-source vs Norwegian-source); MERGE mode load
+    translations.json cũ, chỉ dịch key thiếu field → preserve manual edits +
+    nav merge.
+
+  **9. Test workflow + widget-test.html**
+  Tạo `widget-test.html` (variant của widget.html với viền đỏ "TEST", URL
+  template `@feature/test` để user đổi thành branch thật). HOW-TO.md thêm
+  section "Test workflow" với 2 cách: Local (`test-local.html` + http.server)
+  và Feature branch (CDN test trên trang `/test-widget`). Có bảng "Khi nào
+  dùng cách nào".
+
+  **Commits đẩy production hôm nay** (theo `git log --oneline`):
+  - `89b8ed0 Add en field + MERGE mode in translate-gemini.js; fix Adresse key`
+  - `30338e4 update HowTo`
+  - `8ccdd5a Use @latest instead of @main to bypass jsDelivr branch resolution lag`
+  - `736582c fix bug` (walker round 2 + div selector)
+  - `c51c929 Walker: hasTranslatableAncestor must also check direct text`
+  - `85c443d Walker: skip elements without direct text (avoid wrapping)`
+  - `b6be0fd Element-level translation refactor (v3) + retry/backoff + filtered strings`
+  (Còn pending push: widget-test.html + HOW-TO test workflow section +
+  widget.html/subpage.html đổi sang @HEAD)
+
+  **Kết quả cuối ngày**: production hoạt động đầy đủ. Test InPrivate trên
+  `gospelcenter.net` + `husgrupper`: nav, card grid, paragraphs với `<strong>`,
+  footer Adresse/Kontakt/... đều dịch đúng EN/VI/NO.
+
 - **2026-05-27**: **Element-level v3 translations regenerated; v3 deployment
   ready.** Tiếp tục từ memory hôm trước.
   + **Filter admin chrome**: ghi đè `strings/home.json` (125→43) và
