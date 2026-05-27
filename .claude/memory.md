@@ -7,20 +7,28 @@
 
 ## Current Focus
 
-**v3 element-level translation: READY TO PUSH** (2026-05-27).
-Toàn bộ code + data đã sẵn sàng commit. Detail xem session log dưới.
+**v3 element-level translation: LIVE và HOẠT ĐỘNG ĐÚNG** (2026-05-27).
 
-State của working tree:
-- `widget.js`, `extract-strings.js`, `translate-gemini.js`: v3 element-level
-- `.claude/rules/vanilla-js-widget.md`: rule innerHTML đã update
-- `strings/home.json` (43 entries) + `strings/cellgroup.json` (33 entries):
-  đã filter admin chrome
-- `translations.json` + `translations.js`: 65 entries
-  (49 từ flash-lite run + 4 manual NO fix + 16 nav merge từ HEAD)
-- `test-local.html`: bỏ ref đến translations.js
+Production hiện đang chạy:
+- Nav (CHURCHES → CÁC HỘI THÁNH/KIRKER, About Us → Về chúng tôi/Om oss)
+- Topic card grid (Lectures → Bài giảng, Cell Groups → Nhóm Tế Bào, ...)
+- Cellgroup heading + 3 paragraph (kể cả 2 có `<strong>` inline)
+- Button "Tham gia một nhóm nhỏ" / "Bli med i en cellegruppe"
+- HOẠT ĐỘNG (Activities) + footer items
 
-Cần làm: anh `git add/commit/push` + purge jsDelivr 3 file (translations.json,
-translations.js, widget.js). KHÔNG re-run `/translate` (sẽ overwrite nav merge).
+Còn 2 warning vô hại (chỉ hiện khi user login admin):
+- `"Logg inn"` (admin login button)
+- `"Du har ulagrede data..."` (admin unsaved-changes warning)
+
+Cấu hình stable hiện tại:
+- `widget.html` + `widget-subpage.html` dùng `@latest` (KHÔNG dùng `@main` —
+  jsDelivr branch resolution lag với @main rất tệ, đôi khi >1h)
+- Walker rule: `hasDirectText(el) === true` AND ancestor không có (translatable
+  match AND direct text)
+- TRANSLATABLE selector bao gồm `<div>` (cho card title)
+- Translations.json: 65 entries (49 từ flash-lite + 4 manual NO patch +
+  16 nav merge từ HEAD trước)
+- Model: `gemini-2.5-flash-lite` (free tier 1000/ngày)
 
 ---
 
@@ -360,6 +368,25 @@ for this project (current strings.json: ~21 strings).
     nguyên translations.json hiện tại (đừng /translate cho tới khi cần).
   + **Pending**: user `git add/commit/push` + purge jsDelivr 3 file
     (translations.json, translations.js, widget.js).
+- **2026-05-27 (lần 4 — DONE)**: **Card grid `<div>` selector + jsDelivr
+  `@main` lag workaround.** Sau push walker bug round 2:
+  + Card grid (LECTURES/COURSES/...) vẫn English vì DOM là `<div>Lectures</div>`,
+    `<div>` không có trong TRANSLATABLE. Fix: thêm `<div>` vào selector.
+    `hasDirectText` filter đảm bảo chỉ walk div có text trực tiếp.
+  + Cellgroup paragraph 1+3 (có `<strong>`) vẫn English — sau push fix `<div>`
+    + clear browser cache thì tự dịch (root cause là widget cũ chưa fully
+      loaded sau purge, không liên quan `<strong>`).
+  + **jsDelivr `@main` resolution stuck**: sau push, `cdn.jsdelivr.net/.../@main/widget.js`
+    serve commit cũ b6be0fd (8238 bytes) thay vì latest 736582c (9271 bytes).
+    Mặc dù data API metadata BIẾT commit mới. Verified `@latest` URL serve
+    bản đúng latest. **Fix**: đổi `widget.html` + `widget-subpage.html` sang
+    `@latest`. User re-paste 1 lần. Từ đó trở đi không bao giờ phải đụng vào
+    `@main` nữa.
+  Final result: cả 3 issue đã fix. Production hoạt động đầy đủ.
+- **2026-05-27 (lần 3)**: **Walker bug round 3 — `<div>` không trong selector.**
+  Card grid `<div>Lectures</div>` không được walk. Fix: thêm `<div>` vào
+  TRANSLATABLE list trong cả `widget.js` và `extract-strings.js`. Safety:
+  `hasDirectText` filter loại bỏ layout div không có text trực tiếp.
 - **2026-05-27 (lần 2 — sau push hasDirectText)**: **Walker bug round 2 —
   hasTranslatableAncestor không check direct text.** User test sau hasDirectText
   fix: chỉ còn 5 warning (down từ 50+), admin chrome gone, nhưng CHURCHES/ABOUT
