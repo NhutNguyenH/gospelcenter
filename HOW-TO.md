@@ -20,6 +20,8 @@ Mỗi entry trong `translations.json` có 3 field:
 
 Click EN: widget dùng `entry.en` để dịch active sang tiếng Anh. Nếu entry không có `en` field → widget khôi phục source gốc (backward compat — phù hợp khi source đã là tiếng Anh).
 
+**Reverse-index (widget.js)**: widget không chỉ match text theo source key, mà còn dò ngược qua MỌI giá trị en/vi/no. Nghĩa là dù text trên trang đang ở tiếng Anh, Việt hay Na Uy, widget vẫn nhận ra nhóm dịch và áp đúng ngôn ngữ. Ưu tiên match key trực tiếp trước (để phân biệt các entry cùng nghĩa nhưng khác bản dịch), reverse-index chỉ là lưới an toàn. Nhờ vậy, lỡ extract source ở ngôn ngữ nào thì widget vẫn dịch được.
+
 ---
 
 ## Trường hợp 1 — Chỉnh sửa nội dung trang HIỆN CÓ
@@ -37,6 +39,12 @@ Ví dụ: anh đổi câu "Welcome to our spiritual family" trên trang husgrupp
 1. Mở Edge → `Ctrl + Shift + N` (cửa sổ **InPrivate**, để builder admin không inject chrome).
 2. Gõ URL trang public, ví dụ `https://gospelcenter.net/no/churches/oslo/husgrupper`.
 3. Bấm nút **EN** (đảm bảo text về tiếng Anh gốc trước khi extract).
+   > ⚠️ **Quy tắc ngôn ngữ — đọc kỹ**: LUÔN bấm **EN** trước khi extract, và
+   > mỗi trang chỉ extract **MỘT lần** (đừng extract lại cùng trang đó ở VI/NO).
+   > Nếu extract cùng một mục ở nhiều ngôn ngữ khác nhau, sẽ sinh ra nhiều key
+   > cho cùng một khái niệm (vd "Camps" / "Các Kì Trại" / "Leirer" đều là
+   > "camps") làm `translations.json` phình và rối. Widget có reverse-index nên
+   > vẫn dịch được, nhưng giữ extract nhất quán cho dữ liệu sạch.
 4. `F12` → tab **Console**.
 5. Gõ lệnh reset:
    ```js

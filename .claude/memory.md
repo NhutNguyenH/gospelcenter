@@ -349,6 +349,27 @@ for this project (current strings.json: ~21 strings).
     toàn bộ class/attr → admin menu sẽ mất CSS khi bấm VI/NO (chỉ ảnh hưởng
     user logged-in). Nếu user muốn input sạch, em có thể lọc admin chrome
     bằng heuristic (`cs-menu-link`, `_module/`, ...) trước khi run.
+- **2026-06-06 (lần 3)**: **Reverse-index trong widget.js — dịch độc lập với
+  ngôn ngữ source.** User báo "Các Kì Trại" không dịch đúng. Root cause: cùng
+  khái niệm "camps" có 3 entry trùng (Camps/Các Kì Trại/Leirer) do extract cùng
+  element ở 3 trạng thái ngôn ngữ khác nhau qua các session. Widget match bằng
+  key=innerHTML gốc → trên trang public element chỉ ship 1 ngôn ngữ → các entry
+  ngôn ngữ khác thành vô dụng. Phân tích: 203 entries, 26 key-vs-value collision,
+  13 nhóm trùng `en`.
+  **Fix (widget.js)**: thêm `REVERSE` index (map mọi giá trị en/vi/no → entry,
+  ưu tiên self-identity key===value) + `resolveEntry(key)` = `TRANSLATIONS[key]
+  || REVERSE[key]`. `applyLang` dùng resolveEntry thay vì lookup trực tiếp.
+  Direct-key vẫn ưu tiên (phân biệt Camps vs Các Kì Trại vì khác vi); reverse là
+  lưới an toàn cho element re-render ở trạng thái đã dịch. `buildReverseIndex()`
+  gọi trong init() + sau fetch trong loadTranslations(). Verify: 7/7 ad-hoc unit
+  test pass (direct-key priority + reverse fallback + unknown→null).
+  **Docs**: extract-strings.js header + HOW-TO.md thêm quy tắc "LUÔN bấm EN +
+  extract 1 lần/trang" để giảm sinh entry trùng.
+  **Part 3 — dedup (chưa làm, chờ user)**: 13 nhóm trùng. Đa số vô hại (vi+no
+  giống nhau, chỉ khác source key — reverse-index làm tương đương). Nhóm khác
+  bản dịch cần user quyết: Camps (vi Trại/Các Kì Trại/Trại hè), Courses
+  (Khóa học/Các Khóa Học), Evangelism (Tin Lành/Truyền giáo), Topics (no
+  Temaer/Emner). KHÔNG auto-xoá. Pending: user push + purge widget.js (@HEAD).
 - **2026-06-06 (lần 2)**: **Thêm trang Oslo. 203 translations.**
   User extract trang Oslo lần đầu vào `strings/oslo.json` (445 chuỗi) nhưng
   ~90% là admin module catalog của CMS Cornerstone (mô tả module "Vis en

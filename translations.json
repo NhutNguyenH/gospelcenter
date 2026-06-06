@@ -380,13 +380,13 @@
     "no": "Grupper"
   },
   "Gudstjeneste": {
-    "en": "Service",
-    "vi": "Buổi lễ",
+    "en": "Worship Service",
+    "vi": "Buổi thờ phượng",
     "no": "Gudstjeneste"
   },
   "Gudstjenester": {
-    "en": "Services",
-    "vi": "Các buổi lễ",
+    "en": "Worship Services",
+    "vi": "Các buổi thờ phượng",
     "no": "Gudstjenester"
   },
   "Hendelser": {

@@ -30,9 +30,37 @@
 
   var originalHTML = new Map();  // Element -> innerHTML ban đầu (English)
   var _widgetWriting = false;    // Guard cho MutationObserver: bỏ qua mutation do widget tự gây ra
+  var REVERSE = Object.create(null);  // normalize(value en/vi/no) -> entry
 
   function normalize(html) {
     return html.replace(/\s+/g, ' ').trim();
+  }
+
+  // Reverse-index: map MỌI giá trị (en/vi/no) của mọi entry về chính entry đó.
+  // Cho phép resolve bản dịch dù text trên trang đang ở ngôn ngữ nào (source
+  // có thể là en, vi, hoặc no — hoặc element bị builder re-render ở trạng thái
+  // đã dịch). Ưu tiên entry mà KEY === giá trị (self-identity = source canonical).
+  function buildReverseIndex() {
+    REVERSE = Object.create(null);
+    for (var key in TRANSLATIONS) {
+      if (!Object.prototype.hasOwnProperty.call(TRANSLATIONS, key)) continue;
+      var entry = TRANSLATIONS[key];
+      if (!entry || typeof entry !== 'object') continue;
+      var fields = ['en', 'vi', 'no'];
+      for (var i = 0; i < fields.length; i++) {
+        var v = entry[fields[i]];
+        if (typeof v !== 'string' || !v) continue;
+        var nv = normalize(v);
+        if (!REVERSE[nv] || normalize(key) === nv) REVERSE[nv] = entry;
+      }
+    }
+  }
+
+  // Tìm entry cho 1 key: ưu tiên match trực tiếp key (giữ khả năng phân biệt
+  // giữa các entry trùng giá trị, vd Camps vs Các Kì Trại), sau đó mới fallback
+  // sang reverse-index (lưới an toàn khi source không phải là key).
+  function resolveEntry(key) {
+    return TRANSLATIONS[key] || REVERSE[key] || null;
   }
 
   // Element phải có ít nhất 1 text node child trực tiếp (không nested).
@@ -112,7 +140,7 @@
       originalHTML.forEach(function (origHTML, el) {
         if (!el.isConnected) return;
         var key = normalize(origHTML);
-        var entry = TRANSLATIONS[key];
+        var entry = resolveEntry(key);
         if (entry && entry[lang]) {
           // Có bản dịch active cho language này (bao gồm cả "en" nếu source là
           // Norwegian/khác và đã có english translation). Apply.
@@ -164,6 +192,7 @@
     if (!TRANSLATIONS || Object.keys(TRANSLATIONS).length === 0) {
       if (window.console) console.warn('[widget] WIDGET_TRANSLATIONS rỗng — widget chỉ hiển thị tiếng Anh.');
     }
+    buildReverseIndex();
     applyLang(getSavedLang());
 
     if (window.MutationObserver) {
@@ -213,6 +242,7 @@
         if (data && typeof data === 'object' && !Array.isArray(data)) {
           TRANSLATIONS = data;
           try { window.WIDGET_TRANSLATIONS = data; } catch (e) {}
+          buildReverseIndex();
         }
       })
       .catch(function (err) {

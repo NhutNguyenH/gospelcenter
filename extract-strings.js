@@ -6,8 +6,9 @@
 // như v2 (per-text-node).
 //
 // Workflow (theo từng trang):
-//   1. Mở Edge, vào trang muốn quét (PUBLIC site, KHÔNG phải design mode của builder).
-//   2. Bấm EN để trang về tiếng Anh gốc.
+//   1. Mở Edge InPrivate (Ctrl+Shift+N), vào trang PUBLIC (KHÔNG login builder,
+//      KHÔNG design mode — tránh nhiễm admin menu).
+//   2. Bấm EN để trang về tiếng Anh gốc. ← QUAN TRỌNG, xem quy tắc bên dưới.
 //   3. F12 → Console → paste TOÀN BỘ snippet này → Enter.
 //      (lần đầu Edge có thể chặn dán code → gõ "allow pasting" Enter rồi dán lại)
 //   4. Console hiện: "Trang này: thêm N chuỗi mới. TỔNG: X chuỗi"
@@ -17,6 +18,15 @@
 //   6. TRƯỚC khi sang trang khác, reset state:
 //        localStorage.removeItem("__deepl_extract_strings__")
 //      Rồi mở trang kế tiếp và lặp lại từ bước 2.
+//
+// QUY TẮC NGÔN NGỮ (tránh sinh entry trùng):
+//   • LUÔN bấm EN trước khi extract, để key luôn ở cùng một mặt bằng ngôn ngữ.
+//   • MỖI TRANG chỉ extract MỘT lần. KHÔNG extract lại cùng trang đó ở VI/NO.
+//   Lý do: widget key bản dịch theo text gốc của element. Nếu extract cùng một
+//   element ở các ngôn ngữ khác nhau, ta tạo ra nhiều key cho cùng một khái niệm
+//   (vd "Camps" / "Các Kì Trại" / "Leirer" đều là "camps") → translations.json
+//   phình + khó bảo trì. (widget.js có reverse-index đỡ được phần lớn, nhưng
+//   vẫn nên extract nhất quán để dữ liệu sạch.)
 //
 // Lưu ý so với v2: keys có thể chứa tag inline như <strong>cell groups</strong>.
 // Đó là chủ đích — widget.js sẽ sanitize và đặt lại qua innerHTML.
