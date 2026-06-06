@@ -349,6 +349,18 @@ for this project (current strings.json: ~21 strings).
     toàn bộ class/attr → admin menu sẽ mất CSS khi bấm VI/NO (chỉ ảnh hưởng
     user logged-in). Nếu user muốn input sạch, em có thể lọc admin chrome
     bằng heuristic (`cs-menu-link`, `_module/`, ...) trước khi run.
+- **2026-06-06 (lần 2)**: **Thêm trang Oslo. 203 translations.**
+  User extract trang Oslo lần đầu vào `strings/oslo.json` (445 chuỗi) nhưng
+  ~90% là admin module catalog của CMS Cornerstone (mô tả module "Vis en
+  liste...", "Karusell...", tên tính năng SMS/faktura/kundereskontro). Heuristic
+  filter KHÔNG lọc sạch được vì admin labels là plain Norwegian text (không có
+  `cs-*` marker). Em flag + đề nghị re-extract. User tự re-extract lại thành
+  `strings/oslo-home.json` (34 chuỗi sạch, 0 admin chrome — chỉ còn 2 chuỗi
+  admin vô hại `Logg inn` + `Du har ulagrede data`). `/translate`: 27 chuỗi
+  mới, 2 batch OK. **Final: 203 entries, 100% en+vi+no.** Vietnamese-source
+  cũng dịch đúng (Các Khóa Học → en=Courses, Truyền giáo → en=Evangelism).
+  **Bài học**: extract trang trong admin/login mode → nhiễm nặng admin catalog;
+  LUÔN extract trong InPrivate/logout. Pending: user push + purge.
 - **2026-06-06**: **home.json re-extract sạch (có nav) + 176 translations.**
   User re-extract `strings/home.json` đúng cách (InPrivate/logout) → 156 chuỗi,
   0 admin chrome, CÓ đủ nav labels (CHURCHES, About Us, Cell Groups, Mission,

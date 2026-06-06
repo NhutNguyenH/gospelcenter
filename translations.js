@@ -50,6 +50,11 @@ window.WIDGET_TRANSLATIONS = {
     "vi": "Các vai trò có sẵn",
     "no": "Tilgjengelige roller"
   },
+  "ABOUT US": {
+    "en": "ABOUT US",
+    "vi": "VỀ CHÚNG TÔI",
+    "no": "OM OSS"
+  },
   "Abonnementer": {
     "en": "Subscriptions",
     "vi": "Các đăng ký",
@@ -140,6 +145,11 @@ window.WIDGET_TRANSLATIONS = {
     "vi": "Giáo đoàn Baptist ở Oslo",
     "no": "Baptistmenigheten i Oslo"
   },
+  "Barn": {
+    "en": "Children",
+    "vi": "Trẻ em",
+    "no": "Barn"
+  },
   "Betaling": {
     "en": "Payment",
     "vi": "Thanh toán",
@@ -160,6 +170,11 @@ window.WIDGET_TRANSLATIONS = {
     "vi": "Tùy chọn thanh toán",
     "no": "Betalingsvalg"
   },
+  "Bibelskole": {
+    "en": "Bible School",
+    "vi": "Trường Kinh Thánh",
+    "no": "Bibelskole"
+  },
   "Bilde": {
     "en": "Image",
     "vi": "Hình ảnh",
@@ -169,6 +184,11 @@ window.WIDGET_TRANSLATIONS = {
     "en": "Image type",
     "vi": "Loại hình ảnh",
     "no": "Bildetype"
+  },
+  "Bli med": {
+    "en": "Join us",
+    "vi": "Tham gia với chúng tôi",
+    "no": "Bli med"
   },
   "Brukere<span class=\"cs-number\">14</span>": {
     "en": "Users<span class=\"cs-number\">14</span>",
@@ -184,6 +204,11 @@ window.WIDGET_TRANSLATIONS = {
     "en": "CHURCHES",
     "vi": "CÁC HỘI THÁNH",
     "no": "KIRKER"
+  },
+  "Calendar": {
+    "en": "Calendar",
+    "vi": "Lịch",
+    "no": "Kalender"
   },
   "Camps": {
     "en": "Camps",
@@ -209,6 +234,16 @@ window.WIDGET_TRANSLATIONS = {
     "en": "Courses",
     "vi": "Khóa học",
     "no": "Kurs"
+  },
+  "Các Khóa Học": {
+    "en": "Courses",
+    "vi": "Các Khóa Học",
+    "no": "Kurs"
+  },
+  "Các Kì Trại": {
+    "en": "Camps",
+    "vi": "Các Kì Trại",
+    "no": "Leirer"
   },
   "Den Vietnamesiske": {
     "en": "The Vietnamese",
@@ -269,6 +304,11 @@ window.WIDGET_TRANSLATIONS = {
     "en": "Europe",
     "vi": "Châu Âu",
     "no": "Europa"
+  },
+  "Evangelisering": {
+    "en": "Evangelism",
+    "vi": "Tin Lành",
+    "no": "Evangelisering"
   },
   "Fakturaer": {
     "en": "Invoices",
@@ -340,15 +380,35 @@ window.WIDGET_TRANSLATIONS = {
     "vi": "Nhóm",
     "no": "Grupper"
   },
+  "Gudstjeneste": {
+    "en": "Service",
+    "vi": "Buổi lễ",
+    "no": "Gudstjeneste"
+  },
+  "Gudstjenester": {
+    "en": "Services",
+    "vi": "Các buổi lễ",
+    "no": "Gudstjenester"
+  },
   "Hendelser": {
     "en": "Events",
     "vi": "Sự kiện",
     "no": "Hendelser"
   },
+  "Her er vi": {
+    "en": "Here we are",
+    "vi": "Đây là chúng tôi",
+    "no": "Her er vi"
+  },
   "Husgrupper": {
     "en": "Cell groups",
     "vi": "Nhóm tại gia",
     "no": "Husgrupper"
+  },
+  "Hvem er vi": {
+    "en": "Who are we",
+    "vi": "Chúng ta là ai",
+    "no": "Hvem er vi"
   },
   "Håndtér duplikater": {
     "en": "Handle duplicates",
@@ -359,6 +419,11 @@ window.WIDGET_TRANSLATIONS = {
     "en": "In the near future",
     "vi": "Trong tương lai gần",
     "no": "I nær fremtid"
+  },
+  "ICDP - Nuôi dạy con cái": {
+    "en": "ICDP - Parenting",
+    "vi": "ICDP - Nuôi dạy con cái",
+    "no": "ICDP - Foreldreveiledning"
   },
   "Importér fra Excel": {
     "en": "Import from Excel",
@@ -390,6 +455,11 @@ window.WIDGET_TRANSLATIONS = {
     "vi": "Lịch",
     "no": "Kalender"
   },
+  "Kommende hendelser": {
+    "en": "Upcoming events",
+    "vi": "Sự kiện sắp tới",
+    "no": "Kommende hendelser"
+  },
   "Kontakt": {
     "en": "Contact",
     "vi": "Liên hệ",
@@ -419,6 +489,11 @@ window.WIDGET_TRANSLATIONS = {
     "en": "Customer reconciliation",
     "vi": "Đối chiếu khách hàng",
     "no": "Kundereskontro"
+  },
+  "Kurs": {
+    "en": "Courses",
+    "vi": "Khóa học",
+    "no": "Kurs"
   },
   "Lag artikkel": {
     "en": "Create article",
@@ -474,6 +549,16 @@ window.WIDGET_TRANSLATIONS = {
     "en": "Add new image",
     "vi": "Thêm ảnh mới",
     "no": "Legg til nytt bilde"
+  },
+  "Leirer": {
+    "en": "Camps",
+    "vi": "Trại hè",
+    "no": "Leirer"
+  },
+  "Logg inn": {
+    "en": "Log in",
+    "vi": "Đăng nhập",
+    "no": "Logg inn"
   },
   "Logg ut": {
     "en": "Log out",
@@ -585,6 +670,11 @@ window.WIDGET_TRANSLATIONS = {
     "vi": "Bảng tin",
     "no": "Nyhetsstrøm"
   },
+  "OM OSS": {
+    "en": "ABOUT US",
+    "vi": "VỀ CHÚNG TÔI",
+    "no": "OM OSS"
+  },
   "Offentlige dokumenter": {
     "en": "Public documents",
     "vi": "Tài liệu công khai",
@@ -625,6 +715,11 @@ window.WIDGET_TRANSLATIONS = {
     "vi": "Oslo",
     "no": "Oslo"
   },
+  "Oslo Gospel Center": {
+    "en": "Oslo Gospel Center",
+    "vi": "Oslo Gospel Center",
+    "no": "Oslo Gospel Center"
+  },
   "Our <strong>cell groups</strong> bring together brothers and sisters in faith who live near each other in the <strong>Oslo, Ski, and Brumunddal</strong> areas. To foster a safe, warm environment where everyone is seen and cared for, each group generally consists of 5 to 10 people.": {
     "en": "Our <strong>cell groups</strong> bring together brothers and sisters in faith who live near each other in the <strong>Oslo, Ski, and Brumunddal</strong> areas. To foster a safe, warm environment where everyone is seen and cared for, each group generally consists of 5 to 10 people.",
     "vi": "Các <strong>nhóm nhỏ</strong> của chúng tôi quy tụ anh chị em trong đức tin sống gần nhau tại các khu vực <strong>Oslo, Ski và Brumunddal</strong>. Để nuôi dưỡng một môi trường an toàn, ấm áp nơi mọi người đều được nhìn thấy và quan tâm, mỗi nhóm thường bao gồm từ 5 đến 10 người.",
@@ -660,6 +755,11 @@ window.WIDGET_TRANSLATIONS = {
     "vi": "Chỉnh sửa ảnh",
     "no": "Rediger bilde"
   },
+  "Register Form": {
+    "en": "Register Form",
+    "vi": "Mẫu đăng ký",
+    "no": "Registreringsskjema"
+  },
   "Registrer betaling": {
     "en": "Register payment",
     "vi": "Đăng ký thanh toán",
@@ -684,6 +784,11 @@ window.WIDGET_TRANSLATIONS = {
     "en": "SMS codes",
     "vi": "Mã SMS",
     "no": "SMS-koder"
+  },
+  "Se flere hendelser": {
+    "en": "See more events",
+    "vi": "Xem thêm sự kiện",
+    "no": "Se flere hendelser"
   },
   "Sendt": {
     "en": "Sent",
@@ -805,6 +910,16 @@ window.WIDGET_TRANSLATIONS = {
     "vi": "Đào tạo",
     "no": "Trening"
   },
+  "Truyền giáo": {
+    "en": "Evangelism",
+    "vi": "Truyền giáo",
+    "no": "Evangelisering"
+  },
+  "Ungdom": {
+    "en": "Youth",
+    "vi": "Thanh niên",
+    "no": "Ungdom"
+  },
   "Utforsker": {
     "en": "Explorer",
     "vi": "Trình khám phá",
@@ -819,6 +934,11 @@ window.WIDGET_TRANSLATIONS = {
     "en": "Select file",
     "vi": "Chọn tệp",
     "no": "Velg fil"
+  },
+  "Vi ønsker deg velkommen til våre samlinger. Vi ønsker å være et åpent og inkluderende fellesskap.": {
+    "en": "We welcome you to our gatherings. We want to be an open and inclusive community.",
+    "vi": "Chúng tôi chào mừng bạn đến với các buổi nhóm họp của chúng tôi. Chúng tôi mong muốn trở thành một cộng đồng cởi mở và hòa nhập.",
+    "no": "Vi ønsker deg velkommen til våre samlinger. Vi ønsker å være et åpent og inkluderende fellesskap."
   },
   "Video": {
     "en": "Video",
@@ -835,6 +955,11 @@ window.WIDGET_TRANSLATIONS = {
     "vi": "Danh sách video",
     "no": "Videoliste"
   },
+  "Vietnamesisk språkkurs(Khóa học tiếng Việt)": {
+    "en": "Vietnamese language course (Vietnamese course)",
+    "vi": "Khóa học tiếng Việt (Khóa học tiếng Việt)",
+    "no": "Vietnamesisk språkkurs (Khóa học tiếng Việt)"
+  },
   "Vipps: 113470<br> &nbsp;": {
     "en": "Vipps: 113470<br> &nbsp;",
     "vi": "Vipps: 113470<br> &nbsp;",
@@ -850,6 +975,11 @@ window.WIDGET_TRANSLATIONS = {
     "vi": "Tầm nhìn",
     "no": "Visjon"
   },
+  "Visjoner og verdier": {
+    "en": "Visions and values",
+    "vi": "Tầm nhìn và giá trị",
+    "no": "Visjoner og verdier"
+  },
   "We usually gather on a set evening – often on Saturdays, or at a time that best suits the group members. This is a precious time where we share our lives, study the Bible together, and grow in faith.": {
     "en": "We usually gather on a set evening – often on Saturdays, or at a time that best suits the group members. This is a precious time where we share our lives, study the Bible together, and grow in faith.",
     "vi": "Chúng tôi thường nhóm họp vào một buổi tối cố định – thường là vào thứ Bảy, hoặc vào thời điểm phù hợp nhất với các thành viên trong nhóm. Đây là khoảng thời gian quý báu để chúng tôi chia sẻ cuộc sống, cùng nhau học Kinh Thánh và tăng trưởng trong đức tin.",
@@ -864,6 +994,11 @@ window.WIDGET_TRANSLATIONS = {
     "en": "or",
     "vi": "hoặc",
     "no": "eller"
+  },
+  "fredag": {
+    "en": "Friday",
+    "vi": "Thứ Sáu",
+    "no": "fredag"
   },
   "gospelcenter oslo": {
     "en": "gospelcenter oslo",
