@@ -349,6 +349,38 @@ for this project (current strings.json: ~21 strings).
     toàn bộ class/attr → admin menu sẽ mất CSS khi bấm VI/NO (chỉ ảnh hưởng
     user logged-in). Nếu user muốn input sạch, em có thể lọc admin chrome
     bằng heuristic (`cs-menu-link`, `_module/`, ...) trước khi run.
+- **2026-06-06**: **home.json re-extract sạch (có nav) + 176 translations.**
+  User re-extract `strings/home.json` đúng cách (InPrivate/logout) → 156 chuỗi,
+  0 admin chrome, CÓ đủ nav labels (CHURCHES, About Us, Cell Groups, Mission,
+  Lectures, ...). Trước khi chạy phát hiện `translations.json` bị **0 byte**
+  (truncate, có thể do atomic write bị ngắt giữa chừng) → khôi phục từ
+  `translations.js` (parse `window.WIDGET_TRANSLATIONS`, 66 entries còn nguyên).
+  Chạy `/translate`: 110 chuỗi mới, 6/6 batch OK, content-based mapping giữ
+  alignment đúng. **Final: 176 entries, 100% đủ en+vi+no.** Nav labels giờ nằm
+  TRONG strings/home.json → `/translate` tự sinh, KHÔNG cần merge tay nữa
+  (giải quyết debt "16 nav dễ mất" của các session trước). Pending: user push
+  + purge. **Recovery tip**: nếu translations.json hỏng, rebuild từ
+  translations.js qua regex `window\.WIDGET_TRANSLATIONS\s*=\s*(\{...\})`.
+- **2026-05-27 (lần 6) — BUG off-by-one mapping + fix content-based**:
+  Chạy `/translate` để fill `en` field cho các entry còn thiếu. Phát hiện
+  **lỗi nghiêm trọng**: translate-gemini.js map kết quả Gemini theo INDEX
+  (`results[idx]`), nhưng flash-lite đôi khi gom/tách chuỗi (vd batch trả 21
+  object cho 20 input, hoặc tách 1 paragraph thành 2) → toàn bộ entry sau điểm
+  lệch bị gán SAI value. Triệu chứng: `"Artikkel"` → en=`"Administrator"`,
+  `"Kalender"` → en=`"Join a cell group"` (lệch 1 ô).
+  **Fix**:
+  + Schema thêm field `source` (required) — Gemini phải copy input verbatim.
+  + Prompt: "treat each input as ONE indivisible unit, never split/merge,
+    source MUST be byte-for-byte copy".
+  + Mapping: build `Map(source → {en,vi,no})`, align lại theo nội dung input
+    thay vì index. Nếu thiếu source nào → reject batch (throw) → không corrupt.
+  + Revert translations.json về HEAD sạch trước khi chạy lại.
+  Sau fix: 42/42 chuỗi dịch đúng, alignment perfect (Artikkel→Article,
+  Kalender→Calendar, Folk→People). Final: 66 entries, 50 đủ en+vi+no, 16 nav
+  chỉ vi+no (fallback EN restore origHTML — OK vì source English).
+  **Bài học**: KHÔNG map LLM batch output theo index. Luôn echo source +
+  map theo nội dung. Pending: user push translations.json + translations.js +
+  translate-gemini.js, purge jsDelivr.
 - **2026-05-27 (END OF DAY — tổng kết)**: Toàn bộ thay đổi trong ngày, theo
   thứ tự đã làm:
 

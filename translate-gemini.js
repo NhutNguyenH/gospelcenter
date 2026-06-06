@@ -32,11 +32,12 @@ const TRANSLATION_SCHEMA = {
   items: {
     type: 'object',
     properties: {
+      source: { type: 'string', description: 'The original input string, copied VERBATIM (byte-for-byte). Used to map result back to input.' },
       en: { type: 'string', description: 'English translation (verbatim copy if source already English)' },
       vi: { type: 'string', description: 'Vietnamese translation' },
       no: { type: 'string', description: 'Norwegian Bokmål translation' },
     },
-    required: ['en', 'vi', 'no'],
+    required: ['source', 'en', 'vi', 'no'],
   },
 };
 
@@ -54,8 +55,10 @@ async function geminiTranslateBatch(texts) {
     '- NEVER copy the source string verbatim into a field unless that field\'s target language matches the source language.',
     '',
     'Other rules:',
-    `- Output an array of EXACTLY ${texts.length} objects, in the same order as the input.`,
-    '- Each object has the form {"vi": "...", "no": "..."}.',
+    `- Output an array of EXACTLY ${texts.length} objects — one per input string, no more, no less.`,
+    '- Each object has the form {"source": "...", "en": "...", "vi": "...", "no": "..."}.',
+    '- "source" MUST be the original input string copied VERBATIM (byte-for-byte, including any HTML tags). This is used to match results back to inputs — do NOT alter, split, or merge it.',
+    '- Treat each input array element as ONE indivisible unit even if it contains multiple sentences or HTML. Never split one input into multiple outputs, never merge two inputs into one.',
     '- Input may contain inline HTML tags: <strong>, <em>, <b>, <i>, <u>, <br>, <a>.',
     '  PRESERVE these tags EXACTLY in their relative position around the translated text.',
     '  Translate only the visible text content between/around tags. Do NOT add, remove,',
@@ -126,10 +129,33 @@ async function geminiTranslateBatch(texts) {
   if (!Array.isArray(parsed)) {
     throw new Error('Gemini không trả về array. Got: ' + typeof parsed);
   }
-  if (parsed.length !== texts.length) {
-    throw new Error(`Số lượng kết quả không khớp. Input=${texts.length}, output=${parsed.length}`);
+
+  // Map theo `source` (nội dung) thay vì index — tránh off-by-one khi model
+  // gom/tách chuỗi. Build lookup từ source → {en,vi,no}, rồi align lại đúng
+  // thứ tự input. Nếu thiếu source nào → reject batch (không corrupt).
+  const bySource = new Map();
+  for (const item of parsed) {
+    if (item && typeof item.source === 'string') {
+      bySource.set(item.source, item);
+    }
   }
-  return parsed;
+  const aligned = [];
+  const missing = [];
+  for (const src of texts) {
+    const hit = bySource.get(src);
+    if (hit && hit.en && hit.vi && hit.no) {
+      aligned.push({ en: hit.en, vi: hit.vi, no: hit.no });
+    } else {
+      missing.push(src);
+    }
+  }
+  if (missing.length > 0) {
+    throw new Error(
+      `Gemini không trả đủ/đúng source cho ${missing.length}/${texts.length} chuỗi ` +
+      `(vd: ${JSON.stringify(missing[0].slice(0, 50))}). Reject batch để tránh lệch mapping.`
+    );
+  }
+  return aligned;
 }
 
 async function main() {
