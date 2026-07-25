@@ -521,9 +521,9 @@ window.WIDGET_TRANSLATIONS = {
     "no": "Språk"
   },
   "Lectures": {
-    "en": "Lectures",
+    "en": "Sermons",
     "vi": "Bài giảng",
-    "no": "Forelesninger"
+    "no": "Undervisning"
   },
   "Legg til eksisterende artikkel": {
     "en": "Add existing article",
