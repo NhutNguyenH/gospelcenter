@@ -203,7 +203,7 @@ window.WIDGET_TRANSLATIONS = {
   "CHURCHES": {
     "en": "CHURCHES",
     "vi": "CÁC HỘI THÁNH",
-    "no": "KIRKER"
+    "no": "MENIGHETER"
   },
   "Calendar": {
     "en": "Calendar",
@@ -223,7 +223,7 @@ window.WIDGET_TRANSLATIONS = {
   "Churches": {
     "en": "Churches",
     "vi": "Hội Thánh",
-    "no": "Kirker"
+    "no": "Menigheter"
   },
   "Contact": {
     "en": "Contact",
@@ -381,13 +381,13 @@ window.WIDGET_TRANSLATIONS = {
     "no": "Grupper"
   },
   "Gudstjeneste": {
-    "en": "Service",
-    "vi": "Buổi lễ",
+    "en": "Worship Service",
+    "vi": "Buổi thờ phượng",
     "no": "Gudstjeneste"
   },
   "Gudstjenester": {
-    "en": "Services",
-    "vi": "Các buổi lễ",
+    "en": "Worship Services",
+    "vi": "Các buổi thờ phượng",
     "no": "Gudstjenester"
   },
   "Hendelser": {
