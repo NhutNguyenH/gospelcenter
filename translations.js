@@ -142,7 +142,7 @@ window.WIDGET_TRANSLATIONS = {
   },
   "Baptistmenigheten i Oslo": {
     "en": "The Baptist Congregation in Oslo",
-    "vi": "Giáo đoàn Baptist ở Oslo",
+    "vi": "Việt Nam tại Oslo",
     "no": "Baptistmenigheten i Oslo"
   },
   "Barn": {
@@ -212,7 +212,7 @@ window.WIDGET_TRANSLATIONS = {
   },
   "Camps": {
     "en": "Camps",
-    "vi": "Trại",
+    "vi": "Các Kì Trại",
     "no": "Leirer"
   },
   "Cell Groups": {
@@ -232,7 +232,7 @@ window.WIDGET_TRANSLATIONS = {
   },
   "Courses": {
     "en": "Courses",
-    "vi": "Khóa học",
+    "vi": "Các Khóa Học",
     "no": "Kurs"
   },
   "Các Khóa Học": {
@@ -247,7 +247,7 @@ window.WIDGET_TRANSLATIONS = {
   },
   "Den Vietnamesiske": {
     "en": "The Vietnamese",
-    "vi": "Người Việt Nam",
+    "vi": "Hội Thánh Baptist",
     "no": "Den vietnamesiske"
   },
   "Den Vietnamesiske Baptistmenigheten i Oslo": {
@@ -307,7 +307,7 @@ window.WIDGET_TRANSLATIONS = {
   },
   "Evangelisering": {
     "en": "Evangelism",
-    "vi": "Tin Lành",
+    "vi": "Chứng đạo",
     "no": "Evangelisering"
   },
   "Fakturaer": {
@@ -402,8 +402,8 @@ window.WIDGET_TRANSLATIONS = {
   },
   "Husgrupper": {
     "en": "Cell groups",
-    "vi": "Nhóm tại gia",
-    "no": "Husgrupper"
+    "vi": "Nhóm Tế Bào",
+    "no": "Cellegrupper"
   },
   "Hvem er vi": {
     "en": "Who are we",
@@ -443,12 +443,12 @@ window.WIDGET_TRANSLATIONS = {
   "Jobs": {
     "en": "Jobs",
     "vi": "Việc làm",
-    "no": "Jobber"
+    "no": "Jobbmuligheter"
   },
   "Join a cell group": {
     "en": "Join a cell group",
-    "vi": "Tham gia nhóm nhỏ",
-    "no": "Bli med i en celle-gruppe"
+    "vi": "Tham gia nhóm tế bào",
+    "no": "Bli med i en cellegruppe"
   },
   "Kalender": {
     "en": "Calendar",
@@ -492,7 +492,7 @@ window.WIDGET_TRANSLATIONS = {
   },
   "Kurs": {
     "en": "Courses",
-    "vi": "Khóa học",
+    "vi": "Các Khóa Học",
     "no": "Kurs"
   },
   "Lag artikkel": {
@@ -552,7 +552,7 @@ window.WIDGET_TRANSLATIONS = {
   },
   "Leirer": {
     "en": "Camps",
-    "vi": "Trại hè",
+    "vi": "Các Kì Trại",
     "no": "Leirer"
   },
   "Logg inn": {
@@ -627,7 +627,7 @@ window.WIDGET_TRANSLATIONS = {
   },
   "Mission": {
     "en": "Mission",
-    "vi": "Sứ mạng",
+    "vi": "Truyền giáo",
     "no": "Misjon"
   },
   "Nettside": {
@@ -653,7 +653,7 @@ window.WIDGET_TRANSLATIONS = {
   "Newsfeed": {
     "en": "Newsfeed",
     "vi": "Bảng tin",
-    "no": "Nyhetsfeed"
+    "no": "Nyhetsstrøm"
   },
   "Nhut Hoang Nguyen": {
     "en": "Nhut Hoang Nguyen",
@@ -722,13 +722,13 @@ window.WIDGET_TRANSLATIONS = {
   },
   "Our <strong>cell groups</strong> bring together brothers and sisters in faith who live near each other in the <strong>Oslo, Ski, and Brumunddal</strong> areas. To foster a safe, warm environment where everyone is seen and cared for, each group generally consists of 5 to 10 people.": {
     "en": "Our <strong>cell groups</strong> bring together brothers and sisters in faith who live near each other in the <strong>Oslo, Ski, and Brumunddal</strong> areas. To foster a safe, warm environment where everyone is seen and cared for, each group generally consists of 5 to 10 people.",
-    "vi": "Các <strong>nhóm nhỏ</strong> của chúng tôi quy tụ anh chị em trong đức tin sống gần nhau tại các khu vực <strong>Oslo, Ski và Brumunddal</strong>. Để nuôi dưỡng một môi trường an toàn, ấm áp nơi mọi người đều được nhìn thấy và quan tâm, mỗi nhóm thường bao gồm từ 5 đến 10 người.",
-    "no": "Våre <strong>celle-grupper</strong> samler brødre og søstre i tro som bor nær hverandre i <strong>Oslo, Ski og Brumunddal</strong>-områdene. For å fremme et trygt, varmt miljø der alle blir sett og tatt vare på, består hver gruppe vanligvis av 5 til 10 personer."
+    "vi": "Các <strong>nhóm tế bào</strong> của chúng tôi quy tụ anh chị em trong đức tin sống gần nhau tại các khu vực <strong>Oslo, Ski và Brumunddal</strong>. Để nuôi dưỡng một môi trường an toàn, ấm áp nơi mọi người đều được nhìn thấy và quan tâm, mỗi nhóm thường bao gồm từ 5 đến 10 người.",
+    "no": "Våre <strong>cellegrupper</strong> samler brødre og søstre i tro som bor nær hverandre i <strong>Oslo, Ski og Brumunddal</strong>-områdene. For å fremme et trygt, varmt miljø der alle blir sett og tatt vare på, består hver gruppe vanligvis av 5 til 10 personer."
   },
   "Our fellowship extends beyond these regular gatherings; we take turns opening our homes to visit one another. The goal of our cell groups is to build a true <strong>spiritual family</strong> – a place where we pray for, support, encourage, and comfort one another in our daily lives, just like siblings under the same roof.": {
     "en": "Our fellowship extends beyond these regular gatherings; we take turns opening our homes to visit one another. The goal of our cell groups is to build a true <strong>spiritual family</strong> – a place where we pray for, support, encourage, and comfort one another in our daily lives, just like siblings under the same roof.",
-    "vi": "Sự tương giao của chúng tôi vượt ra ngoài những buổi nhóm họp thường xuyên này; chúng tôi thay phiên nhau mở cửa nhà để thăm viếng lẫn nhau. Mục tiêu của các nhóm nhỏ là xây dựng một <strong>gia đình thuộc linh</strong> đích thực – một nơi chúng tôi cầu nguyện cho, hỗ trợ, khích lệ và an ủi lẫn nhau trong cuộc sống hàng ngày, giống như anh chị em ruột dưới cùng một mái nhà.",
-    "no": "Vårt fellesskap strekker seg utover disse faste samlingene; vi bytter på å åpne hjemmene våre for å besøke hverandre. Målet med våre celle-grupper er å bygge en ekte <strong>åndelig familie</strong> – et sted der vi ber for, støtter, oppmuntrer og trøster hverandre i hverdagen, akkurat som søsken under samme tak."
+    "vi": "Sự tương giao của chúng tôi vượt ra ngoài những buổi nhóm họp thường xuyên này; chúng tôi thay phiên nhau mở cửa nhà để thăm viếng lẫn nhau. Mục tiêu của các nhóm tế bào là xây dựng một <strong>gia đình thuộc linh</strong> đích thực – một nơi chúng tôi cầu nguyện cho, hỗ trợ, khích lệ và an ủi lẫn nhau trong cuộc sống hàng ngày, giống như anh chị em ruột dưới cùng một mái nhà.",
+    "no": "Vårt fellesskap strekker seg utover disse faste samlingene; vi bytter på å åpne hjemmene våre for å besøke hverandre. Målet med våre cellegrupper er å bygge en ekte <strong>åndelig familie</strong> – et sted der vi ber for, støtter, oppmuntrer og trøster hverandre i hverdagen, akkurat som søsken under samme tak."
   },
   "Planlagt": {
     "en": "Scheduled",
@@ -853,7 +853,7 @@ window.WIDGET_TRANSLATIONS = {
   "Study Abroad": {
     "en": "Study Abroad",
     "vi": "Du học",
-    "no": "Studere i utlandet"
+    "no": "Utenlandsstudier"
   },
   "Svindelforebygging": {
     "en": "Fraud prevention",
@@ -903,16 +903,16 @@ window.WIDGET_TRANSLATIONS = {
   "Topics": {
     "en": "Topics",
     "vi": "Chủ đề",
-    "no": "Emner"
+    "no": "Temaer"
   },
   "Training": {
     "en": "Training",
     "vi": "Đào tạo",
-    "no": "Trening"
+    "no": "Opplæring"
   },
   "Truyền giáo": {
     "en": "Evangelism",
-    "vi": "Truyền giáo",
+    "vi": "Chứng đạo",
     "no": "Evangelisering"
   },
   "Ungdom": {
@@ -956,8 +956,8 @@ window.WIDGET_TRANSLATIONS = {
     "no": "Videoliste"
   },
   "Vietnamesisk språkkurs(Khóa học tiếng Việt)": {
-    "en": "Vietnamese language course (Vietnamese course)",
-    "vi": "Khóa học tiếng Việt (Khóa học tiếng Việt)",
+    "en": "Vietnamese language course",
+    "vi": "Khóa học tiếng Việt",
     "no": "Vietnamesisk språkkurs (Khóa học tiếng Việt)"
   },
   "Vipps: 113470<br> &nbsp;": {
