@@ -20,30 +20,10 @@ window.WIDGET_TRANSLATIONS = {
     "vi": "<span><a href=\"mailto:gospelcenter.oslo@gmail.com\">gospelcenter.oslo@gmail.com</a></span><br> &nbsp;",
     "no": "<span><a href=\"mailto:gospelcenter.oslo@gmail.com\">gospelcenter.oslo@gmail.com</a></span><br> &nbsp;"
   },
-  "<span><b>Adresse</b><br> Ravnåsveien 3<br> 1254 Oslo</span>": {
-    "en": "<span><b>Address</b><br> Ravnåsveien 3<br> 1254 Oslo</span>",
-    "vi": "<span><b>Địa chỉ</b><br> Ravnåsveien 3<br> 1254 Oslo</span>",
-    "no": "<span><b>Adresse</b><br> Ravnåsveien 3<br> 1254 Oslo</span>"
-  },
   "<span>Artikkel</span><span>Artikkel</span>": {
     "en": "ArticleArticle",
     "vi": "Bài viếtBài viết",
     "no": "ArtikkelArtikkel"
-  },
-  "<span>Artikkelliste</span><span>Artikkel</span>": {
-    "en": "<span>Article list</span><span>Article</span>",
-    "vi": "<span>Danh sách bài viết</span><span>Bài viết</span>",
-    "no": "<span>Artikkeliste</span><span>Artikkel</span>"
-  },
-  "<span>Bilde</span>": {
-    "en": "<span>Image</span>",
-    "vi": "<span>Hình ảnh</span>",
-    "no": "<span>Bilde</span>"
-  },
-  "<span>Galleribilder</span>": {
-    "en": "<span>Gallery images</span>",
-    "vi": "<span>Hình ảnh thư viện</span>",
-    "no": "<span>Galleri-bilder</span>"
   },
   "<span>Tilgjengelige roller</span>": {
     "en": "Available roles",
@@ -54,11 +34,6 @@ window.WIDGET_TRANSLATIONS = {
     "en": "ABOUT US",
     "vi": "VỀ CHÚNG TÔI",
     "no": "OM OSS"
-  },
-  "Abonnementer": {
-    "en": "Subscriptions",
-    "vi": "Các đăng ký",
-    "no": "Abonnementer"
   },
   "About Us": {
     "en": "About Us",
@@ -80,65 +55,10 @@ window.WIDGET_TRANSLATIONS = {
     "vi": "Quản trị viên",
     "no": "Administrator"
   },
-  "Aldersfordelt saldoliste": {
-    "en": "Age-distributed balance list",
-    "vi": "Danh sách số dư phân bổ theo độ tuổi",
-    "no": "Aldersfordelt saldoliste"
-  },
-  "Alle artikler": {
-    "en": "All articles",
-    "vi": "Tất cả các bài viết",
-    "no": "Alle artikler"
-  },
-  "Alle fakturaer": {
-    "en": "All invoices",
-    "vi": "Tất cả hóa đơn",
-    "no": "Alle fakturaer"
-  },
-  "Alle fakturajournaler": {
-    "en": "All invoice journals",
-    "vi": "Tất cả nhật ký hóa đơn",
-    "no": "Alle fakturajournaler"
-  },
-  "Alle grupper": {
-    "en": "All groups",
-    "vi": "Tất cả các nhóm",
-    "no": "Alle grupper"
-  },
-  "Alle medlemmer": {
-    "en": "All members",
-    "vi": "Tất cả thành viên",
-    "no": "Alle medlemmer"
-  },
-  "Alle personer": {
-    "en": "All persons",
-    "vi": "Tất cả mọi người",
-    "no": "Alle personer"
-  },
-  "Alle skjemaer": {
-    "en": "All forms",
-    "vi": "Tất cả các biểu mẫu",
-    "no": "Alle skjemaer"
-  },
   "Artikkel": {
     "en": "Article",
     "vi": "Bài viết",
     "no": "Artikkel"
-  },
-  "Artikkelliste": {
-    "en": "Article list",
-    "vi": "Danh sách bài viết",
-    "no": "Artikkelliste"
-  },
-  "Artikkellister": {
-    "en": "Article lists",
-    "vi": "Danh sách các bài viết",
-    "no": "Artikkellister"
-  },
-  "Avsendernummer": {
-    "en": "Sender number",
-    "vi": "Số người gửi",
-    "no": "Avsendernummer"
   },
   "Baptistmenigheten i Oslo": {
     "en": "The Baptist Congregation in Oslo",
@@ -155,21 +75,6 @@ window.WIDGET_TRANSLATIONS = {
     "vi": "Thanh toán",
     "no": "Betaling"
   },
-  "Betalinger": {
-    "en": "Payments",
-    "vi": "Các khoản thanh toán",
-    "no": "Betalinger"
-  },
-  "Betalingsrapport": {
-    "en": "Payment report",
-    "vi": "Báo cáo thanh toán",
-    "no": "Betalingsrapport"
-  },
-  "Betalingsvalg": {
-    "en": "Payment options",
-    "vi": "Tùy chọn thanh toán",
-    "no": "Betalingsvalg"
-  },
   "Bibelskole": {
     "en": "Bible School",
     "vi": "Trường Kinh Thánh",
@@ -180,25 +85,10 @@ window.WIDGET_TRANSLATIONS = {
     "vi": "Hình ảnh",
     "no": "Bilde"
   },
-  "Bildetype": {
-    "en": "Image type",
-    "vi": "Loại hình ảnh",
-    "no": "Bildetype"
-  },
   "Bli med": {
     "en": "Join us",
     "vi": "Tham gia với chúng tôi",
     "no": "Bli med"
-  },
-  "Brukere<span class=\"cs-number\">14</span>": {
-    "en": "Users<span class=\"cs-number\">14</span>",
-    "vi": "Người dùng<span class=\"cs-number\">14</span>",
-    "no": "Brukere<span class=\"cs-number\">14</span>"
-  },
-  "Bursdager": {
-    "en": "Birthdays",
-    "vi": "Sinh nhật",
-    "no": "Bursdager"
   },
   "CHURCHES": {
     "en": "CHURCHES",
@@ -255,16 +145,6 @@ window.WIDGET_TRANSLATIONS = {
     "vi": "Hội Thánh Baptist Việt Nam tại Oslo",
     "no": "Den Vietnamesiske Baptistmenigheten i Oslo"
   },
-  "Designmodus": {
-    "en": "Design mode",
-    "vi": "Chế độ thiết kế",
-    "no": "Designmodus"
-  },
-  "Dimensjoner": {
-    "en": "Dimensions",
-    "vi": "Kích thước",
-    "no": "Dimensjoner"
-  },
   "Dokument": {
     "en": "Document",
     "vi": "Tài liệu",
@@ -274,31 +154,6 @@ window.WIDGET_TRANSLATIONS = {
     "en": "You have unsaved data. If you leave this page now, your changes may be lost.",
     "vi": "Bạn có dữ liệu chưa lưu. Nếu bạn rời khỏi trang này bây giờ, các thay đổi của bạn có thể bị mất.",
     "no": "Du har ulagrede data. Hvis du forlater denne siden nå, kan endringene dine gå tapt."
-  },
-  "E-post": {
-    "en": "Email",
-    "vi": "Email",
-    "no": "E-post"
-  },
-  "Eksporter fødselsnummer": {
-    "en": "Export social security number",
-    "vi": "Xuất số an sinh xã hội",
-    "no": "Eksporter fødselsnummer"
-  },
-  "Endre": {
-    "en": "Change",
-    "vi": "Thay đổi",
-    "no": "Endre"
-  },
-  "Endre bilde": {
-    "en": "Change picture",
-    "vi": "Thay đổi ảnh",
-    "no": "Endre bilde"
-  },
-  "English": {
-    "en": "English",
-    "vi": "Tiếng Anh",
-    "no": "Engelsk"
   },
   "Europe": {
     "en": "Europe",
@@ -310,75 +165,10 @@ window.WIDGET_TRANSLATIONS = {
     "vi": "Chứng đạo",
     "no": "Evangelisering"
   },
-  "Fakturaer": {
-    "en": "Invoices",
-    "vi": "Hóa đơn",
-    "no": "Fakturaer"
-  },
-  "Fakturajournaler": {
-    "en": "Invoice journals",
-    "vi": "Nhật ký hóa đơn",
-    "no": "Fakturajournaler"
-  },
-  "Fakturamaler": {
-    "en": "Invoice templates",
-    "vi": "Mẫu hóa đơn",
-    "no": "Fakturamaler"
-  },
-  "Faktureringer": {
-    "en": "Billings",
-    "vi": "Các khoản thanh toán",
-    "no": "Faktureringer"
-  },
-  "Fakturér medlemsavgift": {
-    "en": "Invoice membership fee",
-    "vi": "Hóa đơn phí thành viên",
-    "no": "Fakturér medlemsavgift"
-  },
   "Folk": {
     "en": "People",
     "vi": "Mọi người",
     "no": "Folk"
-  },
-  "Forfalte faktura": {
-    "en": "Overdue invoice",
-    "vi": "Hóa đơn quá hạn",
-    "no": "Forfalte faktura"
-  },
-  "Forfattere": {
-    "en": "Authors",
-    "vi": "Tác giả",
-    "no": "Forfattere"
-  },
-  "Forhåndsinnstillinger": {
-    "en": "Preferences",
-    "vi": "Tùy chọn",
-    "no": "Forhåndsinnstillinger"
-  },
-  "Galleri": {
-    "en": "Gallery",
-    "vi": "Thư viện ảnh",
-    "no": "Galleri"
-  },
-  "Galleribilder": {
-    "en": "Gallery images",
-    "vi": "Ảnh thư viện",
-    "no": "Galleribilder"
-  },
-  "Gaveside": {
-    "en": "Gift page",
-    "vi": "Trang quà tặng",
-    "no": "Gaveside"
-  },
-  "Generelle innstillinger": {
-    "en": "General settings",
-    "vi": "Cài đặt chung",
-    "no": "Generelle innstillinger"
-  },
-  "Grupper": {
-    "en": "Groups",
-    "vi": "Nhóm",
-    "no": "Grupper"
   },
   "Gudstjeneste": {
     "en": "Worship Service",
@@ -410,35 +200,10 @@ window.WIDGET_TRANSLATIONS = {
     "vi": "Chúng ta là ai",
     "no": "Hvem er vi"
   },
-  "Håndtér duplikater": {
-    "en": "Handle duplicates",
-    "vi": "Xử lý các bản sao",
-    "no": "Håndter duplikater"
-  },
-  "I nær fremtid": {
-    "en": "In the near future",
-    "vi": "Trong tương lai gần",
-    "no": "I nær fremtid"
-  },
   "ICDP - Nuôi dạy con cái": {
     "en": "ICDP - Parenting",
     "vi": "ICDP - Nuôi dạy con cái",
     "no": "ICDP - Foreldreveiledning"
-  },
-  "Importér fra Excel": {
-    "en": "Import from Excel",
-    "vi": "Nhập từ Excel",
-    "no": "Importer fra Excel"
-  },
-  "Innboks": {
-    "en": "Inbox",
-    "vi": "Hộp thư đến",
-    "no": "Innboks"
-  },
-  "Innstillinger": {
-    "en": "Settings",
-    "vi": "Cài đặt",
-    "no": "Innstillinger"
   },
   "Jobs": {
     "en": "Jobs",
@@ -470,55 +235,10 @@ window.WIDGET_TRANSLATIONS = {
     "vi": "Số tài khoản: 1503.02.07693",
     "no": "Kontonummer: 1503.02.07693"
   },
-  "Kontoplan": {
-    "en": "Chart of accounts",
-    "vi": "Sơ đồ tài khoản",
-    "no": "Kontoplan"
-  },
-  "Kontoutstemmingsrapport": {
-    "en": "Account reconciliation report",
-    "vi": "Báo cáo đối chiếu tài khoản",
-    "no": "Kontoutstemmingsrapport"
-  },
-  "Kreditt": {
-    "en": "Credit",
-    "vi": "Tín dụng",
-    "no": "Kreditt"
-  },
-  "Kundereskontro": {
-    "en": "Customer reconciliation",
-    "vi": "Đối chiếu khách hàng",
-    "no": "Kundereskontro"
-  },
   "Kurs": {
     "en": "Courses",
     "vi": "Các Khóa Học",
     "no": "Kurs"
-  },
-  "Lag artikkel": {
-    "en": "Create article",
-    "vi": "Tạo bài viết",
-    "no": "Lag artikkel"
-  },
-  "Lag hendelse": {
-    "en": "Create event",
-    "vi": "Tạo sự kiện",
-    "no": "Lag hendelse"
-  },
-  "Lag skjema": {
-    "en": "Create form",
-    "vi": "Tạo biểu mẫu",
-    "no": "Lag skjema"
-  },
-  "Lag video": {
-    "en": "Create video",
-    "vi": "Tạo video",
-    "no": "Lag video"
-  },
-  "Languages": {
-    "en": "Languages",
-    "vi": "Ngôn ngữ",
-    "no": "Språk"
   },
   "Lectures": {
     "en": "Sermons",
@@ -530,26 +250,6 @@ window.WIDGET_TRANSLATIONS = {
     "vi": "Thêm bài viết hiện có",
     "no": "Legg til eksisterende artikkel"
   },
-  "Legg til eksisterende bilde": {
-    "en": "Add existing image",
-    "vi": "Thêm ảnh hiện có",
-    "no": "Legg til eksisterende bilde"
-  },
-  "Legg til gruppemedlem": {
-    "en": "Add group member",
-    "vi": "Thêm thành viên nhóm",
-    "no": "Legg til gruppemedlem"
-  },
-  "Legg til medlem": {
-    "en": "Add member",
-    "vi": "Thêm thành viên",
-    "no": "Legg til medlem"
-  },
-  "Legg til nytt bilde": {
-    "en": "Add new image",
-    "vi": "Thêm ảnh mới",
-    "no": "Legg til nytt bilde"
-  },
   "Leirer": {
     "en": "Camps",
     "vi": "Các Kì Trại",
@@ -560,30 +260,10 @@ window.WIDGET_TRANSLATIONS = {
     "vi": "Đăng nhập",
     "no": "Logg inn"
   },
-  "Logg ut": {
-    "en": "Log out",
-    "vi": "Đăng xuất",
-    "no": "Logg ut"
-  },
   "Lyd": {
     "en": "Audio",
     "vi": "Âm thanh",
     "no": "Lyd"
-  },
-  "Lydfiler": {
-    "en": "Audio files",
-    "vi": "Tệp âm thanh",
-    "no": "Lydfiler"
-  },
-  "Maler": {
-    "en": "Templates",
-    "vi": "Mẫu",
-    "no": "Maler"
-  },
-  "Mangelfulle betalinger": {
-    "en": "Incomplete payments",
-    "vi": "Thanh toán chưa hoàn tất",
-    "no": "Mangelfulle betalinger"
   },
   "Medlem": {
     "en": "Member",
@@ -595,35 +275,10 @@ window.WIDGET_TRANSLATIONS = {
     "vi": "Thành viên",
     "no": "Medlemmer"
   },
-  "Medlemsavgifter": {
-    "en": "Membership fees",
-    "vi": "Phí thành viên",
-    "no": "Medlemsavgifter"
-  },
-  "Medlemsfordeler": {
-    "en": "Member benefits",
-    "vi": "Quyền lợi thành viên",
-    "no": "Medlemsfordeler"
-  },
-  "Medlemstyper": {
-    "en": "Member types",
-    "vi": "Các loại thành viên",
-    "no": "Medlemstyper"
-  },
   "Melding": {
     "en": "Message",
     "vi": "Tin nhắn",
     "no": "Melding"
-  },
-  "Min konto": {
-    "en": "My account",
-    "vi": "Tài khoản của tôi",
-    "no": "Min konto"
-  },
-  "Mine rom": {
-    "en": "My rooms",
-    "vi": "Phòng của tôi",
-    "no": "Mine rom"
   },
   "Mission": {
     "en": "Mission",
@@ -634,11 +289,6 @@ window.WIDGET_TRANSLATIONS = {
     "en": "Website",
     "vi": "Trang web",
     "no": "Nettside"
-  },
-  "Nettside - Max": {
-    "en": "Website - Max",
-    "vi": "Trang web - Max",
-    "no": "Nettside - Max"
   },
   "Nettsted": {
     "en": "Website",
@@ -675,30 +325,10 @@ window.WIDGET_TRANSLATIONS = {
     "vi": "VỀ CHÚNG TÔI",
     "no": "OM OSS"
   },
-  "Offentlige dokumenter": {
-    "en": "Public documents",
-    "vi": "Tài liệu công khai",
-    "no": "Offentlige dokumenter"
-  },
-  "Opprett gruppe": {
-    "en": "Create group",
-    "vi": "Tạo nhóm",
-    "no": "Opprett gruppe"
-  },
   "Opprett ny artikkel": {
     "en": "Create new article",
     "vi": "Tạo bài viết mới",
     "no": "Opprett ny artikkel"
-  },
-  "Opprett person": {
-    "en": "Create person",
-    "vi": "Tạo người",
-    "no": "Opprett person"
-  },
-  "Organisasjonskart": {
-    "en": "Organization chart",
-    "vi": "Sơ đồ tổ chức",
-    "no": "Organisasjonskart"
   },
   "Organisasjonsnummer: 987.10.4554": {
     "en": "Organization number: 987.10.4554",
@@ -730,85 +360,20 @@ window.WIDGET_TRANSLATIONS = {
     "vi": "Sự tương giao của chúng tôi vượt ra ngoài những buổi nhóm họp thường xuyên này; chúng tôi thay phiên nhau mở cửa nhà để thăm viếng lẫn nhau. Mục tiêu của các nhóm tế bào là xây dựng một <strong>gia đình thuộc linh</strong> đích thực – một nơi chúng tôi cầu nguyện cho, hỗ trợ, khích lệ và an ủi lẫn nhau trong cuộc sống hàng ngày, giống như anh chị em ruột dưới cùng một mái nhà.",
     "no": "Vårt fellesskap strekker seg utover disse faste samlingene; vi bytter på å åpne hjemmene våre for å besøke hverandre. Målet med våre cellegrupper er å bygge en ekte <strong>åndelig familie</strong> – et sted der vi ber for, støtter, oppmuntrer og trøster hverandre i hverdagen, akkurat som søsken under samme tak."
   },
-  "Planlagt": {
-    "en": "Scheduled",
-    "vi": "Đã lên lịch",
-    "no": "Planlagt"
-  },
-  "Rabatttilbud": {
-    "en": "Discount offers",
-    "vi": "Ưu đãi giảm giá",
-    "no": "Rabatttilbud"
-  },
-  "Rapport over åpne fakturaer": {
-    "en": "Report of open invoices",
-    "vi": "Báo cáo hóa đơn mở",
-    "no": "Rapport over åpne fakturaer"
-  },
   "Rediger artikkel": {
     "en": "Edit article",
     "vi": "Chỉnh sửa bài viết",
     "no": "Rediger artikkel"
-  },
-  "Rediger bilde": {
-    "en": "Edit image",
-    "vi": "Chỉnh sửa ảnh",
-    "no": "Rediger bilde"
   },
   "Register Form": {
     "en": "Register Form",
     "vi": "Mẫu đăng ký",
     "no": "Registreringsskjema"
   },
-  "Registrer betaling": {
-    "en": "Register payment",
-    "vi": "Đăng ký thanh toán",
-    "no": "Registrer betaling"
-  },
-  "Roller": {
-    "en": "Roles",
-    "vi": "Vai trò",
-    "no": "Roller"
-  },
-  "Rutenett av hendelser": {
-    "en": "Grid of events",
-    "vi": "Lưới các sự kiện",
-    "no": "Rutenett av hendelser"
-  },
-  "SMS": {
-    "en": "SMS",
-    "vi": "Tin nhắn SMS",
-    "no": "SMS"
-  },
-  "SMS-koder": {
-    "en": "SMS codes",
-    "vi": "Mã SMS",
-    "no": "SMS-koder"
-  },
   "Se flere hendelser": {
     "en": "See more events",
     "vi": "Xem thêm sự kiện",
     "no": "Se flere hendelser"
-  },
-  "Sendt": {
-    "en": "Sent",
-    "vi": "Đã gửi",
-    "no": "Sendt"
-  },
-  "Seremonityper": {
-    "en": "Ceremony types",
-    "vi": "Các loại buổi lễ",
-    "no": "Seremonityper"
-  },
-  "Sett opp varsler": {
-    "en": "Set up alerts",
-    "vi": "Thiết lập cảnh báo",
-    "no": "Sett opp varsler"
-  },
-  "Sikkerhet": {
-    "en": "Security",
-    "vi": "Bảo mật",
-    "no": "Sikkerhet"
   },
   "Skjema": {
     "en": "Form",
@@ -830,55 +395,10 @@ window.WIDGET_TRANSLATIONS = {
     "vi": "Thả vào đây",
     "no": "Slipp her"
   },
-  "Spillelister": {
-    "en": "Playlists",
-    "vi": "Danh sách phát",
-    "no": "Spillelister"
-  },
-  "Spørreundersøkelser": {
-    "en": "Surveys",
-    "vi": "Khảo sát",
-    "no": "Spørreundersøkelser"
-  },
-  "Standardverdier for modulvinduer": {
-    "en": "Default values for modal windows",
-    "vi": "Giá trị mặc định cho cửa sổ modal",
-    "no": "Standardverdier for modulvinduer"
-  },
-  "Statistikk": {
-    "en": "Statistics",
-    "vi": "Thống kê",
-    "no": "Statistikk"
-  },
   "Study Abroad": {
     "en": "Study Abroad",
     "vi": "Du học",
     "no": "Utenlandsstudier"
-  },
-  "Svindelforebygging": {
-    "en": "Fraud prevention",
-    "vi": "Phòng chống gian lận",
-    "no": "Svindelforebygging"
-  },
-  "Systemdokumenter": {
-    "en": "System documents",
-    "vi": "Tài liệu hệ thống",
-    "no": "Systemdokumenter"
-  },
-  "Systemmeldinger": {
-    "en": "System messages",
-    "vi": "Thông báo hệ thống",
-    "no": "Systemmeldinger"
-  },
-  "Tagger": {
-    "en": "Tags",
-    "vi": "Thẻ",
-    "no": "Tagger"
-  },
-  "Taler": {
-    "en": "Speeches",
-    "vi": "Bài phát biểu",
-    "no": "Taler"
   },
   "Tema": {
     "en": "Theme",
@@ -894,11 +414,6 @@ window.WIDGET_TRANSLATIONS = {
     "en": "Available roles",
     "vi": "Vai trò có sẵn",
     "no": "Tilgjengelige roller"
-  },
-  "Tilhørigheter": {
-    "en": "Affiliations",
-    "vi": "Tổ chức",
-    "no": "Tilhørigheter"
   },
   "Topics": {
     "en": "Topics",
@@ -920,20 +435,10 @@ window.WIDGET_TRANSLATIONS = {
     "vi": "Thanh niên",
     "no": "Ungdom"
   },
-  "Utforsker": {
-    "en": "Explorer",
-    "vi": "Trình khám phá",
-    "no": "Utforsker"
-  },
   "Velg ditt nye profilbilde": {
     "en": "Choose your new profile picture",
     "vi": "Chọn ảnh đại diện mới của bạn",
     "no": "Velg ditt nye profilbilde"
-  },
-  "Velg fil": {
-    "en": "Select file",
-    "vi": "Chọn tệp",
-    "no": "Velg fil"
   },
   "Vi ønsker deg velkommen til våre samlinger. Vi ønsker å være et åpent og inkluderende fellesskap.": {
     "en": "We welcome you to our gatherings. We want to be an open and inclusive community.",
@@ -950,11 +455,6 @@ window.WIDGET_TRANSLATIONS = {
     "vi": "Video",
     "no": "Videoer"
   },
-  "Videoliste": {
-    "en": "Video list",
-    "vi": "Danh sách video",
-    "no": "Videoliste"
-  },
   "Vietnamesisk språkkurs(Khóa học tiếng Việt)": {
     "en": "Vietnamese language course",
     "vi": "Khóa học tiếng Việt",
@@ -964,11 +464,6 @@ window.WIDGET_TRANSLATIONS = {
     "en": "Vipps: 113470<br> &nbsp;",
     "vi": "Vipps: 113470<br> &nbsp;",
     "no": "Vipps: 113470<br> &nbsp;"
-  },
-  "Vis alle<span class=\"cs-number\">2</span>": {
-    "en": "Show all<span class=\"cs-number\">2</span>",
-    "vi": "Hiển thị tất cả<span class=\"cs-number\">2</span>",
-    "no": "Vis alle<span class=\"cs-number\">2</span>"
   },
   "Vision": {
     "en": "Vision",
@@ -1000,15 +495,10 @@ window.WIDGET_TRANSLATIONS = {
     "vi": "Thứ Sáu",
     "no": "fredag"
   },
-  "gospelcenter oslo": {
-    "en": "gospelcenter oslo",
-    "vi": "gospelcenter oslo",
-    "no": "gospelcenter oslo"
-  },
-  "nhut-httl-oslo": {
-    "en": "nhut-httl-oslo",
-    "vi": "nhut-httl-oslo",
-    "no": "nhut-httl-oslo"
+  "gospelcenter.oslo@gmail.com": {
+    "en": "gospelcenter.oslo@gmail.com",
+    "vi": "gospelcenter.oslo@gmail.com",
+    "no": "gospelcenter.oslo@gmail.com"
   },
   "velg fil": {
     "en": "select file",
