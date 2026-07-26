@@ -121,11 +121,46 @@ Nhưng:
 
 Ví dụ: anh muốn đổi bản dịch tiếng Việt của "Cell Groups" từ "Nhóm Tế Bào" sang "Nhóm Nhỏ" mà không đổi text trên website.
 
+### Cách nhanh (khuyến nghị) — để Claude làm hết
+
+Trong Claude Code, gõ:
+
+```
+/update-text đổi "Cell Groups" tiếng Việt thành "Nhóm Nhỏ"
+```
+
+Anh có thể gọi chuỗi bằng **bất kỳ ngôn ngữ nào** anh đang thấy trên web
+(tiếng Anh, tiếng Việt, hay tiếng Na Uy) — Claude tìm được hết. Nói kèm tên
+trang cũng được: `/update-text trang cellgroup, chữ "spiritual family" nghe cứng quá`.
+
+Claude sẽ:
+
+1. Tìm entry trong `translations.json`. Nếu có nhiều chuỗi khớp → **hỏi anh chọn cái nào**.
+2. **Kiểm tra từ anh đưa**: chính tả, dạng ngữ pháp (số ít/số nhiều — tiếng Na Uy
+   có 4 dạng: `menighet`/`menigheten`/`menigheter`/`menighetene`), hợp ngữ cảnh
+   nhà thờ chưa, và có nhất quán với các chuỗi khác trên site không. Nếu lệch →
+   đưa anh 2–4 phương án để chọn, kèm lý do. Không tự ý sửa.
+3. Sửa đúng field ngôn ngữ anh chọn.
+4. Regen `translations.js` (không gọi Gemini → không tốn quota, không re-dịch gì cả).
+5. Đưa anh xem `git diff` → commit + push + purge jsDelivr + fetch lại từ CDN xác nhận.
+
+Cuối cùng anh mở InPrivate Edge kiểm tra trên trang thật (cache browser của anh có thể giữ bản cũ tới 7 ngày).
+
+> Skill này **chỉ** làm Trường hợp 3. Nếu anh đã đổi text trên builder → phải làm
+> Trường hợp 1 (extract lại). Nếu là chuỗi hoàn toàn mới → cần `/translate`.
+
+### Cách thủ công (nếu anh muốn tự làm)
+
 1. Mở `translations.json` trong Notepad.
 2. Tìm `"Cell Groups"` → sửa giá trị `"vi"`.
 3. Save.
-4. Tạo `translations.js` mới (cùng nội dung). **Hoặc** chạy `/translate` để Claude tự regen `translations.js` từ `translations.json` (nhưng /translate sẽ re-dịch toàn bộ → mất công).
-   - Cách nhanh: hỏi Claude "regenerate translations.js from translations.json" — Claude sẽ làm 5 giây xong.
+4. Regen `translations.js` — trong PowerShell tại thư mục dự án:
+   ```powershell
+   node tools/regen-translations-js.js
+   ```
+   > ⚠️ Bước này **bắt buộc**. Sửa `translations.json` mà quên regen sẽ làm 2 file
+   > lệch nhau (đã từng xảy ra với `Gudstjeneste`). Đừng chạy `/translate` — nó
+   > sẽ re-dịch toàn bộ, mất công và tốn quota.
 5. Push + purge như trường hợp 1.
 
 ---

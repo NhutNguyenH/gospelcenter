@@ -10,3 +10,8 @@ session_export.pdf
 
 .DS_Store
 Thumbs.db
+
+.playwright-mcp/
+
+# Bản extract mới chờ đối chiếu với strings/home.json. Tạm thời, xoá sau khi diff.
+tools/home-new.json

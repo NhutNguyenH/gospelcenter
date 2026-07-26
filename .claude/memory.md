@@ -44,6 +44,158 @@ Còn 2 warning vô hại (chỉ hiện khi user login admin):
   - Feature branch: tạo branch → push → `widget-test.html` đổi URL
     `@<branch-name>` → paste vào trang `/test-widget` trong builder
 
+### Cập nhật 2026-06-06 (cuối session)
+
+- **Recently completed**: reverse-index trong `widget.js:38-66` (build index +
+  `resolveEntry`) đã LIVE — user xác nhận trang chủ chọn VI dịch đúng. Docs
+  (extract-strings.js header, HOW-TO.md) đã thêm quy tắc "bấm EN + extract 1
+  lần/trang". 203 entries trong translations.json (đủ en+vi+no).
+- **In progress / blocker**: trang Oslo (`gospelcenter.net/churches/europe/oslo`)
+  KHÔNG dịch khi điều hướng từ trang chủ. Root cause = trang đó CHƯA dán script
+  widget (mỗi trang trong builder phải dán riêng). CÙNG domain gospelcenter.net
+  → localStorage chia sẻ được, không phải vấn đề cross-domain.
+- **Immediate next steps**: user dán `widget.html` (khuyến nghị — có nút EN/VI/NO
+  vì khách có thể vào thẳng Oslo) hoặc `widget-subpage.html` vào trang Oslo /
+  template chung của subsite Oslo → Save + Publish → test InPrivate. Verify bằng
+  `Object.keys(window.WIDGET_TRANSLATIONS||{}).length` trên trang Oslo.
+
+### Cập nhật 2026-07-25 — skill `update-translation` + git policy override
+
+- **Git policy CHANGED (user-approved 2026-07-25)**: quy tắc cũ "user tự chạy
+  git add/commit/push, agent KHÔNG chạy thay" (2026-05-23) vẫn là **default**,
+  NHƯNG có 1 ngoại lệ: skill `update-translation` được phép `git add` (đúng 2
+  file `translations.json` + `translations.js`) + `commit` + `push` + purge
+  jsDelivr — **sau khi hỏi và user xác nhận trong conversation**. User chọn
+  "Dừng xác nhận trước khi push", KHÔNG chọn full-auto. Ngoài phạm vi Trường
+  hợp B → quay về default.
+- **Skill mới `update-translation`** (`.claude/skills/update-translation/`,
+  command `/update-text`). Tự động hoá HOW-TO Trường hợp 3/B: tìm → sửa →
+  regen → test browser thật → hỏi → commit/push/purge/verify CDN. Phạm vi
+  CHỈ Trường hợp B; từ chối Trường hợp A (đổi text trên builder → cần
+  re-extract) và từ chối thêm key mới (cần Gemini).
+- **2 script trong `tools/`** (đặt trong subdir, KHÔNG ở root, để không bị
+  jsDelivr phục vụ nhầm): `find-translation.js` (search theo key hoặc bất kỳ
+  giá trị en/vi/no, báo page + flag AMBIGUOUS), `regen-translations-js.js`
+  (rebuild translations.js từ json, format y hệt `writeOutputs()`, atomic,
+  refuse khi json rỗng/hỏng).
+- **Bước test browser local đã BỎ (user quyết 2026-07-25)**: từng có
+  `make-test-fixture.js` + `serve.js` + Playwright bấm EN/VI/NO. User thấy
+  "chậm mà tốn thời gian" cho thay đổi cỡ 1 từ, và tự verify trên trang thật.
+  2 script đó ĐÃ XOÁ. **Không dựng lại** trừ khi user yêu cầu. An toàn giờ dựa
+  vào Step 2 (kiểm tra từ) + `git diff` + regen (2 file sinh từ 1 nguồn nên
+  không thể lệch nhau).
+- **Step 2 mới — kiểm tra từ vựng (user yêu cầu 2026-07-25)**: KHÔNG ghi thẳng
+  từ user đưa. Phải check chính tả, dạng ngữ pháp (số/định-bất định tiếng Na
+  Uy), hợp ngữ cảnh nhà thờ, và nhất quán với site. Lệch → đưa 2–4 phương án
+  kèm lý do, user chọn. Không tự sửa, không từ chối. Kinh nghiệm: **trực giác
+  của user về CHỌN TỪ NÀO thường đúng; cái sai là DẠNG của từ.**
+- **Bug thật đã fix khi build**: `translations.js` committed bị **lệch** với
+  `translations.json` ở 2 entry `Gudstjeneste`/`Gudstjenester` (js còn
+  "Service"/"Buổi lễ", json đã là "Worship Service"/"Buổi thờ phượng" — user
+  sửa tay json mà quên regen js). Impact thấp (widget.js fetch json runtime,
+  js chỉ là back-compat fallback) nhưng chứng minh đúng lý do skill này tồn
+  tại. Đã regen, **chưa commit**.
+- **Skill phải nằm ở CẢ 2 chỗ**: session hay được mở ở workspace root
+  `WebHoiThanh`, mà Claude Code chỉ nạp `.claude/` của thư mục đang mở → skill
+  đặt trong `deepl-translator/.claude/` KHÔNG thấy được từ root ("Unknown
+  command: /update-text"). Fix: thêm `WebHoiThanh/.claude/skills/
+  update-translation/SKILL.md` dạng **pointer mỏng** (cd sang deepl-translator
+  rồi đọc SKILL.md thật) + `WebHoiThanh/.claude/commands/update-text.md`.
+  Pointer KHÔNG duplicate nội dung → không drift. Áp dụng cho mọi skill tương
+  lai của sub-project.
+- **Lần chạy thật đầu tiên (2026-07-25)**: user yêu cầu "Hội Thánh → Menighet".
+  Step 1 ra 3 hit → hỏi. Step 2 phát hiện: (a) user ĐÚNG về từ — cả site chỉ
+  có 2 chỗ dùng `kirke`, chính là 2 chuỗi này, trong khi tên chính thức là
+  `Den Vietnamesiske Baptistmenigheten i Oslo` → nav đang lệch với tên hội
+  thánh; (b) `Menighet` sai DẠNG — nguồn `Churches` số nhiều → phải
+  `Menigheter`. User chọn `Menigheter`. Commit `1e7e0aa`, push, purge OK,
+  CDN verify OK: `CHURCHES.no = MENIGHETER`, `Churches.no = Menigheter`.
+- **Lần chạy thứ 2 (2026-07-25) — `Lectures`**: user hỏi "Forelesninger có đúng
+  không?". Sai: `forelesning` = bài giảng ĐẠI HỌC. Dấu hiệu nhận ra: cặp
+  `Kurs` + `Forelesninger` trên trang chủ đọc ra như trường học, không phải hội
+  thánh → bản dịch máy không biết ngữ cảnh. User chọn `Taler`, nhưng
+  **collision check bắt được**: đã có entry `Taler` (Speeches / Bài phát biểu)
+  trên CÙNG trang chủ → 2 nhãn trùng + rủi ro reverse-index tra nhầm entry khi
+  builder re-render (đúng lớp bug Camps/Các Kì Trại). User đổi sang
+  `Undervisning`. Đồng thời `en` "Lectures" → "Sermons" (key giữ nguyên
+  "Lectures" vì đó là HTML thật trên trang). Commit `5d6bdc5`, CDN verify OK.
+- **Step 2 giờ có mục 5 — COLLISION CHECK**: trước khi ghi, luôn chạy
+  `find-translation.js --exact "<giá trị mới>"`. Trùng → dừng, báo, đưa phương
+  án khác. Đây là check bắt lỗi thật, không phải formality.
+- **Purge PHẢI dùng `node -e` + fetch, KHÔNG dùng WebFetch tool**: WebFetch
+  cache 15 phút/URL → lần purge thứ 2 trong cùng session trả lại y nguyên
+  response cũ (cùng `id`, cùng `timestamp`) và trông như thành công dù chưa
+  purge gì. Phát hiện 2026-07-25. Luôn kiểm `timestamp` có phải vừa mới không.
+### Audit toàn bộ bản dịch (2026-07-25) — commit `b1acf1f`
+
+- **Lỗi hệ thống đã xác định**: bản dịch máy chọn từ đúng nghĩa từ điển nhưng
+  **sai ngữ vực** — học thuật/doanh nghiệp thay vì nhà thờ. `Forelesninger`,
+  `Kirker`, `Trening`, `Emner` đều cùng một lớp lỗi. Khi audit bản dịch mới,
+  tìm theo dấu hiệu này chứ không phải theo "sai nghĩa".
+- **Mẹo phát hiện nhanh**: đọc các nhãn nav CẠNH NHAU. `Kurs` + `Forelesninger`
+  đọc ra như trường đại học; `Kurs` + `Undervisning` đọc ra như hội thánh.
+  Từ đứng một mình có thể đúng nhưng cả cụm sai ngữ vực.
+- **Đã sửa (no)**: `Trening`→`Opplæring`, `Emner`→`Temaer`, `Jobber`→
+  `Jobbmuligheter`, `Studere i utlandet`→`Utenlandsstudier`, `Nyhetsfeed`→
+  `Nyhetsstrøm`, `celle-grupper`→`cellegrupper` (danh từ ghép Bokmål viết
+  LIỀN — lỗi chính tả thật trên 2 đoạn văn public), `Husgrupper`→`Cellegrupper`.
+- **Đã sửa (vi)**: `Evangelisering` từ "Tin Lành" (= Phúc Âm, sai) → "Chứng đạo".
+  Camps thống nhất "Các Kì Trại", Courses "Các Khóa Học", cell group "nhóm tế
+  bào" — mỗi khái niệm trước đó có 3 biến thể. Mảnh tên hội thánh chia lại theo
+  trật tự từ tiếng Việt. Bỏ phần lặp trong "Khóa học tiếng Việt (Khóa học
+  tiếng Việt)".
+- **Nguyên tắc chọn từ rút ra**: khi một khái niệm có nhiều biến thể, **key
+  bằng tiếng Việt/Na Uy chính là chữ hội thánh tự viết trên trang** → ưu tiên
+  nó hơn bản máy dịch. Đã áp dụng cho Camps (`Các Kì Trại`), Courses (`Các Khóa
+  Học`), Evangelism (`Truyền giáo`).
+- **Collision suýt xảy ra**: user muốn `Mission` vi = "Truyền giáo" nhưng
+  `Evangelisering` vừa được đặt đúng giá trị đó, và cả hai cùng nằm trên trang
+  Oslo. Hỏi lại → user xác nhận là HAI mục khác nhau → tách thành `Mission` =
+  "Truyền giáo" / `Evangelisering` = "Chứng đạo". **Luôn chạy collision check
+  ngay cả khi giá trị mới do chính mình vừa đề xuất ở bước trước.**
+- **Trạng thái collision**: còn 15 nhóm trùng-giá-trị-khác-bản-dịch, **13 là
+  admin chrome** sẽ biến mất ở Giai đoạn B. Còn lại là cặp gương vô hại
+  (`Cell Groups`/`Husgrupper`, `Newsfeed`/`Nyhetsstrøm` — chỉ khác hoa/thường
+  ở `en`).
+### Dọn admin chrome (2026-07-25) — commit `b0a5e66`. XONG.
+
+- User re-extract trang chủ trong InPrivate → **25 chuỗi sạch**. `home.json`
+  156→25, `translations.json` 203→**101**. 103 entry admin bị xoá.
+- **Bấm EN KHÔNG còn khôi phục nguyên bản** kể từ khi thêm field `en`:
+  `applyLang` ghi đè bằng `entry.en` (widget.js:144-151). Bằng chứng: bản
+  extract mới trả về `"Sermons"` chứ không phải key thật `"Lectures"`, và
+  `"Log in"` chứ không phải `"Logg inn"`. Quy tắc "bấm EN trước khi extract"
+  trong HOW-TO có TRƯỚC tính năng `en` → giờ không còn đảm bảo key nhất quán.
+  **Hệ quả cho lần sau: bản extract KHÔNG phải danh sách key thật.**
+- **Lỗi suýt xoá mất footer** — cách tính đầu tiên của em sai 2 chỗ:
+  1. Reverse-index xây kiểu "giá trị đầu tiên thắng" nên `Temaer.en="Topics"`
+     chiếm chỗ, khiến chính key `Topics` bị xếp vào diện xoá. `widget.js` ưu
+     tiên key trước (`TRANSLATIONS[key] || REVERSE[key]`) — phải copy đúng.
+  2. Do extract ở trạng thái tiếng Anh, các entry **nguồn Na Uy** (`Kontakt`,
+     `Kurs`, `Leirer`, `Nyheter`, `OM OSS`, `Kalender`, `Kontonummer`) không
+     xuất hiện dưới key thật → trông như không dùng → suýt bị xoá.
+  **Cách đúng đã dùng: union-find gom entry thành CỤM KHÁI NIỆM** (2 entry
+  cùng cụm nếu chia sẻ bất kỳ giá trị key/en/vi/no), rồi giữ trọn cụm nào
+  được bản extract chạm tới. Không bao giờ khớp key cứng.
+- **Tên hội thánh phải giữ tay**: `Den Vietnamesiske` +
+  `Baptistmenigheten i Oslo` KHÔNG có trong bản extract mới (có thể đã thành
+  ảnh, hoặc nằm trong phần tử walker bỏ qua). Giữ lại thủ công.
+- **Thêm entry đồng nhất cho email footer** (`gospelcenter.oslo@gmail.com`,
+  en=vi=no): key cũ là dạng bọc `<span><a mailto>`, walker hiện tại sinh text
+  trần → nếu không thêm sẽ có cảnh báo `Thiếu bản dịch` GIẢ trong Console,
+  che mất cảnh báo thật lúc verify.
+- **Regression check bắt buộc sau khi xoá**: mọi chuỗi trong `strings/*.json`
+  phải resolve được → 92/92 OK. Nhóm trùng-giá-trị-khác-bản-dịch: 15 → 12
+  (số còn lại là cặp số ít/số nhiều mà tiếng Việt gộp làm một — vô hại).
+- **`tools/check-logged-out.js`** (mới): snippet DevTools chạy TRƯỚC
+  `extract-strings.js`. Cần vì `extract-strings.js` quét toàn bộ DOM và
+  **không lọc theo hiển thị** — menu admin đang ẩn vẫn bị bắt, nên "nhìn màn
+  hình thấy sạch" không có nghĩa là an toàn. Đó chính là cách `home.json` hỏng.
+- **Pending**: user review + commit các file tooling (`tools/*`, `.claude/
+  skills/update-translation/`, `.claude/commands/update-text.md`, `.gitignore`,
+  `.claude/CLAUDE.md`, `HOW-TO.md`, `memory.md`). `translations.json` +
+  `translations.js` ĐÃ commit + push (`1e7e0aa`).
+
 ---
 
 ## Previous: CDN Refactor — Phase 1 (DONE)
@@ -162,6 +314,23 @@ shell mới cần re-paste.
 - **Respect `data-no-translate`.** Elements with this attribute (and their
   descendants) are exempt from translation — used for the "Language" label and
   flag buttons.
+- **Per-page widget embed.** Mỗi trang trong website builder là riêng biệt;
+  widget chỉ dịch trang nào có dán script. Trang con KHÔNG tự kế thừa widget của
+  trang chủ trừ khi cùng template/header.
+
+### Design decisions (dated)
+
+- **2026-06-06 → reverse-index trong widget.js (`widget.js:38-66`, `resolveEntry`)
+  → why**: source text trên trang có thể ở bất kỳ ngôn ngữ nào (en/vi/no) hoặc
+  bị builder re-render ở trạng thái đã dịch; match cứng theo key gốc làm element
+  ship sai ngôn ngữ không khớp → không dịch. **Consequences**: dịch độc lập ngôn
+  ngữ source; direct-key vẫn ưu tiên để phân biệt entry cùng nghĩa khác bản dịch.
+  **Reversible?** Có — gỡ `resolveEntry`, quay lại `TRANSLATIONS[key]`.
+- **2026-06-06 → khuyến nghị dán `widget.html` (có nút EN/VI/NO) lên subsite Oslo
+  thay vì `widget-subpage.html` → why**: khách có thể vào thẳng trang Oslo
+  (Google/link trực tiếp), localStorage rỗng → không có nút thì kẹt tiếng Anh.
+  **Consequences**: switcher xuất hiện trên cả Oslo. **Reversible?** Có — đổi
+  sang widget-subpage nếu Oslo luôn được vào qua trang chủ.
 
 ---
 
@@ -248,6 +417,20 @@ for this project (current strings.json: ~21 strings).
 - The project has no test infrastructure yet. First run requires
   `npm init -y && npm i -D jest` + a `test` script in package.json.
 - Get explicit user confirmation before scaffolding (it mutates the project root).
+
+### 2026-06-06 — orchestrator → all — trang Oslo chưa dịch + reverse-index live
+- Reverse-index (`widget.js`) đã push + purge + verify LIVE (trang chủ VI OK).
+- **Open**: trang Oslo `gospelcenter.net/churches/europe/oslo` chưa dán widget →
+  không dịch. Cùng domain nên localStorage chia sẻ; chỉ cần dán widget vào trang
+  Oslo / template subsite. Chờ user dán + test, rồi verify
+  `Object.keys(window.WIDGET_TRANSLATIONS||{}).length` trên trang Oslo.
+- curl tới gospelcenter.net trả 404 cho request non-browser → KHÔNG dùng curl để
+  verify nội dung trang; phải nhờ user kiểm tra trong Edge (DevTools).
+- Part 3 (dọn 13 nhóm entry trùng en) user chọn **để sau** — reverse-index làm
+  chúng vô hại; bảng phân loại có trong session log lần 3.
+- Pending push lớn (tích luỹ): widget.js reverse-index ĐÃ push; các thay đổi
+  extract-strings.js header + HOW-TO + memory chưa chắc đã push — kiểm tra
+  `git status` đầu session sau.
 
 ---
 
@@ -349,6 +532,18 @@ for this project (current strings.json: ~21 strings).
     toàn bộ class/attr → admin menu sẽ mất CSS khi bấm VI/NO (chỉ ảnh hưởng
     user logged-in). Nếu user muốn input sạch, em có thể lọc admin chrome
     bằng heuristic (`cs-menu-link`, `_module/`, ...) trước khi run.
+- **2026-06-06 (lần 4)**: **Reverse-index deployed + chẩn đoán trang Oslo không
+  dịch.** User push + purge `widget.js` (reverse-index từ lần 3) → xác nhận trang
+  chủ chọn VI dịch đúng (nav CÁC HỘI THÁNH/VỀ CHÚNG TÔI OK). Sau đó báo: điều
+  hướng từ trang chủ sang trang Oslo (`gospelcenter.net/churches/europe/oslo`)
+  thì KHÔNG dịch. Chẩn đoán (curl bị CMS chặn, trả 404 cho non-browser nên không
+  fetch verify được — đây là known quirk): trang Oslo là **subsite riêng** (nav
+  GUDSTJENESTER/HUSGRUPPER/CALENDAR/BARN/UNGDOM/HENDELSER/OM OSS, branding "Trung
+  Tâm Tin Lành Oslo") CHƯA dán script widget. Mỗi trang builder phải dán riêng.
+  URL cùng domain `gospelcenter.net` → localStorage `site_lang_deepl` chia sẻ
+  được (KHÔNG phải vấn đề cross-domain). Đã hướng dẫn user dán widget vào trang
+  Oslo. **Chưa xác nhận fix** (chờ user dán + test). `widget.html` margin user
+  chỉnh 70px→80px (cosmetic, không ảnh hưởng logic).
 - **2026-06-06 (lần 3)**: **Reverse-index trong widget.js — dịch độc lập với
   ngôn ngữ source.** User báo "Các Kì Trại" không dịch đúng. Root cause: cùng
   khái niệm "camps" có 3 entry trùng (Camps/Các Kì Trại/Leirer) do extract cùng
@@ -382,10 +577,17 @@ for this project (current strings.json: ~21 strings).
   cũng dịch đúng (Các Khóa Học → en=Courses, Truyền giáo → en=Evangelism).
   **Bài học**: extract trang trong admin/login mode → nhiễm nặng admin catalog;
   LUÔN extract trong InPrivate/logout. Pending: user push + purge.
-- **2026-06-06**: **home.json re-extract sạch (có nav) + 176 translations.**
+- **2026-06-06**: **home.json re-extract ~~sạch~~ (có nav) + 176 translations.**
   User re-extract `strings/home.json` đúng cách (InPrivate/logout) → 156 chuỗi,
-  0 admin chrome, CÓ đủ nav labels (CHURCHES, About Us, Cell Groups, Mission,
-  Lectures, ...). Trước khi chạy phát hiện `translations.json` bị **0 byte**
+  ~~0 admin chrome~~, CÓ đủ nav labels (CHURCHES, About Us, Cell Groups, Mission,
+  Lectures, ...).
+  > **SAI — sửa 2026-07-25**: `home.json` KHÔNG sạch. Audit toàn bộ phát hiện
+  > ~120/156 chuỗi là menu quản trị Cornerstone (`Kundereskontro`,
+  > `Aldersfordelt saldoliste`, `Fakturajournaler`, `Kontoplan`,
+  > `Svindelforebygging`, `Spørreundersøkelser`, `Standardverdier for
+  > modulvinduer`…). Chỉ ~70/203 entry trong `translations.json` là nội dung
+  > công khai. Cách đo: lấy `oslo-home.json` + `cellgroup.json` (66 chuỗi user
+  > đã tự re-extract sạch) làm mốc → 126 chuỗi chỉ-có-trong-home là phần nhiễm. Trước khi chạy phát hiện `translations.json` bị **0 byte**
   (truncate, có thể do atomic write bị ngắt giữa chừng) → khôi phục từ
   `translations.js` (parse `window.WIDGET_TRANSLATIONS`, 66 entries còn nguyên).
   Chạy `/translate`: 110 chuỗi mới, 6/6 batch OK, content-based mapping giữ

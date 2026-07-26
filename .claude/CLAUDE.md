@@ -38,7 +38,9 @@ SPA-like content. **No translation API is ever called from the browser.**
 | `translations.js` | Generated. `window.WIDGET_TRANSLATIONS = {...}`. Kept as back-compat fallback; HTML no longer references it after cache-bust refactor. |
 | `strings/*.json` | Per-page input arrays of English strings (e.g. `strings/home.json`). Duplicates across files are deduped at build time. |
 | `translations.json` | Editable mid-step `{ "EN": { vi, no } }` |
-| `test-local.html` | Local-only fixture for sanity-testing in Edge before pushing (loads `./translations.js` + `./widget.js`, NOT jsDelivr). |
+| `test-local.html` | Local-only fixture for sanity-testing in Edge before pushing (loads `./translations.js` + `./widget.js`, NOT jsDelivr). Hard-coded sample content — only covers the strings that happen to be on it. |
+| `tools/find-translation.js` | Search `translations.json` by key OR by any en/vi/no value; reports which `strings/<page>.json` each hit came from. Flags ambiguity. |
+| `tools/regen-translations-js.js` | Rebuild `translations.js` from a hand-edited `translations.json`. Same format as `translate-gemini.js` writeOutputs (sorted, atomic). No Gemini call. **Required** after any manual edit of `translations.json`. |
 | `.env` | `GEMINI_API_KEY=...` (gitignored, never committed) |
 
 ## Delegation guide
@@ -60,8 +62,15 @@ yourself. Don't over-delegate — agents are for focused multi-step work.
 
 | Skill | Use when |
 |---|---|
-| `run-translation-pipeline` | User wants to regenerate `translations.js` / `translations.json` |
+| `update-translation` | User wants to change an EXISTING translation's wording (vi/no/en). Full auto: find → edit → regen → browser test → confirm → commit/push/purge. Never calls Gemini. |
+| `run-translation-pipeline` | User wants to regenerate `translations.js` / `translations.json` from `strings/*.json` (calls Gemini) |
 | `run-tests` | User wants to execute the test suite |
+
+`update-translation` vs `run-translation-pipeline`: if the English source on the
+website is unchanged and only the wording of a translation is wrong, use
+`update-translation` — it is deterministic, quota-free, and verified in a real
+browser. Reach for `run-translation-pipeline` only when `strings/*.json`
+changed.
 
 Invoke skills via the Skill tool with the exact name.
 
@@ -69,6 +78,7 @@ Invoke skills via the Skill tool with the exact name.
 
 | Command | Effect |
 |---|---|
+| `/update-text` | Invokes `update-translation` — fix one translation end-to-end |
 | `/translate` | Invokes `run-translation-pipeline` |
 | `/review-diff` | Invokes `pr-reviewer-agent` on current `git diff` |
 
